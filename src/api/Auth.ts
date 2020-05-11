@@ -1,0 +1,48 @@
+import RequestSource, {
+  IQueryConstructor,
+  METHODS,
+} from "../lib/RequestSource";
+
+import CONFIG from "../config";
+enum AUTH_ROUTES {
+  REGISTER = "register",
+  LOGIN = "login",
+  RESET_PASSWORD = "reset-password",
+}
+interface IAuth {
+  register(data: object): Promise<any>;
+  login(data: object): Promise<any>;
+  resetPassword(data: object): Promise<any>;
+  setPassword(token: string): Promise<any>;
+}
+
+class Auth extends RequestSource implements IAuth {
+  private _authRoutes: AUTH_ROUTES;
+  constructor(params: IQueryConstructor) {
+    super(params);
+    this._authRoutes = params.authRoutes;
+  }
+
+  public register(data: object) {
+    const url = `${this._url}/${this._authRoutes[0]}`;
+    return this._request({ url, data, method: METHODS.POST });
+  }
+  public login(data: object) {
+    const url = `${this._url}/${this._authRoutes[1]}`;
+    return this._request({ url, data, method: METHODS.POST });
+  }
+  public resetPassword(data: object) {
+    const url = `${this._url}/${this._authRoutes[2]}`;
+    return this._request({ url, method: METHODS.POST });
+  }
+  public setPassword(token: string) {
+    const url = `${this._url}/${token}/${this._authRoutes[2]}`;
+    return this._request({ url, method: METHODS.POST });
+  }
+}
+
+export default new Auth({
+  url: CONFIG.API_URL,
+  name: "auth",
+  authRoutes: AUTH_ROUTES,
+});

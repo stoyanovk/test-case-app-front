@@ -1,3 +1,3 @@
-import UserResource from './UserResource'
+import auth from "./Auth";
 
-export const User = new UserResource;
+export { auth };
