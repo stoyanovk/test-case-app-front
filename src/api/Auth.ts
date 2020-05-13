@@ -1,7 +1,4 @@
-import RequestSource, {
-  IQueryConstructor,
-  METHODS,
-} from "../lib/RequestSource";
+import RequestSource, { METHODS } from "../lib/RequestSource";
 
 import CONFIG from "../config";
 
@@ -40,4 +37,4 @@ class Auth extends RequestSource implements IAuth {
   }
 }
 
-export default new Auth();
+export default Auth;
