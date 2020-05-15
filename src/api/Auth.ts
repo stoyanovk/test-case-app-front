@@ -1,4 +1,5 @@
-import RequestSource, { METHODS } from "../lib/RequestSource";
+import RequestSource from "../lib/RequestSource";
+import { METHODS } from "../lib/interfaces";
 
 import CONFIG from "../config";
 

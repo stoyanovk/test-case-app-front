@@ -1,39 +1,11 @@
 import { stringify } from "query-string";
-
-export enum METHODS {
-  PUT = "PUT",
-  GET = "GET",
-  POST = "POST",
-  DELETE = "DELETE",
-}
-
-type id = string | number;
-
-export interface IRequests {
-  updateById(args:any): Promise<any>;
-  getById(args:any): Promise<any>;
-  deleteById(args:any): Promise<any>;
-}
-
-interface IQueryConstructor {
-  url: string;
-  name: string;
-  [propName: string]: any;
-}
-
-interface IRequest {
-  url: string;
-  data?: object;
-  token?: string;
-  method?: METHODS;
-}
-
-interface IBuildUrl {
-  id?: id;
-  queryParams?: object | undefined;
-  subId?: id;
-  entityOwnerName?: string;
-}
+import {
+  IQueryConstructor,
+  IBuildUrl,
+  IRequest,
+  METHODS,
+  id,
+} from "./interfaces";
 
 class RequestSource {
   protected _url: string;
@@ -102,7 +74,7 @@ class RequestSource {
     data: object;
     id?: id;
     entityOwnerName?: string;
-    token?: string;
+    token: string;
   }): Promise<any> {
     const url: string = this._buildUrl({ id, entityOwnerName });
     return this._request({ url, data, method: METHODS.POST, token });
@@ -116,7 +88,7 @@ class RequestSource {
   }: {
     id?: id;
     queryParams?: object;
-    token?: string;
+    token: string;
     entityOwnerName?: string;
   }): Promise<any> {
     const url: string = this._buildUrl({ id, queryParams, entityOwnerName });
@@ -130,7 +102,7 @@ class RequestSource {
   }: {
     id: id;
     data: object;
-    token?: string;
+    token: string;
   }): Promise<any> {
     const url: string = this._buildUrl({ id });
     return this._request({ url, data, method: METHODS.PUT, token });
@@ -145,12 +117,14 @@ class RequestSource {
     token,
     id,
     subId,
+    entityOwnerName
   }: {
     id: id;
     subId?: id;
     token: string;
+    entityOwnerName?: string;
   }): Promise<any> {
-    const url: string = this._buildUrl({ id, subId });
+    const url: string = this._buildUrl({ entityOwnerName, id, subId });
     return this._request({ url, method: METHODS.DELETE, token });
   }
 }
