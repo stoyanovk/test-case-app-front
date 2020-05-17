@@ -1,3 +1,4 @@
-import auth from "./Auth";
+import Auth from "./Auth";
+import Projects from "./Projects";
 
-export { auth };
+export { Auth, Projects };

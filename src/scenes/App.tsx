@@ -1,14 +1,13 @@
 import React from "react";
 // import { Provider } from "react-redux";
 import { ThemeProvider } from "@material-ui/styles";
-import Routers from "../routers";
+import Routers from "routers";
 
-import GlobalStyle from "../styles/global.style";
-import theme from "../styles";
+import GlobalStyle from "styles/global.style";
+import theme from "styles";
 
-import { auth } from "../api";
+import { Auth } from "api";
 
-console.log(auth.register);
 function App() {
   return (
     // <Provider>
