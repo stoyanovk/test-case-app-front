@@ -10,7 +10,7 @@ interface IProjects extends IRequests {
 
 class Projects extends RequestSource implements IProjects {
   constructor() {
-    super({ url: CONFIG.API_URL, name: "projects" });
+    super({ url: CONFIG.API_URL, entityName: "projects" });
   }
   public create({
     data,

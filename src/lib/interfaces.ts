@@ -15,7 +15,7 @@ export interface IRequests {
 
 export interface IQueryConstructor {
   url: string;
-  name: string;
+  entityName: string;
   [propName: string]: any;
 }
 

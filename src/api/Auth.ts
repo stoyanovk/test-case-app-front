@@ -17,11 +17,11 @@ interface IAuth {
 
 class Auth extends RequestSource implements IAuth {
   constructor() {
-    super({ url: CONFIG.API_URL, name: "auth" });
+    super({ url: CONFIG.API_URL, entityName: "auth" });
   }
 
   public register(data: object) {
-    const url = `${this._url}/${AUTH_ROUTES.REGISTER}`;
+    const url = `${this._url}/${this._entityName}/${AUTH_ROUTES.REGISTER}`;
     return this._request({ url, data, method: METHODS.POST });
   }
   public login(data: object) {

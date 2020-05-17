@@ -9,7 +9,7 @@ interface IUsers extends IRequests {
 
 class Users extends RequestSource implements IUsers {
   constructor() {
-    super({ url: CONFIG.API_URL, name: "users" });
+    super({ url: CONFIG.API_URL, entityName: "users" });
   }
 
   public getByQuery({ queryParams, token }: IParams): Promise<any> {

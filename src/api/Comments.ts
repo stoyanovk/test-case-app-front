@@ -17,7 +17,7 @@ enum ENTITY_OWNER_NAMES {
 
 class Comments extends RequestSource implements IComments {
   constructor() {
-    super({ url: CONFIG.API_URL, name: "comments" });
+    super({ url: CONFIG.API_URL, entityName: "comments" });
   }
   public createTasksComments({
     data,

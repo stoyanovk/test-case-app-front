@@ -11,9 +11,9 @@ class RequestSource {
   protected _url: string;
   protected _entityName: string;
 
-  constructor({ url, name }: IQueryConstructor) {
+  constructor({ url, entityName }: IQueryConstructor) {
     this._url = url;
-    this._entityName = name;
+    this._entityName = entityName;
   }
 
   private _serializeQuery(query: object): string {
@@ -117,7 +117,7 @@ class RequestSource {
     token,
     id,
     subId,
-    entityOwnerName
+    entityOwnerName,
   }: {
     id: id;
     subId?: id;
