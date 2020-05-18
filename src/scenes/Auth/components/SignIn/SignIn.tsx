@@ -5,15 +5,11 @@ import { Container, Grid } from "@material-ui/core";
 
 type SignInState = {
   email: string;
-  user_name: string;
   password: string;
-  confirm: string;
 };
 const initialState: SignInState = {
   email: "",
-  user_name: "",
   password: "",
-  confirm: "",
 };
 
 const SignIn = () => {
@@ -34,29 +30,10 @@ const SignIn = () => {
           <Grid item xs={12}>
             <Input
               onChange={handleChange}
-              label="Name"
-              name="user_name"
-              value={formState.user_name}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Input
-              onChange={handleChange}
               label="Password"
               name="password"
               type="password"
               value={formState.password}
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Input
-              onChange={handleChange}
-              label="Confirm password"
-              name="confirm"
-              type="password"
-              value={formState.confirm}
               fullWidth
             />
           </Grid>
