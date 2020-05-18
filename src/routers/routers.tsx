@@ -1,3 +1,4 @@
+import Auth from "scenes/Auth";
 interface IRoute {
   path: string;
   component: any;
@@ -9,6 +10,11 @@ const routers: IRoute[] = [
     path: "/",
     exact: true,
     component: () => "HOME",
+  },
+  {
+    path: "/auth/:subRoute",
+    exact: true,
+    component: () => Auth(),
   },
 ];
 

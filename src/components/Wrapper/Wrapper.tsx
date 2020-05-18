@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import Menu from "components/Menu";
+import Menu from "scenes/Menu";
 
 const Wrapper: FC = ({ children }) => {
   return (

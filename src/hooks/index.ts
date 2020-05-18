@@ -1,2 +1,3 @@
 import useResizeWidth from "./useResizeWidth";
-export { useResizeWidth };
+import useAuth from "./useAuth";
+export { useResizeWidth, useAuth };
