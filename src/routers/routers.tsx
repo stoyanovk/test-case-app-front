@@ -12,7 +12,7 @@ const routers: IRoute[] = [
     component: () => "HOME",
   },
   {
-    path: "/auth/:subRoute",
+    path: "/auth",
     exact: true,
     component: Auth,
   },

@@ -1,15 +1,12 @@
-import styled from "styled-components";
+import { makeStyles } from "@material-ui/core/styles";
 
-export const Main = styled.main`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  min-height: 100vh;
-`;
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+}));
 
-export const Row = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+export { useStyles };

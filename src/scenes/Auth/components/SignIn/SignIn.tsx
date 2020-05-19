@@ -1,43 +1,100 @@
-import React from "react";
-import Input from "components/Input";
-import { useAuth } from "hooks";
-import { Container, Grid } from "@material-ui/core";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import MuiAlert from "@material-ui/lab/Alert";
+import { useAuth, useSetServerError } from "hooks";
+import { Auth } from "api";
 
-type SignInState = {
+import { useStyles } from "./style";
+
+type SignInType = {
   email: string;
   password: string;
-};
-const initialState: SignInState = {
-  email: "",
-  password: "",
+  remember: boolean;
 };
 
+const initialState: SignInType = {
+  email: "",
+  password: "",
+  remember: false,
+};
+
+const auth = new Auth();
+
 const SignIn = () => {
-  const { formState, handleChange } = useAuth(initialState);
+  const classes = useStyles();
+  const history = useHistory();
+  const { formState, handleChange, resetState } = useAuth(initialState);
+  const { error, setError, resetError } = useSetServerError();
+
+  const handleSubmit = async (
+    e: React.FormEvent<EventTarget>
+  ): Promise<any> => {
+    resetState();
+    const responce = await auth.login(formState);
+
+    if (responce.status === "success") {
+      // add token in storage
+      history.push("/");
+      console.log(responce);
+    }
+    if (responce.status === "error") {
+      setError(responce.data.message);
+      resetError();
+    }
+  };
+
   return (
-    <Container maxWidth="sm">
-      <form>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <Input
+    <Container maxWidth="xs">
+      <form className={classes.form}>
+        <TextField
+          value={formState.email}
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          label="Email Address"
+          name="email"
+          onChange={handleChange}
+        />
+        <TextField
+          value={formState.password}
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          onChange={handleChange}
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
               onChange={handleChange}
-              label="Email"
-              name="email"
-              fullWidth
-              value={formState.email}
+              name="remember"
+              color="primary"
+              checked={formState.remember}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <Input
-              onChange={handleChange}
-              label="Password"
-              name="password"
-              type="password"
-              value={formState.password}
-              fullWidth
-            />
-          </Grid>
-        </Grid>
+          }
+          label="Remember me"
+        />
+        <Button
+          onClick={handleSubmit}
+          type="button"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+          Sign In
+        </Button>
+
+        {!!error ? <MuiAlert severity="error">{error}</MuiAlert> : null}
       </form>
     </Container>
   );

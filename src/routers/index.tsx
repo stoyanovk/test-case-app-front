@@ -14,7 +14,7 @@ export default () => (
       {routes.map(({ path, component, exact }) => (
         <Route component={component} exact={exact} path={path} key={path} />
       ))}
-      <Redirect to="/auth/sign-in" />
+      <Redirect to="/auth" />
     </Switch>
   </Router>
 );

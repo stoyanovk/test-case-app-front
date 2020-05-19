@@ -54,6 +54,7 @@ class RequestSource {
   protected _request({ url, data, method, token = "" }: IRequest) {
     return fetch(url, {
       method,
+      referrerPolicy: "origin",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",

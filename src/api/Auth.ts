@@ -25,15 +25,15 @@ class Auth extends RequestSource implements IAuth {
     return this._request({ url, data, method: METHODS.POST });
   }
   public login(data: object) {
-    const url = `${this._url}/${AUTH_ROUTES.LOGIN}`;
+    const url = `${this._url}/${this._entityName}/${AUTH_ROUTES.LOGIN}`;
     return this._request({ url, data, method: METHODS.POST });
   }
   public resetPassword(data: object) {
-    const url = `${this._url}/${AUTH_ROUTES.RESET_PASSWORD}`;
+    const url = `${this._url}/${this._entityName}/${AUTH_ROUTES.RESET_PASSWORD}`;
     return this._request({ url, method: METHODS.POST });
   }
   public setPassword(token: string) {
-    const url = `${this._url}/${token}/${AUTH_ROUTES.RESET_PASSWORD}`;
+    const url = `${this._url}/${this._entityName}/${token}/${AUTH_ROUTES.RESET_PASSWORD}`;
     return this._request({ url, method: METHODS.POST });
   }
 }

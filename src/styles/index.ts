@@ -21,7 +21,7 @@ const theme = createMuiTheme({
       disabled: "#5eb8ff",
     },
     error: {
-      main: '#d32f2f',
+      main: "#d32f2f",
     },
     background: {
       default: "#f9f9f9",
