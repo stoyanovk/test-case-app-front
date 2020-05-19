@@ -8,7 +8,6 @@ import theme from "styles";
 
 function App() {
   React.useEffect(() => {}, []);
-
   return (
     // <Provider>
     <ThemeProvider theme={theme}>

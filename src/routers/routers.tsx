@@ -14,7 +14,7 @@ const routers: IRoute[] = [
   {
     path: "/auth/:subRoute",
     exact: true,
-    component: () => Auth(),
+    component: Auth,
   },
 ];
 
