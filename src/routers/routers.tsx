@@ -16,6 +16,11 @@ const routers: IRoute[] = [
     exact: true,
     component: Auth,
   },
+  {
+    path: "/auth/:token/confirm-register",
+    exact: false,
+    component: () => "confirm",
+  },
 ];
 
 export default routers;
