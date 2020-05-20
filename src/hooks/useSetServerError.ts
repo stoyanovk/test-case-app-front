@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 export default () => {
-  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const resetError = (time?: number) => {
+  const resetErrorMessage = (time?: number) => {
     setTimeout(() => {
-      setError("");
+      setErrorMessage("");
     }, time || 6000);
   };
-  return { error, setError, resetError };
+  return { errorMessage, setErrorMessage, resetErrorMessage };
 };

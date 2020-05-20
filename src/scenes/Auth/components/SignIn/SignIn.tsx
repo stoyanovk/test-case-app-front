@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
+import validator from "validator";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
@@ -25,26 +26,50 @@ const initialState: SignInType = {
 
 const auth = new Auth();
 
+const isNotEmail = (value: string) => !validator.isEmail(value);
+
 const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { formState, handleChange, resetState } = useAuth(initialState);
-  const { error, setError, resetError } = useSetServerError();
+  const {
+    errors,
+    formState,
+    handleChange,
+    resetState,
+    hasError,
+    handleCheckValidField,
+  } = useAuth(initialState);
+
+  const {
+    errorMessage,
+    setErrorMessage,
+    resetErrorMessage,
+  } = useSetServerError();
 
   const handleSubmit = async (
     e: React.FormEvent<EventTarget>
   ): Promise<any> => {
-    resetState();
-    const responce = await auth.login(formState);
+    if (errors.length) {
+      setErrorMessage("full field please");
+      resetErrorMessage();
+      return;
+    }
 
-    if (responce.status === "success") {
+    resetState();
+
+    const response = await auth.login(formState);
+
+    console.log(response);
+
+    if (response.status === "success") {
       // add token in storage
       history.push("/");
-      console.log(responce);
     }
-    if (responce.status === "error") {
-      setError(responce.data.message);
-      resetError();
+
+    if (response.status === "error") {
+      setErrorMessage(response.data.message);
+      // reset with timeout (default value 6000ms)
+      resetErrorMessage();
     }
   };
 
@@ -52,6 +77,7 @@ const SignIn = () => {
     <Container maxWidth="xs">
       <form className={classes.form}>
         <TextField
+          error={hasError("email")}
           value={formState.email}
           variant="outlined"
           margin="normal"
@@ -60,8 +86,10 @@ const SignIn = () => {
           label="Email Address"
           name="email"
           onChange={handleChange}
+          onBlur={handleCheckValidField(isNotEmail)}
         />
         <TextField
+          error={hasError("password")}
           value={formState.password}
           variant="outlined"
           margin="normal"
@@ -71,6 +99,7 @@ const SignIn = () => {
           label="Password"
           type="password"
           onChange={handleChange}
+          onBlur={handleCheckValidField(validator.isEmpty)}
         />
         <FormControlLabel
           control={
@@ -94,7 +123,9 @@ const SignIn = () => {
           Sign In
         </Button>
 
-        {!!error ? <MuiAlert severity="error">{error}</MuiAlert> : null}
+        {!!errorMessage ? (
+          <MuiAlert severity="error">{errorMessage}</MuiAlert>
+        ) : null}
       </form>
     </Container>
   );
