@@ -7,7 +7,6 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import CurrentForm from "./components/CurrentForm";
 import { useStyles } from "./style";
-
 import logo from "./images/logo.svg";
 
 export default function Auth() {
@@ -17,6 +16,7 @@ export default function Auth() {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
+
   return (
     <Container component="main" maxWidth="sm">
       <div className={classes.paper}>

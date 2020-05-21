@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import validator from "validator";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -8,7 +9,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useAuth, useSetServerError } from "hooks";
-import { Auth } from "api";
+import { fetchLogin } from "store/auth/actions";
 
 import { useStyles } from "./style";
 
@@ -24,13 +25,12 @@ const initialState: SignInType = {
   remember: false,
 };
 
-const auth = new Auth();
-
 const isNotEmail = (value: string) => !validator.isEmail(value);
 
 const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
   const {
     errors,
     formState,
@@ -56,21 +56,17 @@ const SignIn = () => {
     }
 
     resetState();
+    dispatch(fetchLogin(formState));
+    // if (response.status === "success") {
+    //   // add token in storage
+    //   history.push("/");
+    // }
 
-    const response = await auth.login(formState);
-
-    console.log(response);
-
-    if (response.status === "success") {
-      // add token in storage
-      history.push("/");
-    }
-
-    if (response.status === "error") {
-      setErrorMessage(response.data.message);
-      // reset with timeout (default value 6000ms)
-      resetErrorMessage();
-    }
+    // if (response.status === "error") {
+    //   setErrorMessage(response.data.message);
+    //   // reset with timeout (default value 6000ms)
+    //   resetErrorMessage();
+    // }
   };
 
   return (

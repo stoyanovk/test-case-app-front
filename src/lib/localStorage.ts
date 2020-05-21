@@ -1,8 +1,11 @@
-export const setLocalData = (key: string, value: string): void => {
+export const setLocalData = (
+  key: string = "x-access-token",
+  value: string
+): void => {
   localStorage.setItem(key, JSON.stringify(value));
 };
 
-export const getLocalData = (key: string): string | "" => {
+export const getLocalData = (key: string = "x-access-token"): string | "" => {
   const result = localStorage.getItem(key);
   if (result) {
     return JSON.parse(result);
@@ -11,5 +14,5 @@ export const getLocalData = (key: string): string | "" => {
 };
 
 export const deleteSessionData = () => {
-    localStorage.clear();
+  localStorage.clear();
 };
