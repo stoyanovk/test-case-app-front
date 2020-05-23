@@ -10,7 +10,7 @@ const SETTINGS_PROD: Config = {
 
 const SETTINGS_DEV: Config = {
   ENV: "development",
-  API_URL: "http://localhost:3001/api/",
+  API_URL: "http://localhost:3001/api",
 };
 
 const CONFIG: Config =

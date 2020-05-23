@@ -10,7 +10,7 @@ interface IResults extends IRequests {
 
 class Results extends RequestSource implements IResults {
   constructor() {
-    super({ url: CONFIG.API_URL, name: "results" });
+    super({ url: CONFIG.API_URL, entityName: "results" });
   }
   public createTasksResults({
     data,

@@ -10,7 +10,7 @@ interface ITasks extends IRequests {
 
 class Tasks extends RequestSource implements ITasks {
   constructor() {
-    super({ url: CONFIG.API_URL, name: "tasks" });
+    super({ url: CONFIG.API_URL, entityName: "tasks" });
   }
   public createProjectsTasks({
     data,

@@ -8,7 +8,7 @@ interface IWorkers {
 
 class Workers extends RequestSource implements IWorkers {
   constructor() {
-    super({ url: CONFIG.API_URL, name: "workers" });
+    super({ url: CONFIG.API_URL, entityName: "workers" });
   }
   public create({ token, data }: { token: string; data: object }) {
     return this._create({ token, data });
