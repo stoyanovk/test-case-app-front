@@ -34,8 +34,8 @@ export default function Auth() {
           centered
         >
           <Tab label="Sign In" />
-          <Tab label="Sign In" />
-          <Tab label="reset password" />
+          <Tab label="Sign Up" />
+          <Tab label="Reset Password" />
         </Tabs>
         <CurrentForm index={value} />
       </Box>

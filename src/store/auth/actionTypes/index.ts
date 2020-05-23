@@ -1,2 +1,8 @@
-import { LOGIN, FETCH_LOGIN, SET_ERROR, LOGOUT } from "./actionTypes";
-export { LOGIN, FETCH_LOGIN, SET_ERROR, LOGOUT };
+import {
+  LOGIN,
+  FETCH_LOGIN,
+  SET_ERROR,
+  LOGOUT,
+  FETCH_REGISTER,
+} from "./actionTypes";
+export { LOGIN, FETCH_LOGIN, SET_ERROR, LOGOUT, FETCH_REGISTER };

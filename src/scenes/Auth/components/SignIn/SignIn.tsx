@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import validator from "validator";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -8,8 +8,9 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import MuiAlert from "@material-ui/lab/Alert";
-import { useAuth, useSetServerError } from "hooks";
+import { useAuth } from "hooks";
 import { fetchLogin } from "store/auth/actions";
+import { getError } from "store/auth/selectors";
 
 import { useStyles } from "./style";
 
@@ -30,6 +31,7 @@ const isNotEmail = (value: string) => !validator.isEmail(value);
 const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
+  const serverError = useSelector(getError);
   const dispatch = useDispatch();
   const {
     errors,
@@ -37,36 +39,25 @@ const SignIn = () => {
     handleChange,
     resetState,
     hasError,
+    handleCheckValidForm,
     handleCheckValidField,
-  } = useAuth(initialState);
-
-  const {
     errorMessage,
     setErrorMessage,
-    resetErrorMessage,
-  } = useSetServerError();
+  } = useAuth(initialState);
 
   const handleSubmit = async (
     e: React.FormEvent<EventTarget>
   ): Promise<any> => {
-    if (errors.length) {
-      setErrorMessage("full field please");
-      resetErrorMessage();
-      return;
-    }
+    const isFormFieldNotValid = handleCheckValidForm({
+      fields: ["email", "password"],
+      checkFunctions: [isNotEmail, validator.isEmpty],
+    });
 
+    if (errors.length || isFormFieldNotValid) {
+      return setErrorMessage("required field must be filled");
+    }
     resetState();
     dispatch(fetchLogin(formState));
-    // if (response.status === "success") {
-    //   // add token in storage
-    //   history.push("/");
-    // }
-
-    // if (response.status === "error") {
-    //   setErrorMessage(response.data.message);
-    //   // reset with timeout (default value 6000ms)
-    //   resetErrorMessage();
-    // }
   };
 
   return (
@@ -119,8 +110,8 @@ const SignIn = () => {
           Sign In
         </Button>
 
-        {!!errorMessage ? (
-          <MuiAlert severity="error">{errorMessage}</MuiAlert>
+        {serverError || errorMessage ? (
+          <MuiAlert severity="error">{serverError || errorMessage}</MuiAlert>
         ) : null}
       </form>
     </Container>

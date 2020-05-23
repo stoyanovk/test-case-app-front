@@ -1,6 +1,6 @@
 export const setLocalData = (
-  key: string = "x-access-token",
-  value: string
+  value: string,
+  key: string = "x-access-token"
 ): void => {
   localStorage.setItem(key, JSON.stringify(value));
 };

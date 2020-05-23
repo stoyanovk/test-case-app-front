@@ -22,7 +22,11 @@ const initialState: IState = {
 const auth = (state: IState = initialState, action: ActionType) => {
   switch (action.type) {
     case LOGIN:
-      return { ...state, user: action.payload };
+      return {
+        ...state,
+        user: action.payload.user,
+        token: action.payload.token,
+      };
     case LOGOUT:
       return { ...initialState, token: "" };
     case SET_ERROR:

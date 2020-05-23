@@ -12,6 +12,7 @@ type checkFuncType = (value: string) => boolean;
 export default (initialState: object): any => {
   const [formState, setFormState] = useState(initialState);
   const [errors, setErrors] = useState<errorsType>([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = useCallback(
     ({ target: { name, value, type, checked } }: { target: targetType }) => {
@@ -20,6 +21,7 @@ export default (initialState: object): any => {
 
       const updatedErrors = errors.filter((error: string) => error !== name);
       setErrors(updatedErrors);
+      setErrorMessage("");
     },
     [errors]
   );
@@ -39,6 +41,32 @@ export default (initialState: object): any => {
     []
   );
 
+  type checkFormFieldsType = {
+    fields: string[];
+    checkFunctions: checkFuncType[];
+  };
+  type checkedObjectType = {
+    [key: string]: string;
+  };
+
+  const handleCheckValidForm = ({
+    fields,
+    checkFunctions,
+  }: checkFormFieldsType): boolean => {
+    if (fields.length !== checkFunctions.length) {
+      throw new Error("fields length must be equal checkFunctions length");
+    }
+    // это необходимо чтобы указать что у объекта может быть ключ строчного типа
+    const obj: checkedObjectType = { ...formState };
+
+    for (let i = 0; i < fields.length; i++) {
+      if (checkFunctions[i](obj[fields[i]])) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   const hasError = (string: string): boolean => {
     // TS throw error when i make next code
     // return errors.includes(string)
@@ -53,5 +81,8 @@ export default (initialState: object): any => {
     errors,
     handleCheckValidField,
     hasError,
+    handleCheckValidForm,
+    errorMessage,
+    setErrorMessage,
   };
 };
