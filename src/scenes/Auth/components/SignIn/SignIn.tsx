@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { createSelector } from "reselect";
 import validator from "validator";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -9,8 +10,9 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useAuth } from "hooks";
+import { isNotEmail } from "utils/validators";
 import { fetchLogin } from "store/auth/actions";
-import { getError } from "store/auth/selectors";
+import { getErrorMessage, getAuth } from "store/auth/selectors";
 
 import { useStyles } from "./style";
 
@@ -26,13 +28,24 @@ const initialState: SignInType = {
   remember: false,
 };
 
-const isNotEmail = (value: string) => !validator.isEmail(value);
+const selectors = createSelector(
+  [getErrorMessage, getAuth],
+  (errorMessage, auth) => ({
+    errorMessage,
+    auth,
+  })
+);
 
 const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
-  const serverError = useSelector(getError);
+
+  const { errorMessage, auth } = useSelector((state) => selectors(state));
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    auth && history.push("/");
+  }, [history, auth]);
   const {
     errors,
     formState,
@@ -41,8 +54,6 @@ const SignIn = () => {
     hasError,
     handleCheckValidForm,
     handleCheckValidField,
-    errorMessage,
-    setErrorMessage,
   } = useAuth(initialState);
 
   const handleSubmit = async (
@@ -54,7 +65,7 @@ const SignIn = () => {
     });
 
     if (errors.length || isFormFieldNotValid) {
-      return setErrorMessage("required field must be filled");
+      return;
     }
     resetState();
     dispatch(fetchLogin(formState));
@@ -73,6 +84,7 @@ const SignIn = () => {
           label="Email Address"
           name="email"
           onChange={handleChange}
+          helperText={hasError("email") && "invalid value"}
           onBlur={handleCheckValidField(isNotEmail)}
         />
         <TextField
@@ -85,6 +97,7 @@ const SignIn = () => {
           name="password"
           label="Password"
           type="password"
+          helperText={hasError("password") && "invalid value"}
           onChange={handleChange}
           onBlur={handleCheckValidField(validator.isEmpty)}
         />
@@ -110,9 +123,7 @@ const SignIn = () => {
           Sign In
         </Button>
 
-        {serverError || errorMessage ? (
-          <MuiAlert severity="error">{serverError || errorMessage}</MuiAlert>
-        ) : null}
+        {errorMessage && <MuiAlert severity="error">{errorMessage}</MuiAlert>}
       </form>
     </Container>
   );

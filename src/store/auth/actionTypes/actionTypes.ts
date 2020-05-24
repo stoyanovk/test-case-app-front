@@ -1,13 +1,15 @@
 const LOGIN: string = "LOGIN";
 const FETCH_REGISTER: string = "FETCH_REGISTER";
 const FETCH_LOGIN: string = "FETCH_LOGIN";
-const SET_ERROR: string = "SET_ERROR";
+const SET_SERVER_MESSAGE: string = "SET_SERVER_MESSAGE";
+const SET_ERROR_MESSAGE: string = "SET_ERROR_MESSAGE";
 const LOGOUT: string = "LOGOUT";
 
 export {
   LOGIN,
   FETCH_LOGIN,
-  SET_ERROR,
+  SET_SERVER_MESSAGE,
   LOGOUT,
   FETCH_REGISTER,
+  SET_ERROR_MESSAGE,
 };

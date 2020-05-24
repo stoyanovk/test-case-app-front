@@ -9,9 +9,27 @@ import CurrentForm from "./components/CurrentForm";
 import { useStyles } from "./style";
 import logo from "./images/logo.svg";
 
-export default function Auth() {
+const getSubPage = (path: string): number => {
+  switch (path) {
+    case "sign-in":
+      return 0;
+    case "sign-up":
+      return 1;
+    case "reset-password":
+      return 2;
+    default:
+      return 0;
+  }
+};
+
+export default function Auth({
+  match: {
+    params: { subpage },
+  },
+}: any) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+
+  const [value, setValue] = React.useState(getSubPage(subpage));
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);

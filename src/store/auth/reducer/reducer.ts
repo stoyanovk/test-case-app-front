@@ -1,11 +1,19 @@
-import { LOGIN, SET_ERROR, LOGOUT } from "../actionTypes";
+import {
+  LOGIN,
+  SET_SERVER_MESSAGE,
+  LOGOUT,
+  SET_ERROR_MESSAGE,
+} from "../actionTypes";
 import { getLocalData } from "lib/localStorage";
 
 interface IState {
   user: object;
   token: string;
-  error: string;
+  auth: boolean;
+  serverMessage: string;
+  errorMessage: string;
 }
+
 type ActionType = {
   type: string;
   payload: any;
@@ -16,7 +24,9 @@ const token = getLocalData() || "";
 const initialState: IState = {
   user: {},
   token,
-  error: "",
+  auth: false,
+  serverMessage: "",
+  errorMessage: "",
 };
 
 const auth = (state: IState = initialState, action: ActionType) => {
@@ -26,11 +36,14 @@ const auth = (state: IState = initialState, action: ActionType) => {
         ...state,
         user: action.payload.user,
         token: action.payload.token,
+        auth: true,
       };
     case LOGOUT:
-      return { ...initialState, token: "" };
-    case SET_ERROR:
-      return { ...state, error: action.payload };
+      return { ...state, user: {}, token: "", auth: false };
+    case SET_SERVER_MESSAGE:
+      return { ...state, serverMessage: action.payload };
+    case SET_ERROR_MESSAGE:
+      return { ...state, errorMessage: action.payload };
     default:
       return state;
   }

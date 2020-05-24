@@ -1,9 +1,10 @@
 import {
   LOGIN,
   FETCH_LOGIN,
-  SET_ERROR,
+  SET_SERVER_MESSAGE,
   LOGOUT,
   FETCH_REGISTER,
+  SET_ERROR_MESSAGE,
 } from "../actionTypes";
 import { deleteSessionData } from "lib/localStorage";
 
@@ -18,11 +19,21 @@ const logout = (): object => {
   deleteSessionData();
   return { type: LOGOUT };
 };
-const login = (userData: object): object => {
+const login = (userData: any): object => {
   return { type: LOGIN, payload: userData };
 };
-const setError = (errorMessage: string): object => {
-  return { type: SET_ERROR, payload: errorMessage };
+const setServerMessage = (serverMessage: string): object => {
+  return { type: SET_SERVER_MESSAGE, payload: serverMessage };
+};
+const setErrorMessage = (errorMessage: string): object => {
+  return { type: SET_ERROR_MESSAGE, payload: errorMessage };
 };
 
-export { fetchLogin, login, logout, setError, fetchRegister };
+export {
+  fetchLogin,
+  login,
+  logout,
+  setServerMessage,
+  fetchRegister,
+  setErrorMessage,
+};

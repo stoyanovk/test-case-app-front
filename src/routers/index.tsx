@@ -5,7 +5,6 @@ import {
   Redirect,
 } from "react-router-dom";
 import React from "react";
-
 import routes from "./routers";
 
 export default () => (
@@ -14,7 +13,8 @@ export default () => (
       {routes.map(({ path, component, exact }) => (
         <Route component={component} exact={exact} path={path} key={path} />
       ))}
-      <Redirect to="/auth" />
+
+      <Redirect to="/auth/sign-in" />
     </Switch>
   </Router>
 );
