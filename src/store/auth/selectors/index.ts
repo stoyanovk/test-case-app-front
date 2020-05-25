@@ -1,2 +1,8 @@
-import { getToken, getUser, getError } from "./selectors";
-export { getToken, getUser, getError };
+import {
+  getToken,
+  getUser,
+  getServerMessage,
+  getAuth,
+  getErrorMessage,
+} from "./selectors";
+export { getToken, getUser, getServerMessage, getAuth, getErrorMessage };

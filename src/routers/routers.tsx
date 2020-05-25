@@ -1,4 +1,6 @@
 import Auth from "scenes/Auth";
+import ConfirmRegister from "scenes/ConfirmRegister";
+
 interface IRoute {
   path: string;
   component: any;
@@ -12,14 +14,14 @@ const routers: IRoute[] = [
     component: () => "HOME",
   },
   {
-    path: "/auth",
+    path: "/auth/:subpage",
     exact: true,
     component: Auth,
   },
   {
     path: "/auth/:token/confirm-register",
     exact: false,
-    component: () => "confirm",
+    component: ConfirmRegister,
   },
 ];
 

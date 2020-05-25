@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { debounce } from "utils";
+import debounce from "utils/debounce";
 
 const getWidth = (): number => window.innerWidth;
 
@@ -7,7 +7,7 @@ export default function useResizeWidth() {
   const [width, setWidth] = useState(getWidth());
 
   const handleSetWidth = () => setWidth(getWidth());
-  
+
   const handler = debounce(handleSetWidth, 200);
 
   useEffect(() => {

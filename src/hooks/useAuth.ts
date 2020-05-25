@@ -1,27 +1,39 @@
 import { useState, useCallback } from "react";
-type targetType = {
+
+type eventTargetType = {
   name: string;
   value: string;
   type: string;
   checked?: boolean;
 };
+
 type errorsType = string[] | [];
 
 type checkFuncType = (value: string) => boolean;
 
+type checkFormFieldsType = {
+  fields: string[];
+  checkFunctions: checkFuncType[];
+};
+
+type checkedObjectType = {
+  [key: string]: string;
+};
 export default (initialState: object): any => {
   const [formState, setFormState] = useState(initialState);
   const [errors, setErrors] = useState<errorsType>([]);
-  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = useCallback(
-    ({ target: { name, value, type, checked } }: { target: targetType }) => {
+    ({
+      target: { name, value, type, checked },
+    }: {
+      target: eventTargetType;
+    }) => {
       const resultValue = type === "checkbox" ? checked : value;
       setFormState((state) => ({ ...state, [name]: resultValue }));
 
       const updatedErrors = errors.filter((error: string) => error !== name);
       setErrors(updatedErrors);
-      setErrorMessage("");
     },
     [errors]
   );
@@ -32,7 +44,7 @@ export default (initialState: object): any => {
     (checkFunc: checkFuncType) => ({
       target: { value, name },
     }: {
-      target: targetType;
+      target: eventTargetType;
     }): void => {
       if (checkFunc(value)) {
         setErrors((state: errorsType): errorsType => [...state, name]);
@@ -41,26 +53,20 @@ export default (initialState: object): any => {
     []
   );
 
-  type checkFormFieldsType = {
-    fields: string[];
-    checkFunctions: checkFuncType[];
-  };
-  type checkedObjectType = {
-    [key: string]: string;
-  };
-
   const handleCheckValidForm = ({
     fields,
     checkFunctions,
   }: checkFormFieldsType): boolean => {
+    // elementary check
     if (fields.length !== checkFunctions.length) {
       throw new Error("fields length must be equal checkFunctions length");
     }
-    // это необходимо чтобы указать что у объекта может быть ключ строчного типа
-    const obj: checkedObjectType = { ...formState };
+    //I need make next code for state object, becose TS throw error
+    const checkedObject: checkedObjectType = { ...formState };
 
     for (let i = 0; i < fields.length; i++) {
-      if (checkFunctions[i](obj[fields[i]])) {
+      if (checkFunctions[i](checkedObject[fields[i]])) {
+        setErrors((state: errorsType): errorsType => [...state, fields[i]]);
         return true;
       }
     }
@@ -68,10 +74,9 @@ export default (initialState: object): any => {
   };
 
   const hasError = (string: string): boolean => {
-    // TS throw error when i make next code
-    // return errors.includes(string)
-    const res: string[] = [...errors];
-    return res.includes(string);
+    //I need make next code for errors array, becose TS throw error
+    const typedErrors: string[] = [...errors];
+    return typedErrors.includes(string);
   };
 
   return {
@@ -82,7 +87,5 @@ export default (initialState: object): any => {
     handleCheckValidField,
     hasError,
     handleCheckValidForm,
-    errorMessage,
-    setErrorMessage,
   };
 };

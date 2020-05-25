@@ -1,2 +1,2 @@
-import authWatcher from "./sagas";
-export default authWatcher;
+import { loginWatcher, registerWatcher } from "./sagas";
+export { loginWatcher, registerWatcher };
