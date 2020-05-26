@@ -5,6 +5,8 @@ import {
   LOGOUT,
   FETCH_REGISTER,
   SET_ERROR_MESSAGE,
+  RESET_MESSAGES,
+  FETCH_CONFIRM_REGISTER,
 } from "../actionTypes";
 import { deleteSessionData } from "lib/localStorage";
 
@@ -29,6 +31,13 @@ const setErrorMessage = (errorMessage: string): object => {
   return { type: SET_ERROR_MESSAGE, payload: errorMessage };
 };
 
+const fetchConfirmRegister = (token: string): object => {
+  return { type: FETCH_CONFIRM_REGISTER, payload: token };
+};
+const resetMessages = (): object => {
+  return { type: RESET_MESSAGES };
+};
+
 export {
   fetchLogin,
   login,
@@ -36,4 +45,6 @@ export {
   setServerMessage,
   fetchRegister,
   setErrorMessage,
+  fetchConfirmRegister,
+  resetMessages,
 };

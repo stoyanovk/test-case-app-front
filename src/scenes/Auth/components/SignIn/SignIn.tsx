@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createSelector } from "reselect";
 import validator from "validator";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -12,7 +11,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { useAuth } from "hooks";
 import { isNotEmail } from "utils/validators";
 import { fetchLogin } from "store/auth/actions";
-import { getErrorMessage, getAuth } from "store/auth/selectors";
+import { authSelector } from "store/auth/selectors";
 
 import { useStyles } from "./style";
 
@@ -28,19 +27,11 @@ const initialState: SignInType = {
   remember: false,
 };
 
-const selectors = createSelector(
-  [getErrorMessage, getAuth],
-  (errorMessage, auth) => ({
-    errorMessage,
-    auth,
-  })
-);
-
 const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { errorMessage, auth } = useSelector((state) => selectors(state));
+  const { errorMessage, auth } = useSelector((state) => authSelector(state));
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import validator from "validator";
-import { createSelector } from "reselect";
 import Button from "@material-ui/core/Button";
 import { Container } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
@@ -9,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useAuth } from "hooks";
 import { fetchRegister } from "store/auth/actions";
-import { getServerMessage, getErrorMessage } from "store/auth/selectors";
+import { messageSelector } from "store/auth/selectors";
 import { isNotEmail, isNotAlpha } from "utils/validators";
 
 import { useStyles } from "./style";
@@ -28,15 +27,12 @@ const initialState: SignUpType = {
   confirm: "",
 };
 
-const selectors = createSelector(
-  [getServerMessage, getErrorMessage],
-  (serverMessage, errorMessage) => ({ serverMessage, errorMessage })
-);
-
 export default function SignUp() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { serverMessage, errorMessage } = useSelector(selectors);
+  const { serverMessage, errorMessage } = useSelector((state) =>
+    messageSelector(state)
+  );
   const {
     errors,
     formState,

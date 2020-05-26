@@ -3,6 +3,7 @@ import {
   SET_SERVER_MESSAGE,
   LOGOUT,
   SET_ERROR_MESSAGE,
+  RESET_MESSAGES,
 } from "../actionTypes";
 import { getLocalData } from "lib/localStorage";
 
@@ -44,6 +45,8 @@ const auth = (state: IState = initialState, action: ActionType) => {
       return { ...state, serverMessage: action.payload };
     case SET_ERROR_MESSAGE:
       return { ...state, errorMessage: action.payload };
+    case RESET_MESSAGES:
+      return { ...state, errorMessage: "", serverMessage: "" };
     default:
       return state;
   }

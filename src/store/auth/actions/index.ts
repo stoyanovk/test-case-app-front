@@ -5,6 +5,8 @@ import {
   setServerMessage,
   fetchRegister,
   setErrorMessage,
+  fetchConfirmRegister,
+  resetMessages,
 } from "./actions";
 export {
   fetchLogin,
@@ -13,4 +15,6 @@ export {
   setServerMessage,
   fetchRegister,
   setErrorMessage,
+  fetchConfirmRegister,
+  resetMessages,
 };
