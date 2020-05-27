@@ -7,7 +7,7 @@ import {
 import { Auth } from "api";
 
 const auth = new Auth();
-console.log(auth);
+
 type actionType = {
   type: string;
   payload: string;

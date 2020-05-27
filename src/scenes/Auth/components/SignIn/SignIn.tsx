@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import validator from "validator";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
@@ -9,7 +8,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useAuth } from "hooks";
-import { isNotEmail } from "utils/validators";
+import { isNotEmail, isEmpty } from "utils/validators";
 import { fetchLogin } from "store/auth/actions";
 import { authSelector } from "store/auth/selectors";
 
@@ -51,15 +50,15 @@ const SignIn = () => {
     e: React.FormEvent<EventTarget>
   ): Promise<any> => {
     const isFormFieldNotValid = handleCheckValidForm({
-      fields: ["email", "password"],
-      checkFunctions: [isNotEmail, validator.isEmpty],
+      email: isNotEmail,
+      password: isEmpty,
     });
 
     if (errors.length || isFormFieldNotValid) {
       return;
     }
-    resetState();
     dispatch(fetchLogin(formState));
+    resetState();
   };
 
   return (
@@ -90,7 +89,7 @@ const SignIn = () => {
           type="password"
           helperText={hasError("password") && "invalid value"}
           onChange={handleChange}
-          onBlur={handleCheckValidField(validator.isEmpty)}
+          onBlur={handleCheckValidField(isEmpty)}
         />
         <FormControlLabel
           control={

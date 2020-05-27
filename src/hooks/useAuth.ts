@@ -12,8 +12,7 @@ type errorsType = string[] | [];
 type checkFuncType = (value: string) => boolean;
 
 type checkFormFieldsType = {
-  fields: string[];
-  checkFunctions: checkFuncType[];
+  [key: string]: any;
 };
 
 type checkedObjectType = {
@@ -52,21 +51,18 @@ export default (initialState: object): any => {
     },
     []
   );
-
-  const handleCheckValidForm = ({
-    fields,
-    checkFunctions,
-  }: checkFormFieldsType): boolean => {
-    // elementary check
-    if (fields.length !== checkFunctions.length) {
-      throw new Error("fields length must be equal checkFunctions length");
-    }
-    //I need make next code for state object, becose TS throw error
+  // data is object where key is input field name, value validate function
+  // I can't describe data object
+  const handleCheckValidForm = (data: any): boolean => {
     const checkedObject: checkedObjectType = { ...formState };
+    const checkFields: string[] = Object.keys(data);
 
-    for (let i = 0; i < fields.length; i++) {
-      if (checkFunctions[i](checkedObject[fields[i]])) {
-        setErrors((state: errorsType): errorsType => [...state, fields[i]]);
+    for (let i: number = 0; i < checkFields.length; i++) {
+      const objectKey: string = checkFields[i];
+      const checkFunc = data[objectKey];
+
+      if (checkFunc(checkedObject[objectKey])) {
+        setErrors((state: errorsType): errorsType => [...state, objectKey]);
         return true;
       }
     }
@@ -74,7 +70,7 @@ export default (initialState: object): any => {
   };
 
   const hasError = (string: string): boolean => {
-    //I need make next code for errors array, becose TS throw error
+    //I need make next code for errors array, because TS throw error
     const typedErrors: string[] = [...errors];
     return typedErrors.includes(string);
   };

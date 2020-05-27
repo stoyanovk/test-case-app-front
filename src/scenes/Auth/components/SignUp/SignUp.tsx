@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import validator from "validator";
 import Button from "@material-ui/core/Button";
 import { Container } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
@@ -9,7 +8,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import { useAuth } from "hooks";
 import { fetchRegister } from "store/auth/actions";
 import { messageSelector } from "store/auth/selectors";
-import { isNotEmail, isNotAlpha } from "utils/validators";
+import { isNotEmail, isNotAlpha, isEmpty } from "utils/validators";
 
 import { useStyles } from "./style";
 
@@ -47,20 +46,17 @@ export default function SignUp() {
     e: React.FormEvent<EventTarget>
   ): Promise<any> => {
     const isFormFieldNotValid = handleCheckValidForm({
-      fields: ["user_name", "email", "password", "confirm"],
-      checkFunctions: [
-        isNotAlpha,
-        isNotEmail,
-        validator.isEmpty,
-        validator.isEmpty,
-      ],
+      user_name: isNotAlpha,
+      email: isNotEmail,
+      password: isEmpty,
+      confirm: isEmpty,
     });
 
     if (errors.length || isFormFieldNotValid) {
       return;
     }
-    resetState();
     dispatch(fetchRegister(formState));
+    resetState();
   };
 
   return (
@@ -107,7 +103,7 @@ export default function SignUp() {
               label="Password"
               type="password"
               onChange={handleChange}
-              onBlur={handleCheckValidField(validator.isEmpty)}
+              onBlur={handleCheckValidField(isEmpty)}
               helperText={hasError("password") && "invalid value"}
             />
           </Grid>
@@ -122,7 +118,7 @@ export default function SignUp() {
               label="Confirm password"
               type="password"
               onChange={handleChange}
-              onBlur={handleCheckValidField(validator.isEmpty)}
+              onBlur={handleCheckValidField(isEmpty)}
               helperText={hasError("confirm") && "invalid value"}
             />
           </Grid>
