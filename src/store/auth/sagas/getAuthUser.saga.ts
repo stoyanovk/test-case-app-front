@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { GET_AUTH_USER } from "../actionTypes";
-import { login, setError } from "../actions";
+import { login } from "../actions";
 import { getLocalData, setLocalData } from "lib/localStorage";
 
 import { Auth } from "api";

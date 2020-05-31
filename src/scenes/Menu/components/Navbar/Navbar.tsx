@@ -3,10 +3,6 @@ import { Drawer } from "@material-ui/core";
 import { useResizeWidth } from "hooks";
 import useStyles from "./styles";
 
-import { Auth } from "api";
-
-const auth = new Auth();
-
 interface INavbar {
   children?: React.ReactNode;
   mobileOpen: boolean;
@@ -24,16 +20,6 @@ const Navbar = ({ children, mobileOpen, handleDrawerToggle }: INavbar) => {
     paper: classes.drawerPaper,
   };
 
-  const handleClick = () => {
-    auth.register({
-      user_name: "Konstantin",
-      password: "123456",
-      confirm: "123456",
-      email: "stoyanov.k1992@gmail.com",
-    }).then((res)=>{
-      console.log(res)
-    });
-  };
   return (
     <nav className={classes.drawer} aria-label="mailbox folders">
       {width < mobileScreenWidth ? (
@@ -48,7 +34,6 @@ const Navbar = ({ children, mobileOpen, handleDrawerToggle }: INavbar) => {
       ) : (
         <Drawer classes={drawerStyles} variant="permanent" open>
           {children}
-          <button onClick={handleClick}>click</button>
         </Drawer>
       )}
     </nav>

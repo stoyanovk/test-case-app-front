@@ -1,37 +1,30 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Navbar from "./components/Navbar";
+import { logout } from "store/auth/actions";
 
 import useStyles from "./styles";
 
 export default function Menu() {
   const classes = useStyles();
-
+  const dispatch = useDispatch();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  // test
-  const drawer = (
-    <div>
-      <div>fdsff</div>
-      <div>fdsff</div>
-      <div>fdsff</div>
-      <div>fdsff</div>
-      <div>fdsff</div>
-    </div>
-  );
+
+  const handleClick = () => dispatch(logout());
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
@@ -43,15 +36,20 @@ export default function Menu() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Test Case app
-          </Typography>
+          <div className={classes.box}>
+            <Typography variant="h6" noWrap>
+              Test Case app
+            </Typography>
+            <Button onClick={handleClick} className={classes.button}>
+              logout
+            </Button>
+          </div>
         </Toolbar>
       </AppBar>
       <Navbar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
         <div className={classes.toolbar} />
         <Divider />
-        {drawer}
+        {/* data */}
       </Navbar>
     </div>
   );

@@ -21,6 +21,17 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
+    box: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      width: "100%",
+    },
+    button: {
+      padding: "7px 15px",
+      color: "#fff",
+      border: "1px solid #fff",
+    },
   })
 );
 
