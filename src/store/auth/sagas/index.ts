@@ -1,4 +1,10 @@
-import loginWatcher from "./loginSaga";
-import registerWatcher from "./registerSaga";
-import confirmRegisterSagaWatcher from "./confirmRegisterSaga";
-export { loginWatcher, registerWatcher, confirmRegisterSagaWatcher };
+import loginWatcher from "./login.saga";
+import registerWatcher from "./requestRegister.saga";
+import confirmRegisterSagaWatcher from "./confirmRegister.saga";
+import getAuthUserWatcher from "./getAuthUser.saga";
+export {
+  loginWatcher,
+  registerWatcher,
+  confirmRegisterSagaWatcher,
+  getAuthUserWatcher,
+};

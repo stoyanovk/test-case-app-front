@@ -13,10 +13,16 @@ import {
   loginWatcher,
   registerWatcher,
   confirmRegisterSagaWatcher,
+  getAuthUserWatcher,
 } from "./auth/sagas";
 
 function* rootSaga() {
-  yield all([loginWatcher(), registerWatcher(), confirmRegisterSagaWatcher()]);
+  yield all([
+    loginWatcher(),
+    registerWatcher(),
+    confirmRegisterSagaWatcher(),
+    getAuthUserWatcher(),
+  ]);
 }
 
 const reducer = combineReducers({

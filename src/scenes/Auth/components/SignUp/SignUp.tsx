@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "@material-ui/core/Button";
 import { Container } from "@material-ui/core";
@@ -6,8 +6,8 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useAuth } from "hooks";
-import { fetchRegister } from "store/auth/actions";
-import { messageSelector } from "store/auth/selectors";
+import { fetchRegister, setError } from "store/auth/actions";
+import { authSelector } from "store/auth/selectors";
 import { isNotEmail, isNotAlpha, isEmpty } from "utils/validators";
 
 import { useStyles } from "./style";
@@ -29,18 +29,29 @@ const initialState: SignUpType = {
 export default function SignUp() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { serverMessage, errorMessage } = useSelector((state) =>
-    messageSelector(state)
-  );
+  const { error, message } = useSelector((state) => authSelector(state));
   const {
     errors,
     formState,
-    handleChange,
+    changeState,
     resetState,
     hasError,
     handleCheckValidForm,
     handleCheckValidField,
   } = useAuth(initialState);
+
+  const resetError = useCallback(
+    () => dispatch(setError({ message: "", isError: false })),
+    [dispatch]
+  );
+  
+  const handleChange = useCallback(
+    ({ target: { name, value } }: any) => {
+      changeState({ name, value });
+      resetError();
+    },
+    [changeState, resetError]
+  );
 
   const handleSubmit = async (
     e: React.FormEvent<EventTarget>
@@ -58,7 +69,7 @@ export default function SignUp() {
     dispatch(fetchRegister(formState));
     resetState();
   };
-
+  const messageType: "error" | "success" = error ? "error" : "success";
   return (
     <Container maxWidth="xs">
       <form className={classes.form} noValidate>
@@ -133,10 +144,7 @@ export default function SignUp() {
         >
           Sign Up
         </Button>
-        {errorMessage && <MuiAlert severity="error">{errorMessage}</MuiAlert>}
-        {serverMessage && (
-          <MuiAlert severity="success">{serverMessage}</MuiAlert>
-        )}
+        {message && <MuiAlert severity={messageType}>{message}</MuiAlert>}
       </form>
     </Container>
   );

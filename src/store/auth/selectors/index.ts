@@ -1,2 +1,8 @@
-import { messageSelector, authSelector } from "./selectors";
-export { messageSelector, authSelector };
+import {
+  authSelector,
+  getMessage,
+  getAuth,
+  getError,
+  getUser,
+} from "./selectors";
+export { authSelector, getMessage, getAuth, getError, getUser };

@@ -1,6 +1,7 @@
-import { call, put, takeLatest, delay } from "redux-saga/effects";
-import { LOGIN, FETCH_LOGIN, SET_ERROR_MESSAGE } from "../actionTypes";
+import { call, put, takeLatest } from "redux-saga/effects";
 import { setLocalData } from "lib/localStorage";
+import { FETCH_LOGIN } from "../actionTypes";
+import { login, setError } from "../actions";
 import { Auth } from "api";
 const auth = new Auth();
 
@@ -18,18 +19,16 @@ function* loginSaga(action: actionType) {
 
     if (response.status === "success") {
       const {
-        data: { user, token },
+        data: { token, user },
       } = response;
       setLocalData(token);
-      yield put({ type: LOGIN, payload: { user, token } });
+      yield put(login(user));
     }
     if (response.status === "error") {
       throw new Error(response.data.message);
     }
   } catch (err) {
-    yield put({ type: SET_ERROR_MESSAGE, payload: err.message });
-    yield delay(5000);
-    yield put({ type: SET_ERROR_MESSAGE, payload: "" });
+    yield put(setError({ message: err.message, isError: true }));
   }
 }
 

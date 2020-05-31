@@ -1,10 +1,6 @@
-import { call, put, takeLatest, delay } from "redux-saga/effects";
-import {
-  SET_SERVER_MESSAGE,
-  SET_ERROR_MESSAGE,
-  FETCH_REGISTER,
-} from "../actionTypes";
-
+import { call, takeLatest, put } from "redux-saga/effects";
+import { FETCH_REGISTER } from "../actionTypes";
+import { setMessage, setError } from "../actions";
 import { Auth } from "api";
 
 const auth = new Auth();
@@ -23,18 +19,13 @@ function* registerSaga(action: actionType) {
       const {
         data: { message },
       } = response;
-
-      yield put({ type: SET_SERVER_MESSAGE, payload: message });
-      yield delay(5000);
-      yield put({ type: SET_SERVER_MESSAGE, payload: "" });
+      yield put(setMessage(message));
     }
     if (response.status === "error") {
       throw new Error(response.data.message);
     }
   } catch (err) {
-    yield put({ type: SET_ERROR_MESSAGE, payload: err.message });
-    yield delay(5000);
-    yield put({ type: SET_ERROR_MESSAGE, payload: "" });
+    yield put(setError({ message: err.message, isError: true }));
   }
 }
 function* registerWatcher() {

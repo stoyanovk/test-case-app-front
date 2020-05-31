@@ -1,9 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import {
-  SET_SERVER_MESSAGE,
-  SET_ERROR_MESSAGE,
-  FETCH_CONFIRM_REGISTER,
-} from "../actionTypes";
+import { FETCH_CONFIRM_REGISTER } from "../actionTypes";
+import { setMessage, setError } from "../actions";
 import { Auth } from "api";
 
 const auth = new Auth();
@@ -23,13 +20,13 @@ function* confirmRegisterSaga(action: actionType) {
       const {
         data: { message },
       } = response;
-      yield put({ type: SET_SERVER_MESSAGE, payload: message });
+      yield put(setMessage(message));
     }
     if (response.status === "error") {
       throw new Error(response.data.message);
     }
   } catch (err) {
-    yield put({ type: SET_ERROR_MESSAGE, payload: err.message });
+    yield put(setError({ message: err.message, isError: true }));
   }
 }
 

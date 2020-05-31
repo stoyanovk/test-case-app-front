@@ -1,10 +1,8 @@
 import { useState, useCallback } from "react";
 
-type eventTargetType = {
+type changeStateType = {
   name: string;
   value: string;
-  type: string;
-  checked?: boolean;
 };
 
 type errorsType = string[] | [];
@@ -22,14 +20,9 @@ export default (initialState: object): any => {
   const [formState, setFormState] = useState(initialState);
   const [errors, setErrors] = useState<errorsType>([]);
 
-  const handleChange = useCallback(
-    ({
-      target: { name, value, type, checked },
-    }: {
-      target: eventTargetType;
-    }) => {
-      const resultValue = type === "checkbox" ? checked : value;
-      setFormState((state) => ({ ...state, [name]: resultValue }));
+  const changeState = useCallback(
+    ({ name, value }: changeStateType) => {
+      setFormState((state) => ({ ...state, [name]: value }));
 
       const updatedErrors = errors.filter((error: string) => error !== name);
       setErrors(updatedErrors);
@@ -40,11 +33,7 @@ export default (initialState: object): any => {
   const resetState = (): any => setFormState(initialState);
 
   const handleCheckValidField = useCallback(
-    (checkFunc: checkFuncType) => ({
-      target: { value, name },
-    }: {
-      target: eventTargetType;
-    }): void => {
+    (checkFunc: checkFuncType) => ({ target: { value, name } }: any): void => {
       if (checkFunc(value)) {
         setErrors((state: errorsType): errorsType => [...state, name]);
       }
@@ -77,7 +66,7 @@ export default (initialState: object): any => {
 
   return {
     formState,
-    handleChange,
+    changeState,
     resetState,
     errors,
     handleCheckValidField,

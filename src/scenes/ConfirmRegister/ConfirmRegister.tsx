@@ -4,14 +4,10 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Box from "@material-ui/core/Box";
 import { Button } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
-import { messageSelector } from "store/auth/selectors";
-import { fetchConfirmRegister, resetMessages } from "store/auth/actions";
+import { authSelector } from "store/auth/selectors";
+import { fetchConfirmRegister, setError } from "store/auth/actions";
 import { useStyles } from "./style";
 
-type alertDataType = {
-  type: "success" | "error" | "info";
-  message: string;
-};
 
 const ConfirmRegister = ({
   match: {
@@ -21,37 +17,25 @@ const ConfirmRegister = ({
 }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { serverMessage, errorMessage } = useSelector((state) =>
-    messageSelector(state)
-  );
+  const { message, error } = useSelector((state) => authSelector(state));
 
   useEffect(() => {
     dispatch(fetchConfirmRegister(token));
   }, [dispatch, token]);
 
-  const getAlertData = (): alertDataType => {
-    if (serverMessage) {
-      return { type: "success", message: serverMessage };
-    }
-    if (errorMessage) {
-      return { type: "error", message: errorMessage };
-    }
-    return { type: "info", message: "nothing has happened yet" };
-  };
   const redirectTo = () => {
-    dispatch(resetMessages());
+    dispatch(setError({ message: "", isError: false }));
     push("/auth/sign-in");
   };
-  const alertData: alertDataType = getAlertData();
+  const messageType: "error" | "success" = error ? "error" : "success";
+
   return (
     <div className={classes.container}>
-      {false ? (
+      {!message ? (
         <CircularProgress size={200} />
       ) : (
         <div>
-          {(serverMessage || errorMessage) && (
-            <MuiAlert severity={alertData.type}>{alertData.message}</MuiAlert>
-          )}
+          {message && <MuiAlert severity={messageType}>{message}</MuiAlert>}
           <Box mt={2}>
             <Button
               type="button"
