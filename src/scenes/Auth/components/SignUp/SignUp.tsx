@@ -1,16 +1,14 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import validator from "validator";
-import { createSelector } from "reselect";
 import Button from "@material-ui/core/Button";
 import { Container } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useAuth } from "hooks";
-import { fetchRegister } from "store/auth/actions";
-import { getServerMessage, getErrorMessage } from "store/auth/selectors";
-import { isNotEmail, isNotAlpha } from "utils/validators";
+import { fetchRegister, setError } from "store/auth/actions";
+import { authSelector } from "store/auth/selectors";
+import { isNotEmail, isNotAlpha, isEmpty } from "utils/validators";
 
 import { useStyles } from "./style";
 
@@ -28,45 +26,50 @@ const initialState: SignUpType = {
   confirm: "",
 };
 
-const selectors = createSelector(
-  [getServerMessage, getErrorMessage],
-  (serverMessage, errorMessage) => ({ serverMessage, errorMessage })
-);
-
 export default function SignUp() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { serverMessage, errorMessage } = useSelector(selectors);
+  const { error, message } = useSelector((state) => authSelector(state));
   const {
     errors,
     formState,
-    handleChange,
+    changeState,
     resetState,
     hasError,
     handleCheckValidForm,
     handleCheckValidField,
   } = useAuth(initialState);
 
+  const resetError = useCallback(
+    () => dispatch(setError({ message: "", isError: false })),
+    [dispatch]
+  );
+  
+  const handleChange = useCallback(
+    ({ target: { name, value } }: any) => {
+      changeState({ name, value });
+      resetError();
+    },
+    [changeState, resetError]
+  );
+
   const handleSubmit = async (
     e: React.FormEvent<EventTarget>
   ): Promise<any> => {
     const isFormFieldNotValid = handleCheckValidForm({
-      fields: ["user_name", "email", "password", "confirm"],
-      checkFunctions: [
-        isNotAlpha,
-        isNotEmail,
-        validator.isEmpty,
-        validator.isEmpty,
-      ],
+      user_name: isNotAlpha,
+      email: isNotEmail,
+      password: isEmpty,
+      confirm: isEmpty,
     });
 
     if (errors.length || isFormFieldNotValid) {
       return;
     }
-    resetState();
     dispatch(fetchRegister(formState));
+    resetState();
   };
-
+  const messageType: "error" | "success" = error ? "error" : "success";
   return (
     <Container maxWidth="xs">
       <form className={classes.form} noValidate>
@@ -111,7 +114,7 @@ export default function SignUp() {
               label="Password"
               type="password"
               onChange={handleChange}
-              onBlur={handleCheckValidField(validator.isEmpty)}
+              onBlur={handleCheckValidField(isEmpty)}
               helperText={hasError("password") && "invalid value"}
             />
           </Grid>
@@ -126,7 +129,7 @@ export default function SignUp() {
               label="Confirm password"
               type="password"
               onChange={handleChange}
-              onBlur={handleCheckValidField(validator.isEmpty)}
+              onBlur={handleCheckValidField(isEmpty)}
               helperText={hasError("confirm") && "invalid value"}
             />
           </Grid>
@@ -141,10 +144,7 @@ export default function SignUp() {
         >
           Sign Up
         </Button>
-        {errorMessage && <MuiAlert severity="error">{errorMessage}</MuiAlert>}
-        {serverMessage && (
-          <MuiAlert severity="success">{serverMessage}</MuiAlert>
-        )}
+        {message && <MuiAlert severity={messageType}>{message}</MuiAlert>}
       </form>
     </Container>
   );

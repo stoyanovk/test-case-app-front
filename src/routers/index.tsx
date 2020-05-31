@@ -1,20 +1,33 @@
+import React from "react";
+import { useSelector } from "react-redux";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Redirect,
 } from "react-router-dom";
-import React from "react";
-import routes from "./routers";
+import Auth from "scenes/Auth";
+import ConfirmRegister from "scenes/ConfirmRegister";
+import { getAuth } from "store/auth/selectors";
+import routes from "./privateRoutes";
 
-export default () => (
-  <Router basename={"/"}>
-    <Switch>
-      {routes.map(({ path, component, exact }) => (
-        <Route component={component} exact={exact} path={path} key={path} />
-      ))}
+export default () => {
+  const auth = useSelector(getAuth);
 
-      <Redirect to="/auth/sign-in" />
-    </Switch>
-  </Router>
-);
+  return (
+    <Router basename={"/"}>
+      <Switch>
+        {auth &&
+          routes.map(({ path, component, exact }) => (
+            <Route render={component} exact={exact} path={path} key={path} />
+          ))}
+        <Route
+          component={ConfirmRegister}
+          path="/auth/:token/confirm-register"
+        />
+        <Route component={Auth} path="/auth/:subpage" />
+        <Redirect to="/auth/sign-in" />
+      </Switch>
+    </Router>
+  );
+};

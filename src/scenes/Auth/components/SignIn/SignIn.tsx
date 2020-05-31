@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createSelector } from "reselect";
-import validator from "validator";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
@@ -10,37 +8,29 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import MuiAlert from "@material-ui/lab/Alert";
 import { useAuth } from "hooks";
-import { isNotEmail } from "utils/validators";
-import { fetchLogin } from "store/auth/actions";
-import { getErrorMessage, getAuth } from "store/auth/selectors";
-
+import { isNotEmail, isEmpty } from "utils/validators";
+import { fetchLogin, setError } from "store/auth/actions";
+import { authSelector } from "store/auth/selectors";
+import { getCheckboxValue } from "./helpers";
 import { useStyles } from "./style";
 
 type SignInType = {
   email: string;
   password: string;
-  remember: boolean;
+  remember: "" | "remember";
 };
 
 const initialState: SignInType = {
   email: "",
   password: "",
-  remember: false,
+  remember: "",
 };
-
-const selectors = createSelector(
-  [getErrorMessage, getAuth],
-  (errorMessage, auth) => ({
-    errorMessage,
-    auth,
-  })
-);
 
 const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { errorMessage, auth } = useSelector((state) => selectors(state));
+  const { error, auth, message } = useSelector((state) => authSelector(state));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -49,26 +39,38 @@ const SignIn = () => {
   const {
     errors,
     formState,
-    handleChange,
+    changeState,
     resetState,
     hasError,
     handleCheckValidForm,
     handleCheckValidField,
   } = useAuth(initialState);
 
-  const handleSubmit = async (
-    e: React.FormEvent<EventTarget>
-  ): Promise<any> => {
+  const resetError = useCallback(
+    () => dispatch(setError({ message: "", isError: false })),
+    [dispatch]
+  );
+  const handleChange = useCallback(
+    ({ target: { name, value, checked, type } }: any) => {
+      const resultValue: string =
+        type === "checkbox" ? getCheckboxValue(checked) : value;
+      changeState({ name, value: resultValue });
+      resetError();
+    },
+    [changeState, resetError]
+  );
+
+  const handleSubmit = () => {
     const isFormFieldNotValid = handleCheckValidForm({
-      fields: ["email", "password"],
-      checkFunctions: [isNotEmail, validator.isEmpty],
+      email: isNotEmail,
+      password: isEmpty,
     });
 
     if (errors.length || isFormFieldNotValid) {
       return;
     }
-    resetState();
     dispatch(fetchLogin(formState));
+    resetState();
   };
 
   return (
@@ -99,16 +101,11 @@ const SignIn = () => {
           type="password"
           helperText={hasError("password") && "invalid value"}
           onChange={handleChange}
-          onBlur={handleCheckValidField(validator.isEmpty)}
+          onBlur={handleCheckValidField(isEmpty)}
         />
         <FormControlLabel
           control={
-            <Checkbox
-              onChange={handleChange}
-              name="remember"
-              color="primary"
-              checked={formState.remember}
-            />
+            <Checkbox onChange={handleChange} name="remember" color="primary" />
           }
           label="Remember me"
         />
@@ -123,7 +120,7 @@ const SignIn = () => {
           Sign In
         </Button>
 
-        {errorMessage && <MuiAlert severity="error">{errorMessage}</MuiAlert>}
+        {error && <MuiAlert severity="error">{message}</MuiAlert>}
       </form>
     </Container>
   );

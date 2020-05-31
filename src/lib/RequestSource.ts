@@ -4,6 +4,7 @@ import {
   IBuildUrl,
   IRequest,
   METHODS,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   id,
 } from "./interfaces";
 

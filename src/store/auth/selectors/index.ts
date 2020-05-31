@@ -1,8 +1,8 @@
 import {
-  getToken,
-  getUser,
-  getServerMessage,
+  authSelector,
+  getMessage,
   getAuth,
-  getErrorMessage,
+  getError,
+  getUser,
 } from "./selectors";
-export { getToken, getUser, getServerMessage, getAuth, getErrorMessage };
+export { authSelector, getMessage, getAuth, getError, getUser };

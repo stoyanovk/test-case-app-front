@@ -9,6 +9,7 @@ enum AUTH_ROUTES {
   RESET_PASSWORD = "reset-password",
   SET_PASSWORD = "set-password",
   CONFIRM_REGISTER = "confirm-register",
+  GET_AUTH_USER = "me",
 }
 interface IAuth {
   register(data: object): Promise<any>;
@@ -25,6 +26,10 @@ class Auth extends RequestSource implements IAuth {
   public register(data: object) {
     const url = `${this._url}/${this._entityName}/${AUTH_ROUTES.REGISTER}`;
     return this._request({ url, data, method: METHODS.POST });
+  }
+  public getAuthUser(token: string) {
+    const url = `${this._url}/${this._entityName}/${AUTH_ROUTES.GET_AUTH_USER}`;
+    return this._request({ url, method: METHODS.GET, token });
   }
   public confirmRegister(token: string) {
     const url = `${this._url}/${this._entityName}/${token}/${AUTH_ROUTES.CONFIRM_REGISTER}`;

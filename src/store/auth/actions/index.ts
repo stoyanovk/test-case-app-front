@@ -2,15 +2,19 @@ import {
   fetchLogin,
   login,
   logout,
-  setServerMessage,
   fetchRegister,
-  setErrorMessage,
+  fetchConfirmRegister,
+  getAuthUser,
+  setMessage,
+  setError,
 } from "./actions";
 export {
   fetchLogin,
   login,
   logout,
-  setServerMessage,
   fetchRegister,
-  setErrorMessage,
+  fetchConfirmRegister,
+  getAuthUser,
+  setMessage,
+  setError,
 };

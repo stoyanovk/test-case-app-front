@@ -1,7 +1,15 @@
-const getToken = (state: any): string => state.auth.token;
+import { createSelector } from "reselect";
+//get from state functions
+
 const getUser = (state: any): object => state.auth.user;
-const getServerMessage = (state: any): string => state.auth.serverMessage;
-const getErrorMessage = (state: any): string => state.auth.errorMessage;
+const getMessage = (state: any): string => state.auth.message;
+const getError = (state: any): boolean => state.auth.error;
 const getAuth = (state: any): boolean => state.auth.auth;
 
-export { getToken, getUser, getServerMessage, getAuth, getErrorMessage };
+//selectors
+const authSelector = createSelector(
+  [getMessage, getAuth, getError],
+  (message, auth, error) => ({ message, auth, error })
+);
+
+export { authSelector, getMessage, getAuth, getError, getUser };

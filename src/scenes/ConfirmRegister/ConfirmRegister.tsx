@@ -1,47 +1,52 @@
-import React from "react";
-import { useTheme } from "@material-ui/core/styles";
-import { useSelector } from "react-redux";
-import { createSelector } from "reselect";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Box from "@material-ui/core/Box";
+import { Button } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
-import LinkButton from "components/LinkButton";
-import { getServerMessage, getErrorMessage } from "store/auth/selectors";
+import { authSelector } from "store/auth/selectors";
+import { fetchConfirmRegister, setError } from "store/auth/actions";
 import { useStyles } from "./style";
 
-type alertDataType = {
-  type: "success" | "error";
-  message: string;
-};
-const selectors = createSelector(
-  [getServerMessage, getErrorMessage],
-  (serverMessage, errorMessage) => ({ serverMessage, errorMessage })
-);
 
-const ConfirmRegister = () => {
+const ConfirmRegister = ({
+  match: {
+    params: { token },
+  },
+  history: { push },
+}: any) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const { serverMessage, errorMessage } = useSelector(selectors);
-  const getAlertData = (): alertDataType => {
-    if (serverMessage) {
-      return { type: "success", message: serverMessage };
-    }
-    if (errorMessage) {
-      return { type: "error", message: errorMessage };
-    }
-    return { type: "error", message: "something went wrong!!!" };
+  const dispatch = useDispatch();
+  const { message, error } = useSelector((state) => authSelector(state));
+
+  useEffect(() => {
+    dispatch(fetchConfirmRegister(token));
+  }, [dispatch, token]);
+
+  const redirectTo = () => {
+    dispatch(setError({ message: "", isError: false }));
+    push("/auth/sign-in");
   };
-  const alertData: alertDataType = getAlertData();
-  console.log(theme);
+  const messageType: "error" | "success" = error ? "error" : "success";
+
   return (
     <div className={classes.container}>
-      {false ? (
+      {!message ? (
         <CircularProgress size={200} />
       ) : (
         <div>
-          <MuiAlert severity={alertData.type}>{alertData.message}</MuiAlert>
-          <LinkButton theme={theme} to="/auth/sign-in">
-            to login
-          </LinkButton>
+          {message && <MuiAlert severity={messageType}>{message}</MuiAlert>}
+          <Box mt={2}>
+            <Button
+              type="button"
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={redirectTo}
+            >
+              go to auth
+            </Button>
+          </Box>
         </div>
       )}
     </div>
