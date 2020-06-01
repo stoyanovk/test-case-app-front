@@ -8,7 +8,6 @@ import { authSelector } from "store/auth/selectors";
 import { fetchConfirmRegister, setError } from "store/auth/actions";
 import { useStyles } from "./style";
 
-
 const ConfirmRegister = ({
   match: {
     params: { token },
@@ -17,7 +16,9 @@ const ConfirmRegister = ({
 }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { message, error } = useSelector((state) => authSelector(state));
+  const { message, error, loading } = useSelector((state) =>
+    authSelector(state)
+  );
 
   useEffect(() => {
     dispatch(fetchConfirmRegister(token));
@@ -31,7 +32,7 @@ const ConfirmRegister = ({
 
   return (
     <div className={classes.container}>
-      {!message ? (
+      {loading ? (
         <CircularProgress size={200} />
       ) : (
         <div>

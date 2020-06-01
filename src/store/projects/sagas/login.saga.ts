@@ -1,41 +1,39 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { GET_AUTH_USER } from "../actionTypes";
+import { setLocalData } from "lib/localStorage";
+import { FETCH_LOGIN } from "../actionTypes";
 import { login, setError } from "../actions";
-import { getLocalData, setLocalData } from "lib/localStorage";
-
 import { Auth } from "api";
 const auth = new Auth();
 
 type actionType = {
   type: string;
+  payload: object;
 };
 
-function* getAuthUserSaga(action: actionType) {
+function* loginSaga(action: actionType) {
   try {
     // из-за неизвестных особенностей redux saga я теряю контекст
     // поэтому приходится байндить функцию
-    const token = getLocalData();
-    const apiCall = auth.getAuthUser.bind(auth);
-    const response = yield call(apiCall, token);
+    const apiCall = auth.login.bind(auth);
+    const response = yield call(apiCall, action.payload);
 
     if (response.status === "success") {
       const {
-        data: { user, token: responseToken },
+        data: { token, user },
       } = response;
-
-      setLocalData(responseToken);
+      setLocalData(token);
       yield put(login(user));
     }
     if (response.status === "error") {
       throw new Error(response.data.message);
     }
   } catch (err) {
-    yield put(setError({ message: "", isError: false }));
+    yield put(setError({ message: err.message, isError: true }));
   }
 }
 
-function* getAuthUserWatcher() {
-  yield takeLatest(GET_AUTH_USER, getAuthUserSaga);
+function* loginWatcher() {
+  yield takeLatest(FETCH_LOGIN, loginSaga);
 }
 
-export default getAuthUserWatcher;
+export default loginWatcher;

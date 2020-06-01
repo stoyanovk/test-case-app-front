@@ -1,12 +1,9 @@
 import {
-  LOGIN,
-  FETCH_LOGIN,
-  LOGOUT,
-  FETCH_REGISTER,
-  FETCH_CONFIRM_REGISTER,
-  GET_AUTH_USER,
-  SET_AUTH_ERROR,
-  SET_AUTH_MESSAGE,
+  FETCH_PROJECTS,
+  FETCH_CURRENT_PROJECT,
+  REQUEST_PROJECT_SUCCESS,
+  REQUEST_PROJECT_ERROR,
+  REQUEST_CURRENT_PROJECT_SUCCESS,
 } from "../actionTypes";
 import { deleteSessionData } from "lib/localStorage";
 
@@ -15,8 +12,8 @@ type returnType = {
   payload?: any;
 };
 
-const fetchLogin = (data: object): returnType => {
-  return { type: FETCH_LOGIN, payload: data };
+const fetchProjects = (data: object): returnType => {
+  return { type: FETCH_PROJECTS, payload: data };
 };
 
 const fetchRegister = (data: object): returnType => {

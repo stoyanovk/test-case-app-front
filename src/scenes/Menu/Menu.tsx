@@ -1,20 +1,25 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  AppBar,
+  Button,
+  Divider,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@material-ui/core/";
 import MenuIcon from "@material-ui/icons/Menu";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import Avatar from "./components/Avatar";
 import Navbar from "./components/Navbar";
 import { logout } from "store/auth/actions";
+import { getUser } from "store/auth/selectors";
 
 import useStyles from "./styles";
 
 export default function Menu() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = useSelector(getUser);
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -49,7 +54,8 @@ export default function Menu() {
       <Navbar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
         <div className={classes.toolbar} />
         <Divider />
-        {/* data */}
+        <Avatar name={user.user_name} email={user.email} />
+        <Divider />
       </Navbar>
     </div>
   );
