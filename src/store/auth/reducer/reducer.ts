@@ -8,15 +8,9 @@ import {
   GET_AUTH_USER,
 } from "../actionTypes";
 
-interface IProject {
-  id: string | number;
-  project_name: string;
-  description: string;
-  [key: string]: any;
-}
 interface IState {
-  projects: IProject[] | [];
-  currentProject: IProject | {};
+  user: object;
+  auth: boolean;
   message: string;
   error: boolean;
   loading: boolean;
@@ -28,9 +22,9 @@ type ActionType = {
 };
 
 const initialState: IState = {
-  projects: [],
-  currentProject: {},
+  user: {},
   loading: false,
+  auth: false,
   message: "",
   error: false,
 };
