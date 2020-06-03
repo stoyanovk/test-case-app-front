@@ -1,30 +1,33 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { GET_AUTH_USER } from "../actionTypes";
-import { login, setError } from "../actions";
+import { FETCH_PROJECTS } from "../actionTypes";
+import { requestProjectsSuccess, setError } from "../actions";
 import { getLocalData, setLocalData } from "lib/localStorage";
-
-import { Auth } from "api";
-const auth = new Auth();
+import { Projects } from "api";
+const projects = new Projects();
 
 type actionType = {
   type: string;
+  payload: any;
 };
 
-function* getAuthUserSaga(action: actionType) {
+function* getProjectsSaga(action: actionType) {
   try {
     // из-за неизвестных особенностей redux saga я теряю контекст
     // поэтому приходится байндить функцию
     const token = getLocalData();
-    const apiCall = auth.getAuthUser.bind(auth);
-    const response = yield call(apiCall, token);
+    const apiCall = projects.getByQuery.bind(projects);
+    const response = yield call(apiCall, {
+      token,
+      queryParams: action.payload,
+    });
 
     if (response.status === "success") {
       const {
-        data: { user, token: responseToken },
+        data: { projects, token: responseToken },
       } = response;
 
       setLocalData(responseToken);
-      yield put(login(user));
+      yield put(requestProjectsSuccess(projects));
     }
     if (response.status === "error") {
       throw new Error(response.data.message);
@@ -34,8 +37,8 @@ function* getAuthUserSaga(action: actionType) {
   }
 }
 
-function* getAuthUserWatcher() {
-  yield takeLatest(GET_AUTH_USER, getAuthUserSaga);
+function* getProjectsWatcher() {
+  yield takeLatest(FETCH_PROJECTS, getProjectsSaga);
 }
 
-export default getAuthUserWatcher;
+export default getProjectsWatcher;

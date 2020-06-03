@@ -1,2 +1,2 @@
-import auth from "../../auth/reducer/reducer";
-export default auth;
+import projects from "./reducer";
+export default projects;

@@ -2,60 +2,81 @@ import {
   FETCH_PROJECTS,
   FETCH_CURRENT_PROJECT,
   REQUEST_PROJECTS_SUCCESS,
-  REQUEST_PROJECT_ERROR,
+  SET_PROJECT_ERROR,
   REQUEST_CURRENT_PROJECT_SUCCESS,
-  FETCH_ADD_PROJECT,
+  FETCH_ADD_PROJECTS,
+  ADD_PROJECTS,
+  DELETE_PROJECTS,
+  SET_PROJECTS_LOADING,
+  SET_PROJECTS_MESSAGE,
+  FETCH_DELETE_PROJECTS,
+  UPDATE_PROJECTS,
+  FETCH_UPDATE_PROJECTS,
 } from "../actionTypes";
-import { deleteSessionData } from "lib/localStorage";
 
-// type returnType = {
-//   type: string;
-//   payload?: any;
-// };
+type returnType = {
+  type: string;
+  payload?: any;
+};
 
-// const fetchProjects = (data: object): returnType => {
-//   return { type: FETCH_PROJECTS, payload: data };
-// };
+const fetchProjects = (): returnType => {
+  return { type: FETCH_PROJECTS };
+};
 
-// const fetchRegister = (data: object): returnType => {
-//   return { type: FETCH_REGISTER, payload: data };
-// };
-
-// const logout = (): object => {
-//   deleteSessionData();
-//   return { type: LOGOUT };
-// };
-// const login = (userData: any): returnType => {
-//   return { type: LOGIN, payload: userData };
-// };
-// const setMessage = (message: string): returnType => {
-//   return { type: SET_AUTH_MESSAGE, payload: message };
-// };
-
-// const fetchConfirmRegister = (token: string): returnType => {
-//   return { type: FETCH_CONFIRM_REGISTER, payload: token };
-// };
-
-// const getAuthUser = (): returnType => {
-//   return { type: GET_AUTH_USER };
-// };
-// //
-// const setError = ({
-//   message,
-//   isError,
-// }: {
-//   message: string;
-//   isError: boolean;
-// }): returnType => {
-//   return { type: SET_AUTH_ERROR, payload: { message, isError } };
-// };
-// export {
-//   fetchLogin,
-//   login,
-//   logout,
-//   fetchRegister,
-//   fetchConfirmRegister,
-//   getAuthUser,
-//   setMessage,
-//   setError,
-// };
+const fetchCurrentProject = (): returnType => {
+  return { type: FETCH_CURRENT_PROJECT };
+};
+const requestProjectsSuccess = (data: any): returnType => {
+  return { type: REQUEST_PROJECTS_SUCCESS, payload: data };
+};
+const requestCurrentProjectSuccess = (data: any): returnType => {
+  return { type: REQUEST_CURRENT_PROJECT_SUCCESS, payload: data };
+};
+const fetchAddProjects = (): returnType => {
+  return { type: FETCH_ADD_PROJECTS };
+};
+const addProjects = (data: any): returnType => {
+  return { type: ADD_PROJECTS, payload: data };
+};
+const updateProjects = (data: any): returnType => {
+  return { type: UPDATE_PROJECTS, payload: data };
+};
+const deleteProjects = (projectId: number | string): returnType => {
+  return { type: DELETE_PROJECTS, payload: projectId };
+};
+const fetchDeleteProjects = (): returnType => {
+  return { type: FETCH_DELETE_PROJECTS };
+};
+const fetchUpdateProjects = (): returnType => {
+  return { type: FETCH_UPDATE_PROJECTS };
+};
+const setMessage = (message: string): returnType => {
+  return { type: SET_PROJECTS_MESSAGE, payload: message };
+};
+const setLoading = (): returnType => {
+  return { type: SET_PROJECTS_LOADING };
+};
+const setError = ({
+  message,
+  isError,
+}: {
+  message: string;
+  isError: boolean;
+}): returnType => {
+  return { type: SET_PROJECT_ERROR, payload: { message, isError } };
+};
+export {
+  fetchProjects,
+  fetchCurrentProject,
+  requestProjectsSuccess,
+  requestCurrentProjectSuccess,
+  fetchAddProjects,
+  addProjects,
+  updateProjects,
+  deleteProjects,
+  fetchDeleteProjects,
+  fetchUpdateProjects,
+  setMessage,
+  setLoading,
+  setError,
+};

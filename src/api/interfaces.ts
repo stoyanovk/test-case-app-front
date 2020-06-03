@@ -9,5 +9,5 @@ export interface IRequestsWithData extends IRequestsWithId {
 }
 export interface IParams {
   token: string;
-  queryParams: object;
+  queryParams?: object;
 }

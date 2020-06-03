@@ -1,32 +1,16 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
-import { all } from "redux-saga/effects";
+import rootSaga from "./rootSaga";
 /**
  * Reducers
  */
 import auth from "./auth/reducer";
-/**
- * Sagas
- */
-import {
-  loginWatcher,
-  registerWatcher,
-  confirmRegisterSagaWatcher,
-  getAuthUserWatcher,
-} from "./auth/sagas";
-
-function* rootSaga() {
-  yield all([
-    loginWatcher(),
-    registerWatcher(),
-    confirmRegisterSagaWatcher(),
-    getAuthUserWatcher(),
-  ]);
-}
+import projects from "./projects/reducer";
 
 const reducer = combineReducers({
   auth,
+  projects,
 });
 
 const sagaMiddleware = createSagaMiddleware();

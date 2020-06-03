@@ -1,78 +1,101 @@
-// import {
-//   LOGIN,
-//   LOGOUT,
-//   SET_AUTH_MESSAGE,
-//   SET_AUTH_ERROR,
-//   FETCH_LOGIN,
-//   FETCH_CONFIRM_REGISTER,
-//   GET_AUTH_USER,
-// } from "../../auth/actionTypes";
+import {
+  REQUEST_PROJECTS_SUCCESS,
+  SET_PROJECT_ERROR,
+  REQUEST_CURRENT_PROJECT_SUCCESS,
+  ADD_PROJECTS,
+  DELETE_PROJECTS,
+  SET_PROJECTS_LOADING,
+  UPDATE_PROJECTS,
+  SET_PROJECTS_MESSAGE,
+} from "../actionTypes";
 
-// interface IProject {
-//   id: string | number;
-//   project_name: string;
-//   description: string;
-//   [key: string]: any;
-// }
-// interface IState {
-//   projects: IProject[] | [];
-//   currentProject: IProject | {};
-//   message: string;
-//   error: boolean;
-//   loading: boolean;
-// }
+interface IProject {
+  id: string | number;
+  project_name: string;
+  description: string;
+  [key: string]: any;
+}
+interface IState {
+  projects: IProject[] | [];
+  currentProject: IProject | {};
+  message: string;
+  error: boolean;
+  loading: boolean;
+}
 
-// type ActionType = {
-//   type: string;
-//   payload: any;
-// };
+type ActionType = {
+  type: string;
+  payload: any;
+};
 
-// const initialState: IState = {
-//   projects: [],
-//   currentProject: {},
-//   loading: false,
-//   message: "",
-//   error: false,
-// };
+const initialState: IState = {
+  projects: [],
+  currentProject: {},
+  loading: false,
+  message: "",
+  error: false,
+};
 
-// const auth = (state: IState = initialState, action: ActionType) => {
-//   switch (action.type) {
-//     case FETCH_LOGIN:
-//       return {
-//         ...state,
-//         loading: true,
-//       };
-//     case FETCH_CONFIRM_REGISTER:
-//       return {
-//         ...state,
-//         loading: true,
-//       };
-//     case GET_AUTH_USER:
-//       return {
-//         ...state,
-//         loading: true,
-//       };
+const projects = (state: IState = initialState, action: ActionType): IState => {
+  switch (action.type) {
+    case SET_PROJECTS_LOADING: {
+      return {
+        ...state,
+        loading: action.payload,
+      };
+    }
+    case REQUEST_PROJECTS_SUCCESS: {
+      return {
+        ...state,
+        projects: action.payload,
+        loading: false,
+      };
+    }
 
-//     case LOGIN:
-//       return {
-//         ...state,
-//         user: action.payload,
-//         auth: true,
-//         loading: false,
-//       };
-//     case LOGOUT:
-//       return { ...state, user: {}, auth: false };
-//     case SET_AUTH_MESSAGE:
-//       return { ...state, message: action.payload, loading: false };
-//     case SET_AUTH_ERROR:
-//       return {
-//         ...state,
-//         error: action.payload.isError,
-//         message: action.payload.message,
-//         loading: false,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-// export default auth;
+    case REQUEST_CURRENT_PROJECT_SUCCESS: {
+      return {
+        ...state,
+        currentProject: action.payload,
+        loading: false,
+      };
+    }
+    case ADD_PROJECTS: {
+      return {
+        ...state,
+        projects: [...state.projects, action.payload],
+        loading: false,
+      };
+    }
+    case DELETE_PROJECTS: {
+      const newProjects = state.projects.filter(
+        ({ id }) => id !== action.payload
+      );
+      return { ...state, projects: newProjects };
+    }
+
+    case UPDATE_PROJECTS: {
+      const newProjects = state.projects.filter(
+        ({ id }) => id !== action.payload.id
+      );
+      return { ...state, projects: [...newProjects, action.payload] };
+    }
+
+    case SET_PROJECT_ERROR: {
+      return {
+        ...state,
+        error: action.payload.isError,
+        message: action.payload.message,
+        loading: false,
+      };
+    }
+    case SET_PROJECTS_MESSAGE: {
+      return {
+        ...state,
+        message: action.payload,
+      };
+    }
+    default:
+      return state;
+  }
+};
+export default projects;

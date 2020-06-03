@@ -7,19 +7,26 @@ import {
   IconButton,
   Toolbar,
   Typography,
+  List,
+  ListItem,
 } from "@material-ui/core/";
 import MenuIcon from "@material-ui/icons/Menu";
 import Avatar from "./components/Avatar";
 import Navbar from "./components/Navbar";
 import { logout } from "store/auth/actions";
+import { fetchProjects } from "store/projects/actions";
 import { getUser } from "store/auth/selectors";
+import { getProjects } from "store/projects/selectors";
 
 import useStyles from "./styles";
 
 export default function Menu() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const user = useSelector(getUser);
+  const { user, projects } = useSelector((state) => ({
+    user: getUser(state),
+    projects: getProjects(state),
+  }));
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -27,7 +34,9 @@ export default function Menu() {
   };
 
   const handleClick = () => dispatch(logout());
-
+  React.useEffect(() => {
+    dispatch(fetchProjects());
+  }, []);
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appBar}>
@@ -55,6 +64,12 @@ export default function Menu() {
         <div className={classes.toolbar} />
         <Divider />
         <Avatar name={user.user_name} email={user.email} />
+        <List>
+          {projects.length &&
+            projects.map(({ id, project_name }) => {
+              return <ListItem key={id}>{project_name}</ListItem>;
+            })}
+        </List>
         <Divider />
       </Navbar>
     </div>
