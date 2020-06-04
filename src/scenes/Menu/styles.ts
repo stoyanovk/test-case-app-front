@@ -28,9 +28,13 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
     },
     button: {
+      marginTop: "auto",
       padding: "7px 15px",
       color: "#fff",
       border: "1px solid #fff",
+    },
+    list: {
+      overflowY: "auto",
     },
   })
 );
