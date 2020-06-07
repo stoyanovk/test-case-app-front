@@ -1,18 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import {
-  AppBar,
-  Button,
-  Divider,
-  IconButton,
-  Toolbar,
-  Typography,
-  List,
-  ListItem,
-  Box,
-} from "@material-ui/core/";
-import MenuIcon from "@material-ui/icons/Menu";
+import { Button, Divider, List, ListItem } from "@material-ui/core/";
+import AppBar from "./components/AppBar";
 import Avatar from "./components/Avatar";
 import Navbar from "./components/Navbar";
 import { logout } from "store/auth/actions";
@@ -25,39 +15,24 @@ export default function Menu() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { user, projects } = useSelector((state) => getUserProjects(state));
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleClick = () => dispatch(logout());
-  React.useEffect(() => {
+  const handleLogout = () => dispatch(logout());
+
+  useEffect(() => {
     dispatch(fetchProjects());
   }, [dispatch]);
+
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            className={classes.menuButton}
-          >
-            <MenuIcon />
-          </IconButton>
-          <div className={classes.box}>
-            <Typography variant="h6" noWrap>
-              Test Case app
-            </Typography>
-            <Button onClick={handleClick} className={classes.button}>
-              logout
-            </Button>
-          </div>
-        </Toolbar>
-      </AppBar>
+      <AppBar
+        handleLogout={handleLogout}
+        handleDrawerToggle={handleDrawerToggle}
+      />
       <Navbar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
         <div className={classes.toolbar} />
         <Divider />
@@ -66,20 +41,22 @@ export default function Menu() {
         <List className={classes.list}>
           {!!projects.length &&
             projects.map(({ id, project_name }) => {
-              return <ListItem key={id}>{project_name}</ListItem>;
+              return (
+                <ListItem className={classes.listItem} key={id}>
+                  {project_name}
+                </ListItem>
+              );
             })}
         </List>
         <Divider />
-        <Box mt={2} display="flex" justifyContent="center">
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            endIcon={<AddCircleIcon />}
-          >
-            add project
-          </Button>
-        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          endIcon={<AddCircleIcon />}
+        >
+          add project
+        </Button>
       </Navbar>
     </div>
   );
