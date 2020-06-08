@@ -1,2 +1,2 @@
-import { getProjects, getUserProjects } from "./selectors";
-export { getProjects, getUserProjects };
+import { getProjects, getUserProjects, getCurrentProject } from "./selectors";
+export { getProjects, getUserProjects, getCurrentProject };

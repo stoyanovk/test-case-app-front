@@ -6,7 +6,7 @@ import {
   getAuthUserWatcher,
 } from "./auth/sagas";
 
-import { getProjectsWatcher } from "./projects/sagas";
+import { getProjectsWatcher, getProjectByIdWatcher } from "./projects/sagas";
 
 function* rootSaga() {
   yield all([
@@ -15,6 +15,7 @@ function* rootSaga() {
     confirmRegisterSagaWatcher(),
     getAuthUserWatcher(),
     getProjectsWatcher(),
+    getProjectByIdWatcher(),
   ]);
 }
 export default rootSaga;

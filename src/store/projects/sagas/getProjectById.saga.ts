@@ -1,44 +1,45 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { FETCH_PROJECTS } from "../actionTypes";
-import { requestProjectsSuccess, setError } from "../actions";
+import { FETCH_CURRENT_PROJECT } from "../actionTypes";
+import { requestCurrentProjectSuccess, setError } from "../actions";
 import { getLocalData, setLocalData } from "lib/localStorage";
 import { Projects } from "api";
 const projects = new Projects();
 
 type actionType = {
   type: string;
-  payload: any;
+  payload: string | number;
 };
 
-function* getProjectsSaga(action: actionType) {
+function* getProjectByIdSaga(action: actionType) {
   try {
     // из-за неизвестных особенностей redux saga я теряю контекст
     // поэтому приходится байндить функцию
     const token = getLocalData();
-    const apiCall = projects.getByQuery.bind(projects);
+    const apiCall = projects.getById.bind(projects);
+
     const response = yield call(apiCall, {
       token,
-      queryParams: action.payload,
+      id: action.payload,
     });
-
+    console.log(response);
     if (response.status === "success") {
       const {
-        data: { projects, token: responseToken },
+        data: { project, token: responseToken },
       } = response;
 
       setLocalData(responseToken);
-      yield put(requestProjectsSuccess(projects));
+      yield put(requestCurrentProjectSuccess(project));
     }
     if (response.status === "error") {
       throw new Error(response.data.message);
     }
   } catch (err) {
-    yield put(setError({ message: "", isError: false }));
+    yield put(setError({ message: err.message, isError: true }));
   }
 }
 
-function* getProjectsWatcher() {
-  yield takeLatest(FETCH_PROJECTS, getProjectsSaga);
+function* getProjectByIdWatcher() {
+  yield takeLatest(FETCH_CURRENT_PROJECT, getProjectByIdSaga);
 }
 
-export default getProjectsWatcher;
+export default getProjectByIdWatcher;

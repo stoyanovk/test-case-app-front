@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { Button, Divider, List, ListItem } from "@material-ui/core/";
@@ -6,7 +6,7 @@ import AppBar from "./components/AppBar";
 import Avatar from "./components/Avatar";
 import Navbar from "./components/Navbar";
 import { logout } from "store/auth/actions";
-import { fetchProjects } from "store/projects/actions";
+import { fetchProjects, fetchCurrentProject } from "store/projects/actions";
 import { getUserProjects } from "store/projects/selectors";
 
 import useStyles from "./styles";
@@ -20,7 +20,9 @@ export default function Menu() {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
+  const handleClick = (e: any) => {
+    dispatch(fetchCurrentProject(e.target.id));
+  };
   const handleLogout = () => dispatch(logout());
 
   useEffect(() => {
@@ -42,7 +44,12 @@ export default function Menu() {
           {!!projects.length &&
             projects.map(({ id, project_name }) => {
               return (
-                <ListItem className={classes.listItem} key={id}>
+                <ListItem
+                  id={id}
+                  className={classes.listItem}
+                  key={id}
+                  onClick={handleClick}
+                >
                   {project_name}
                 </ListItem>
               );

@@ -19,7 +19,7 @@ export default () => {
       <Switch>
         {auth &&
           routes.map(({ path, component, exact }) => (
-            <Route render={component} exact={exact} path={path} key={path} />
+            <Route component={component} exact={exact} path={path} key={path} />
           ))}
         <Route
           component={ConfirmRegister}
