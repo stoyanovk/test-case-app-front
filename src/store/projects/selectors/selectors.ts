@@ -3,7 +3,8 @@ import { createSelector } from "reselect";
 import { getUser } from "store/auth/selectors";
 
 const getProjects = (state: any): [any] => state.projects.projects;
-const getCurrentProject = (state: any): [any] => state.projects.currentProject;
+const getCurrentProject = (state: any): { [key: string]: any } =>
+  state.projects.currentProject;
 
 const getUserProjects = createSelector(
   [getUser, getProjects],

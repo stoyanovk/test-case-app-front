@@ -17,7 +17,7 @@ interface IProject {
 }
 interface IState {
   projects: IProject[] | [];
-  currentProject: IProject | {};
+  currentProject: IProject | null;
   message: string;
   error: boolean;
   loading: boolean;
@@ -30,7 +30,7 @@ type ActionType = {
 
 const initialState: IState = {
   projects: [],
-  currentProject: {},
+  currentProject: null,
   loading: false,
   message: "",
   error: false,
