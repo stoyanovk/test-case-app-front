@@ -21,7 +21,6 @@ function* getProjectByIdSaga(action: actionType) {
       token,
       id: action.payload,
     });
-    console.log(response);
     if (response.status === "success") {
       const {
         data: { project, token: responseToken },

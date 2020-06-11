@@ -30,7 +30,7 @@ export default function Project({ title, description, tasks }: ProjectProps) {
           </Box>
         ) : (
           <Box p={2}>
-            <Tasks />
+            <Tasks tasks={tasks} />
           </Box>
         )}
       </Paper>
