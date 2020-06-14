@@ -1,3 +1,4 @@
 import getProjectsWatcher from "./getProjects.saga";
 import getProjectByIdWatcher from "./getProjectById.saga";
-export { getProjectsWatcher, getProjectByIdWatcher };
+import createProjectWatcher from "./addProject.saga";
+export { getProjectsWatcher, getProjectByIdWatcher, createProjectWatcher };

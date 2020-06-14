@@ -6,13 +6,13 @@ import Project from "components/Project";
 
 const Home = () => {
   const currentProject = useSelector((state) => getCurrentProject(state));
-  
 
   return (
     <>
       <h1> My app </h1>
+
       {currentProject && (
-        <Box mt={3}>
+        <Box height="80%" mt={3}>
           <Project
             title={currentProject.project_name}
             description={currentProject.description}

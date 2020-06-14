@@ -5,23 +5,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       display: "flex",
     },
-    toolbar: theme.mixins.toolbar,
-    button: {
-      marginTop: "auto",
-      padding: "7px 15px",
-      color: "#fff",
-      border: "1px solid #fff",
-    },
-    listItem: {
-      cursor: "pointer",
-      "&:hover": {
-        background: theme.palette.primary.main,
-        color: "#fff",
-      },
-    },
-    list: {
-      overflowY: "auto",
-    },
   })
 );
 

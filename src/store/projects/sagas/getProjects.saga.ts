@@ -20,7 +20,6 @@ function* getProjectsSaga(action: actionType) {
       token,
       queryParams: action.payload,
     });
-
     if (response.status === "success") {
       const {
         data: { projects, token: responseToken },

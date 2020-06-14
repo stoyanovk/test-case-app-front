@@ -9,6 +9,12 @@ const useStyles = makeStyles((theme: Theme) =>
     nested: {
       paddingLeft: theme.spacing(4),
     },
+    listItem: {
+      "&:hover": {
+        backgroundColor: theme.palette.primary.main,
+        color: "#fff",
+      },
+    },
   })
 );
 export default useStyles;

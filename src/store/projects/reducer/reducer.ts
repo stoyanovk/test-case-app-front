@@ -77,7 +77,10 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
       const newProjects = state.projects.filter(
         ({ id }) => id !== action.payload.id
       );
-      return { ...state, projects: [...newProjects, action.payload] };
+      return {
+        ...state,
+        projects: [...newProjects, action.payload],
+      };
     }
 
     case SET_PROJECT_ERROR: {

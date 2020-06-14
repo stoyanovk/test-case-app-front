@@ -1,7 +1,9 @@
 import React from "react";
 import { Paper, Box } from "@material-ui/core";
+import HTMLContent from "components/HTMLContent";
 import Tabs from "./components/Tabs";
 import Tasks from "./components/Tasks";
+import useStyles from "./styles";
 
 type ProjectProps = {
   title: string;
@@ -12,28 +14,32 @@ type ProjectProps = {
 export default function Project({ title, description, tasks }: ProjectProps) {
   const [tabValue, setTabValue] = React.useState(0);
 
+  const classes = useStyles();
+
   const handleToggleTabs = (event: React.ChangeEvent<{}>, value: number) => {
     setTabValue(value);
   };
-  const html = { __html: description };
+
   return (
-    <>
+    <div className={classes.box}>
       <Tabs
         title={title}
         activeTab={tabValue}
         handleToggleTabs={handleToggleTabs}
       />
-      <Paper variant="outlined">
-        {tabValue === 0 ? (
-          <Box p={2}>
-            <div dangerouslySetInnerHTML={html} />
-          </Box>
-        ) : (
-          <Box p={2}>
-            <Tasks tasks={tasks} />
-          </Box>
-        )}
-      </Paper>
-    </>
+      <div className={classes.content}>
+        <Paper variant="outlined" className={classes.paper}>
+          {tabValue === 0 ? (
+            <Box p={3} height="100%">
+              <HTMLContent description={description} />
+            </Box>
+          ) : (
+            <Box p={3} height="100%">
+              <Tasks tasks={tasks} />
+            </Box>
+          )}
+        </Paper>
+      </div>
+    </div>
   );
 }

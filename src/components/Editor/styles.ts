@@ -7,6 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     editor: {
       border: `1px solid ${theme.palette.primary.main}`,
+      height: "200px",
     },
   })
 );

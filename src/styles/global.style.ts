@@ -8,7 +8,19 @@ export default createGlobalStyle`
       font-family: "Roboto", sans-serif;
      
   }
+  html,body{
+    height:100%;
+    min-height:100%;
+  }
   body{ 
     background:#f9f9f9
+  }
+  #root{
+    height:100%;
+    display:flex;
+    flex-direction:column;
+  }
+  main{
+    flex:1;
   }
 `;
