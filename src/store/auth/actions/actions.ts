@@ -5,8 +5,8 @@ import {
   FETCH_REGISTER,
   FETCH_CONFIRM_REGISTER,
   GET_AUTH_USER,
-  SET_ERROR,
-  SET_MESSAGE,
+  SET_AUTH_ERROR,
+  SET_AUTH_MESSAGE,
 } from "../actionTypes";
 import { deleteSessionData } from "lib/localStorage";
 
@@ -31,7 +31,7 @@ const login = (userData: any): returnType => {
   return { type: LOGIN, payload: userData };
 };
 const setMessage = (message: string): returnType => {
-  return { type: SET_MESSAGE, payload: message };
+  return { type: SET_AUTH_MESSAGE, payload: message };
 };
 
 const fetchConfirmRegister = (token: string): returnType => {
@@ -49,7 +49,7 @@ const setError = ({
   message: string;
   isError: boolean;
 }): returnType => {
-  return { type: SET_ERROR, payload: { message, isError } };
+  return { type: SET_AUTH_ERROR, payload: { message, isError } };
 };
 export {
   fetchLogin,

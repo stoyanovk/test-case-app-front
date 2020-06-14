@@ -30,7 +30,7 @@ function* getAuthUserSaga(action: actionType) {
       throw new Error(response.data.message);
     }
   } catch (err) {
-    console.log(err);
+    yield put(setError({ message: "", isError: false }));
   }
 }
 

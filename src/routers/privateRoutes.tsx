@@ -1,4 +1,4 @@
-
+import Home from "scenes/Home";
 
 interface IRoute {
   path: string;
@@ -10,7 +10,7 @@ const routers: IRoute[] = [
   {
     path: "/",
     exact: true,
-    component: () => "HOME",
+    component: Home,
   },
 ];
 

@@ -1,11 +1,13 @@
 import React, { FC } from "react";
 import Menu from "scenes/Menu";
+import useStyles from "./styles";
 
-const Wrapper: FC = ({ children }) => {
+const Wrapper: FC<{ isAuth: boolean }> = ({ children, isAuth }) => {
+  const classes = useStyles();
   return (
     <>
-      <Menu />
-      <main>{children}</main>
+      {isAuth && <Menu />}
+      <main className={classes.main}>{children}</main>
     </>
   );
 };
