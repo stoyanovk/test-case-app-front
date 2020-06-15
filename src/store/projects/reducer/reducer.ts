@@ -8,6 +8,7 @@ import {
   UPDATE_PROJECTS,
   SET_PROJECTS_MESSAGE,
 } from "../actionTypes";
+import getCurrentProject from "utils/getCurrentProject";
 
 interface IProject {
   id: string | number;
@@ -67,10 +68,19 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
       };
     }
     case DELETE_PROJECTS: {
-      const newProjects = state.projects.filter(
-        ({ id }) => id !== action.payload
+      const newCurrentProject = getCurrentProject(
+        state.projects,
+        action.payload.id
       );
-      return { ...state, projects: newProjects };
+      const newProjects = state.projects.filter(
+        ({ id }) => id !== action.payload.id
+      );
+      return {
+        ...state,
+        currentProject: newCurrentProject,
+        message: action.payload.message,
+        projects: newProjects,
+      };
     }
 
     case UPDATE_PROJECTS: {

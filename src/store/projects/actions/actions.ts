@@ -42,8 +42,8 @@ const addProjects = (data: any): returnType => {
 const updateProjects = (data: any, id: string | number): returnType => {
   return { type: UPDATE_PROJECTS, payload: { data, id } };
 };
-const deleteProjects = (projectId: number | string): returnType => {
-  return { type: DELETE_PROJECTS, payload: projectId };
+const deleteProjects = (id: number | string, message: string): returnType => {
+  return { type: DELETE_PROJECTS, payload: { id, message } };
 };
 const fetchDeleteProjects = (projectId: number | string): returnType => {
   return { type: FETCH_DELETE_PROJECTS, payload: projectId };

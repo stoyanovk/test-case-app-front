@@ -11,6 +11,7 @@ import {
   getProjectByIdWatcher,
   createProjectWatcher,
   updateProjectWatcher,
+  deleteProjectByIdWatcher,
 } from "./projects/sagas";
 
 function* rootSaga() {
@@ -23,6 +24,7 @@ function* rootSaga() {
     getProjectByIdWatcher(),
     createProjectWatcher(),
     updateProjectWatcher(),
+    deleteProjectByIdWatcher(),
   ]);
 }
 export default rootSaga;

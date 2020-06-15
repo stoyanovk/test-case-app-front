@@ -5,20 +5,21 @@ import Tabs from "./components/Tabs";
 import Tasks from "./components/Tasks";
 import useStyles from "./styles";
 
-type id = string | number;
-
-type ProjectProps = {
-  title: string;
+type currentProjectType = {
+  id: string | number;
+  project_name: string;
   description: string | "";
   tasks: any[];
+};
+
+type ProjectProps = {
+  currentProject: currentProjectType;
   handleUpdateModalToggle: () => void;
   handleDeleteModalToggle: () => void;
 };
 
 export default function Project({
-  title,
-  description,
-  tasks,
+  currentProject,
   handleUpdateModalToggle,
   handleDeleteModalToggle,
 }: ProjectProps) {
@@ -33,7 +34,7 @@ export default function Project({
   return (
     <div className={classes.box}>
       <Tabs
-        title={title}
+        title={currentProject.project_name}
         activeTab={tabValue}
         handleToggleTabs={handleToggleTabs}
       />
@@ -41,11 +42,11 @@ export default function Project({
         <Paper variant="outlined" className={classes.paper}>
           {tabValue === 0 ? (
             <Box p={3} height="100%">
-              <HTMLContent description={description} />
+              <HTMLContent description={currentProject.description} />
             </Box>
           ) : (
             <Box p={3} height="100%">
-              <Tasks tasks={tasks} />
+              <Tasks tasks={currentProject.tasks} />
             </Box>
           )}
         </Paper>

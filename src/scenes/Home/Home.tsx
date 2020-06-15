@@ -9,6 +9,7 @@ import ProjectForm from "scenes/ProjectForm";
 import {
   fetchUpdateProjects,
   fetchDeleteProjects,
+  setMessage,
 } from "store/projects/actions";
 import Project from "scenes/Home/components/Project";
 
@@ -31,16 +32,18 @@ const Home = () => {
     setOpen((state) => ({ ...state, [name]: !state[name] }));
   };
 
+  const handleCloseResponseModal = () => {
+    dispatch(setMessage(""));
+    setOpen((state) => ({ ...state, responseModal: false }));
+  };
+
   const updateProject = (id: string | number) => (data: any) =>
     dispatch(fetchUpdateProjects(data, id));
 
   const deleteProject = (id: string | number) => () =>
     dispatch(fetchDeleteProjects(id));
 
-  const projectFormInitialState: {
-    project_name: string;
-    description: string;
-  } = {
+  const projectFormInitialState = {
     project_name: currentProject ? currentProject.project_name : "",
     description: currentProject ? currentProject.description : "",
   };
@@ -59,9 +62,7 @@ const Home = () => {
         <>
           <Box height="80%" mt={3}>
             <Project
-              title={currentProject.project_name}
-              description={currentProject.description}
-              tasks={currentProject.tasks}
+              currentProject={currentProject}
               handleUpdateModalToggle={handleModalToggle("updateModal")}
               handleDeleteModalToggle={handleModalToggle("deleteModal")}
             />
@@ -96,8 +97,8 @@ const Home = () => {
           >
             <div>
               <ResponseModalLayout
-                message={currentProject.project_name}
-                onClose={handleModalToggle("responseModal")}
+                message={message}
+                onClose={handleCloseResponseModal}
               />
             </div>
           </Modal>
