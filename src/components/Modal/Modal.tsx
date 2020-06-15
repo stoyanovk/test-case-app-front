@@ -12,7 +12,11 @@ const Modal = ({ children, open, handleClose }: IModal) => {
   // getModalStyle is not a pure function, we roll the style only on the first render
   const classes = useStyles();
   return (
-    <ModalComponent open={open} onClose={handleClose}>
+    <ModalComponent
+      open={open}
+      onClose={handleClose}
+      disableBackdropClick={false}
+    >
       <div className={classes.box}>{children}</div>
     </ModalComponent>
   );

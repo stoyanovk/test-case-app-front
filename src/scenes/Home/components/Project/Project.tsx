@@ -1,17 +1,27 @@
 import React from "react";
-import { Paper, Box } from "@material-ui/core";
+import { Paper, Box, Button } from "@material-ui/core";
 import HTMLContent from "components/HTMLContent";
 import Tabs from "./components/Tabs";
 import Tasks from "./components/Tasks";
 import useStyles from "./styles";
 
+type id = string | number;
+
 type ProjectProps = {
   title: string;
   description: string | "";
   tasks: any[];
+  handleUpdateModalToggle: () => void;
+  handleDeleteModalToggle: () => void;
 };
 
-export default function Project({ title, description, tasks }: ProjectProps) {
+export default function Project({
+  title,
+  description,
+  tasks,
+  handleUpdateModalToggle,
+  handleDeleteModalToggle,
+}: ProjectProps) {
   const [tabValue, setTabValue] = React.useState(0);
 
   const classes = useStyles();
@@ -39,6 +49,30 @@ export default function Project({ title, description, tasks }: ProjectProps) {
             </Box>
           )}
         </Paper>
+        <Box mt={2}>
+          <Paper>
+            <Box p={2} display="flex" justifyContent="flex-end">
+              <Box px={1}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleUpdateModalToggle}
+                >
+                  update
+                </Button>
+              </Box>
+              <Box px={1}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleDeleteModalToggle}
+                >
+                  delete
+                </Button>
+              </Box>
+            </Box>
+          </Paper>
+        </Box>
       </div>
     </div>
   );

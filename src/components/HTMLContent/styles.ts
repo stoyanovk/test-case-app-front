@@ -11,11 +11,11 @@ const useStyles = makeStyles((theme: Theme) =>
           paddingLeft: theme.spacing(3),
         },
         li: {
-          padding: theme.spacing(1),
+          marginBottom: theme.spacing(1),
           lineHeight: "30px",
         },
         p: {
-          padding: theme.spacing(1),
+          marginBottom: theme.spacing(1),
           lineHeight: "30px",
         },
       },

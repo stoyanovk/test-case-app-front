@@ -79,7 +79,8 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
       );
       return {
         ...state,
-        projects: [...newProjects, action.payload],
+        projects: [...newProjects, action.payload.data],
+        currentProject: action.payload.data,
       };
     }
 

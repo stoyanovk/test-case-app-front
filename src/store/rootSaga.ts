@@ -10,6 +10,7 @@ import {
   getProjectsWatcher,
   getProjectByIdWatcher,
   createProjectWatcher,
+  updateProjectWatcher,
 } from "./projects/sagas";
 
 function* rootSaga() {
@@ -21,6 +22,7 @@ function* rootSaga() {
     getProjectsWatcher(),
     getProjectByIdWatcher(),
     createProjectWatcher(),
+    updateProjectWatcher(),
   ]);
 }
 export default rootSaga;

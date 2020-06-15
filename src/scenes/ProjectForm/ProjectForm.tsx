@@ -1,7 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import SimpleForm from "components/SimpleForm";
-import { fetchAddProjects } from "store/projects/actions";
 
 type initialStateType = {
   project_name: string | "";
@@ -13,18 +12,22 @@ const initialState: initialStateType = {
   description: "",
 };
 
-export default function AddProjectForm() {
+export default function ProjectForm({
+  title,
+  actionCreator,
+  state = initialState,
+}: {
+  title: string;
+  state?: initialStateType;
+  actionCreator: (data: any) => { type: string; payload?: any };
+}) {
   const dispatch = useDispatch();
 
-  const handleSubmit = (data: any) => dispatch(fetchAddProjects(data));
+  const handleSubmit = (data: any) => dispatch(actionCreator(data));
 
   return (
     <div>
-      <SimpleForm
-        title="Add new project"
-        state={initialState}
-        onSubmit={handleSubmit}
-      />
+      <SimpleForm title={title} state={state} onSubmit={handleSubmit} />
     </div>
   );
 }
