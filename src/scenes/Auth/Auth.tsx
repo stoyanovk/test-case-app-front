@@ -9,6 +9,7 @@ import CurrentForm from "./components/CurrentForm";
 import { useStyles } from "./style";
 import logo from "./images/logo.svg";
 
+
 const getSubPage = (path: string): number => {
   switch (path) {
     case "sign-in":

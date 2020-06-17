@@ -1,4 +1,5 @@
 import { stringify } from "query-string";
+import { IResponse } from "interfaces/entities";
 import {
   IQueryConstructor,
   IBuildUrl,
@@ -77,7 +78,7 @@ class RequestSource {
     id?: id;
     entityOwnerName?: string;
     token: string;
-  }): Promise<any> {
+  }): Promise<IResponse> {
     const url: string = this._buildUrl({ id, entityOwnerName });
     return this._request({ url, data, method: METHODS.POST, token });
   }
@@ -92,7 +93,7 @@ class RequestSource {
     queryParams?: object;
     token: string;
     entityOwnerName?: string;
-  }): Promise<any> {
+  }): Promise<IResponse> {
     const url: string = this._buildUrl({ id, queryParams, entityOwnerName });
     return this._request({ url, method: METHODS.GET, token });
   }
@@ -105,12 +106,18 @@ class RequestSource {
     id: id;
     data: object;
     token: string;
-  }): Promise<any> {
+  }): Promise<IResponse> {
     const url: string = this._buildUrl({ id });
     return this._request({ url, data, method: METHODS.PUT, token });
   }
 
-  protected _getById({ id, token }: { id: id; token?: string }): Promise<any> {
+  protected _getById({
+    id,
+    token,
+  }: {
+    id: id;
+    token?: string;
+  }): Promise<IResponse> {
     const url: string = this._buildUrl({ id });
     return this._request({ url, method: METHODS.GET, token });
   }
@@ -125,7 +132,7 @@ class RequestSource {
     subId?: id;
     token: string;
     entityOwnerName?: string;
-  }): Promise<any> {
+  }): Promise<IResponse> {
     const url: string = this._buildUrl({ entityOwnerName, id, subId });
     return this._request({ url, method: METHODS.DELETE, token });
   }

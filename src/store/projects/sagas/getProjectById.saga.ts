@@ -25,6 +25,7 @@ function* getProjectByIdSaga(action: actionType) {
       const {
         data: { project, token: responseToken },
       } = response;
+      console.log(response);
       setLocalData(responseToken);
       yield put(requestCurrentProjectSuccess(project));
     }

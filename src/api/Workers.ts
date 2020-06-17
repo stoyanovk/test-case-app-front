@@ -1,9 +1,10 @@
 import RequestSource from "lib/RequestSource";
 import { IRequestsWithId } from "./interfaces";
 import CONFIG from "config";
+import { IResponse } from "interfaces/entities";
 
 interface IWorkers {
-  create(data: object): Promise<any>;
+  create(data: object): Promise<IResponse>;
 }
 
 class Workers extends RequestSource implements IWorkers {
@@ -13,7 +14,7 @@ class Workers extends RequestSource implements IWorkers {
   public create({ token, data }: { token: string; data: object }) {
     return this._create({ token, data });
   }
-  public getByQuery({ id, token }: IRequestsWithId): Promise<any> {
+  public getByQuery({ id, token }: IRequestsWithId) {
     return this._getByQuery({ id, token, entityOwnerName: "projects" });
   }
 
@@ -25,7 +26,7 @@ class Workers extends RequestSource implements IWorkers {
     id: string | number;
     token: string;
     subId: string;
-  }): Promise<any> {
+  }) {
     return this._deleteById({ id, token, subId, entityOwnerName: "projects" });
   }
 }

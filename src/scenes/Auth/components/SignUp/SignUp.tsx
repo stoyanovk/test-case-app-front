@@ -44,7 +44,7 @@ export default function SignUp() {
     () => dispatch(setError({ message: "", isError: false })),
     [dispatch]
   );
-  
+
   const handleChange = useCallback(
     ({ target: { name, value } }: any) => {
       changeState({ name, value });
@@ -53,9 +53,7 @@ export default function SignUp() {
     [changeState, resetError]
   );
 
-  const handleSubmit = async (
-    e: React.FormEvent<EventTarget>
-  ): Promise<any> => {
+  const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     const isFormFieldNotValid = handleCheckValidForm({
       user_name: isNotAlpha,
       email: isNotEmail,

@@ -1,5 +1,6 @@
-import RequestSource from "../lib/RequestSource";
-import { METHODS } from "../lib/interfaces";
+import RequestSource from "lib/RequestSource";
+import { METHODS } from "lib/interfaces";
+import { IResponse } from "interfaces/entities";
 
 import CONFIG from "../config";
 
@@ -12,10 +13,10 @@ enum AUTH_ROUTES {
   GET_AUTH_USER = "me",
 }
 interface IAuth {
-  register(data: object): Promise<any>;
-  login(data: object): Promise<any>;
-  resetPassword(data: object): Promise<any>;
-  setPassword(token: string): Promise<any>;
+  register(data: object): Promise<IResponse>;
+  login(data: object): Promise<IResponse>;
+  resetPassword(data: object): Promise<IResponse>;
+  setPassword(token: string): Promise<IResponse>;
 }
 
 class Auth extends RequestSource implements IAuth {

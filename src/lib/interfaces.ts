@@ -1,3 +1,4 @@
+import { IResponse } from "interfaces/entities";
 export type id = string | number;
 
 export enum METHODS {
@@ -8,9 +9,9 @@ export enum METHODS {
 }
 
 export interface IRequests {
-  updateById(args: any): Promise<any>;
-  getById(args: any): Promise<any>;
-  deleteById(args: any): Promise<any>;
+  updateById(args: any): Promise<IResponse>;
+  getById(args: any): Promise<IResponse>;
+  deleteById(args: any): Promise<IResponse>;
 }
 
 export interface IQueryConstructor {

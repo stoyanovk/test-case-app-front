@@ -1,19 +1,20 @@
 import React from "react";
+import { IProject } from "interfaces/entities";
 import { Paper, Box, Button } from "@material-ui/core";
 import HTMLContent from "components/HTMLContent";
 import Tabs from "./components/Tabs";
 import Tasks from "./components/Tasks";
 import useStyles from "./styles";
 
-type currentProjectType = {
-  id: string | number;
-  project_name: string;
-  description: string | "";
-  tasks: any[];
-};
+// type currentProjectType = {
+//   id: string | number;
+//   project_name: string;
+//   description: string | "";
+//   tasks: any[];
+// };
 
 type ProjectProps = {
-  currentProject: currentProjectType;
+  currentProject: IProject;
   handleUpdateModalToggle: () => void;
   handleDeleteModalToggle: () => void;
 };

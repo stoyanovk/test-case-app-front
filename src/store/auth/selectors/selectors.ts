@@ -1,12 +1,7 @@
 import { createSelector } from "reselect";
-//get from state functions
+import { IUser } from "interfaces/entities";
 
-type userType = {
-  user_name: string;
-  email: string;
-  [key: string]: any;
-};
-const getUser = (state: any): userType => state.auth.user;
+const getUser = (state: any): IUser => state.auth.user;
 const getMessage = (state: any): string => state.auth.message;
 const getError = (state: any): boolean => state.auth.error;
 const getAuth = (state: any): boolean => state.auth.auth;
