@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { FETCH_CURRENT_PROJECT } from "../actionTypes";
-import { requestCurrentProjectSuccess, setError } from "../actions";
+import { FETCH_DELETE_PROJECTS } from "../actionTypes";
+import { setError, deleteProjects } from "../actions";
 import { getLocalData, setLocalData } from "lib/localStorage";
 import { Projects } from "api";
 const projects = new Projects();
@@ -10,12 +10,12 @@ type actionType = {
   payload: string | number;
 };
 
-function* getProjectByIdSaga(action: actionType) {
+function* deleteProjectByIdSaga(action: actionType) {
   try {
     // из-за неизвестных особенностей redux saga я теряю контекст
     // поэтому приходится байндить функцию
     const token = getLocalData();
-    const apiCall = projects.getById.bind(projects);
+    const apiCall = projects.deleteById.bind(projects);
 
     const response = yield call(apiCall, {
       token,
@@ -23,10 +23,10 @@ function* getProjectByIdSaga(action: actionType) {
     });
     if (response.status === "success") {
       const {
-        data: { project, token: responseToken },
+        data: { message, token: responseToken },
       } = response;
       setLocalData(responseToken);
-      yield put(requestCurrentProjectSuccess(project));
+      yield put(deleteProjects(action.payload, message));
     }
     if (response.status === "error") {
       throw new Error(response.data.message);
@@ -36,8 +36,8 @@ function* getProjectByIdSaga(action: actionType) {
   }
 }
 
-function* getProjectByIdWatcher() {
-  yield takeLatest(FETCH_CURRENT_PROJECT, getProjectByIdSaga);
+function* deleteProjectByIdWatcher() {
+  yield takeLatest(FETCH_DELETE_PROJECTS, deleteProjectByIdSaga);
 }
 
-export default getProjectByIdWatcher;
+export default deleteProjectByIdWatcher;

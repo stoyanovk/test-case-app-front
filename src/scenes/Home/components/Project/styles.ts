@@ -5,9 +5,9 @@ const useStyles = makeStyles((theme: Theme) =>
     box: {
       height: "100%",
     },
-    paper: { height: "calc(100% - 48px)" },
+    paper: { minHeight: "calc(100% - 48px)" },
     content: {
-      height: "calc(100% - 48px)",
+      minHeight: "calc(100% - 48px)",
     },
   })
 );

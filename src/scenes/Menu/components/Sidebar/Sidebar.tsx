@@ -2,9 +2,10 @@ import React, { MouseEvent, useState } from "react";
 import { Button, Divider, List, ListItem } from "@material-ui/core/";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import Modal from "components/Modal";
-import AddProjectForm from "scenes/Menu/scenes/AddProjectForm";
+import ProjectForm from "scenes/ProjectForm";
 import Avatar from "../Avatar";
 import Navbar from "../Navbar";
+import { fetchAddProjects } from "store/projects/actions";
 import useStyles from "./styles";
 
 type userType = {
@@ -36,7 +37,7 @@ const Sidebar = ({
   React.useEffect(() => {
     !error && setOpen(false);
   }, [error, projects]);
-  
+
   return (
     <>
       <Navbar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
@@ -72,7 +73,7 @@ const Sidebar = ({
       </Navbar>
       <Modal handleClose={handleModalToggle} open={open}>
         <div>
-          <AddProjectForm />
+          <ProjectForm title="Add project" actionCreator={fetchAddProjects} />
         </div>
       </Modal>
     </>

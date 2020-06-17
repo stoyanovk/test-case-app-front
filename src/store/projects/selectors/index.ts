@@ -1,7 +1,7 @@
 import {
-  getProjects,
+  getProjectsData,
   getUserProjects,
   getCurrentProject,
   getError,
 } from "./selectors";
-export { getProjects, getUserProjects, getCurrentProject, getError };
+export { getProjectsData, getUserProjects, getCurrentProject, getError };
