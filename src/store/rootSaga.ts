@@ -4,6 +4,7 @@ import {
   registerWatcher,
   confirmRegisterSagaWatcher,
   getAuthUserWatcher,
+  logoutSagaWatcher,
 } from "./auth/sagas";
 
 import {
@@ -25,6 +26,7 @@ function* rootSaga() {
     createProjectWatcher(),
     updateProjectWatcher(),
     deleteProjectByIdWatcher(),
+    logoutSagaWatcher(),
   ]);
 }
 export default rootSaga;

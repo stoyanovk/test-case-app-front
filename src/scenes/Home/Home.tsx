@@ -5,7 +5,8 @@ import { getProjectsData } from "store/projects/selectors";
 import Modal from "components/Modal";
 import DeleteModalLayout from "components/DeleteModalLayout";
 import ResponseModalLayout from "components/ResponseModalLayout";
-import ProjectForm from "scenes/ProjectForm";
+import SimpleForm from "components/SimpleForm";
+
 import {
   fetchUpdateProjects,
   fetchDeleteProjects,
@@ -37,10 +38,10 @@ const Home = () => {
     setOpen((state) => ({ ...state, responseModal: false }));
   };
 
-  const updateProject = (id: string | number) => (data: any) =>
+  const updateProject = (id: string ) => (data: any) =>
     dispatch(fetchUpdateProjects(data, id));
 
-  const deleteProject = (id: string | number) => () =>
+  const deleteProject = (id: string ) => () =>
     dispatch(fetchDeleteProjects(id));
 
   const projectFormInitialState = {
@@ -56,15 +57,16 @@ const Home = () => {
 
   return (
     <>
-      <h1> My app </h1>
+      <h1> Projects </h1>
 
       {currentProject && (
         <>
           <Box height="80%" mt={3}>
             <Project
               currentProject={currentProject}
-              handleUpdateModalToggle={handleModalToggle("updateModal")}
-              handleDeleteModalToggle={handleModalToggle("deleteModal")}
+              handleUpdateProjectModalToggle={handleModalToggle("updateModal")}
+              handleDeleteProjectModalToggle={handleModalToggle("deleteModal")}
+              handleCreateTaskModalToggle={() => {}}
             />
           </Box>
           <Modal
@@ -72,10 +74,10 @@ const Home = () => {
             open={open.updateModal}
           >
             <div>
-              <ProjectForm
+              <SimpleForm
                 title="Update project"
                 state={projectFormInitialState}
-                actionCreator={updateProject(currentProject.id)}
+                onSubmit={updateProject(currentProject.id)}
               />
             </div>
           </Modal>

@@ -7,7 +7,7 @@ const projects = new Projects();
 
 type actionType = {
   type: string;
-  payload: string | number;
+  payload: string;
 };
 
 function* getProjectByIdSaga(action: actionType) {

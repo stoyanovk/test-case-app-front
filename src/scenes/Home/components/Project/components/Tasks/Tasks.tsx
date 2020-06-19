@@ -7,7 +7,7 @@ import useStyles from "./styles";
 export default function Tasks({ tasks }: { tasks: ITasks }) {
   const classes = useStyles();
 
-  if (!tasks.length) {
+  if (!tasks?.length) {
     return (
       <Typography align="center" variant="h5">
         Tasks for this project do not exist yet

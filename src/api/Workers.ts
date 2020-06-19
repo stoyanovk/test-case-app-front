@@ -23,7 +23,7 @@ class Workers extends RequestSource implements IWorkers {
     token,
     subId,
   }: {
-    id: string | number;
+    id: string;
     token: string;
     subId: string;
   }) {

@@ -7,6 +7,7 @@ import {
   getAuthUser,
   setMessage,
   setError,
+  fetchLogout,
 } from "./actions";
 export {
   fetchLogin,
@@ -17,4 +18,5 @@ export {
   getAuthUser,
   setMessage,
   setError,
+  fetchLogout,
 };

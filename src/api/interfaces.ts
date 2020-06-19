@@ -1,7 +1,7 @@
-type id = number | string;
+type id = string;
 
 export interface IRequestsWithId {
-  id: id;
+  id: string;
   token: string;
 }
 export interface IRequestsWithData extends IRequestsWithId {

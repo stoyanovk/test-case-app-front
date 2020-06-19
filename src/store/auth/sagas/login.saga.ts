@@ -3,6 +3,7 @@ import { setLocalData } from "lib/localStorage";
 import { FETCH_LOGIN } from "../actionTypes";
 import { login, setError } from "../actions";
 import { Auth } from "api";
+
 const auth = new Auth();
 
 type actionType = {

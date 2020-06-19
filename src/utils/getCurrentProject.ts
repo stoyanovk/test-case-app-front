@@ -1,4 +1,4 @@
-export default function (projects: any[], id: string | number) {
+export default function (projects: any[], id: string) {
   const arrayLength = projects.length;
   const deletedProjectIndex = projects.findIndex(
     (project) => project.id === id

@@ -7,6 +7,7 @@ import {
   GET_AUTH_USER,
   SET_AUTH_ERROR,
   SET_AUTH_MESSAGE,
+  FETCH_LOGOUT,
 } from "./actionTypes";
 export {
   LOGIN,
@@ -17,4 +18,5 @@ export {
   GET_AUTH_USER,
   SET_AUTH_ERROR,
   SET_AUTH_MESSAGE,
+  FETCH_LOGOUT,
 };

@@ -1,5 +1,5 @@
 import { IResponse } from "interfaces/entities";
-export type id = string | number;
+export type id = string;
 
 export enum METHODS {
   PUT = "PUT",

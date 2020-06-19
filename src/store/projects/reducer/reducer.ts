@@ -11,7 +11,7 @@ import {
 import getCurrentProject from "utils/getCurrentProject";
 
 interface IProject {
-  id: string | number;
+  id: string;
   project_name: string;
   description: string;
   [key: string]: any;
@@ -50,6 +50,7 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         ...state,
         projects: action.payload,
         loading: false,
+        error: false,
       };
     }
 
@@ -58,6 +59,7 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         ...state,
         currentProject: action.payload,
         loading: false,
+        error: false,
       };
     }
     case ADD_PROJECTS: {
@@ -65,6 +67,7 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         ...state,
         projects: [...state.projects, action.payload],
         loading: false,
+        error: false,
       };
     }
     case DELETE_PROJECTS: {
@@ -80,6 +83,7 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         currentProject: newCurrentProject,
         message: action.payload.message,
         projects: newProjects,
+        error: false,
       };
     }
 
@@ -91,6 +95,7 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         ...state,
         projects: [...newProjects, action.payload.data],
         currentProject: action.payload.data,
+        error: false,
       };
     }
 

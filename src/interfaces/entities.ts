@@ -1,4 +1,4 @@
-type id = number | string;
+type id = string;
 
 interface IResponseDataType {
   token?: string;

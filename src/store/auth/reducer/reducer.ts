@@ -53,6 +53,7 @@ const auth = (state: IState = initialState, action: ActionType) => {
         user: action.payload,
         auth: true,
         loading: false,
+        error: false,
       };
     case LOGOUT:
       return { ...state, user: {}, auth: false };
