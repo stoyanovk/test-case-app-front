@@ -33,14 +33,15 @@ class RequestSource {
       queryParams && this._serializeQuery(queryParams);
 
     if (entityOwnerName) {
-      url += `${this._url}/${entityOwnerName}/${id}/${this._entityName}`;
+      url += `/${entityOwnerName}/${id}/${this._entityName}`;
+
       if (subId) {
         url += `/${subId}`;
       }
       return url;
     }
 
-    url = `${this._url}/${this._entityName}`;
+    url += `/${this._entityName}`;
 
     if (id) {
       url += `/${id}`;
@@ -95,6 +96,7 @@ class RequestSource {
     entityOwnerName?: string;
   }): Promise<IResponse> {
     const url: string = this._buildUrl({ id, queryParams, entityOwnerName });
+
     return this._request({ url, method: METHODS.GET, token });
   }
 

@@ -1,2 +1,3 @@
 import getTaskByIdWatcher from "./getTaskById.saga";
-export { getTaskByIdWatcher };
+import getTasksWatcher from "./getTasks.saga";
+export { getTaskByIdWatcher, getTasksWatcher };

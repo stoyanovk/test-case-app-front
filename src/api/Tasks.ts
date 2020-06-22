@@ -6,7 +6,7 @@ import CONFIG from "config";
 
 interface ITasks extends IRequests {
   createProjectsTasks(data: IRequestsWithData): Promise<IResponse>;
-  getProjectsTasksByQuery(queryParams?: object): Promise<IResponse>;
+  getProjectsTasksById(queryParams?: object): Promise<IResponse>;
 }
 
 class Tasks extends RequestSource implements ITasks {
@@ -22,7 +22,7 @@ class Tasks extends RequestSource implements ITasks {
     });
   }
 
-  public getProjectsTasksByQuery({ id, token }: IRequestsWithId) {
+  public getProjectsTasksById({ id, token }: IRequestsWithId) {
     return this._getByQuery({ id, token, entityOwnerName: "projects" });
   }
 

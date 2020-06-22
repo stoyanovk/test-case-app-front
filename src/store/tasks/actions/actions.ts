@@ -19,8 +19,8 @@ type returnType = {
   payload?: any;
 };
 
-const fetchTasks = (): returnType => {
-  return { type: FETCH_TASKS };
+const fetchTasks = (id: string): returnType => {
+  return { type: FETCH_TASKS, payload: id };
 };
 
 const fetchCurrentTask = (id: string): returnType => {

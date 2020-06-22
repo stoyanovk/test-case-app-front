@@ -9,8 +9,6 @@ import {
   SET_PROJECTS_MESSAGE,
 } from "../actionTypes";
 
-import { DELETE_TASKS, ADD_TASKS, UPDATE_TASKS } from "store/tasks/actionTypes";
-
 import getCurrentProject from "utils/getCurrentEntities";
 import { IProject, IProjects } from "interfaces/entities";
 
@@ -107,20 +105,6 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         ...state,
         message: action.payload,
       };
-    }
-
-    case ADD_TASKS: {
-      if (state.currentProject !== null) {
-        const newCurrentProject = {
-          ...state.currentProject,
-          tasks: [...state.currentProject.tasks, action.payload],
-        };
-        return {
-          ...state,
-          currentProject: newCurrentProject,
-        };
-      }
-      return state;
     }
 
     default:

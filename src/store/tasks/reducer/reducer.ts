@@ -8,10 +8,11 @@ import {
   UPDATE_TASKS,
   SET_TASKS_MESSAGE,
 } from "../actionTypes";
-import getCurrentEntities from "utils/getCurrentEntities";
-import { ITask } from "interfaces/entities";
+
+import { ITask, ITasks } from "interfaces/entities";
 
 interface IState {
+  tasks: ITasks;
   currentTask: ITask | null;
   message: string;
   error: boolean;
@@ -24,6 +25,7 @@ type ActionType = {
 };
 
 const initialState: IState = {
+  tasks: [],
   currentTask: null,
   loading: false,
   message: "",
@@ -38,7 +40,6 @@ const tasks = (state: IState = initialState, action: ActionType): IState => {
         loading: action.payload,
       };
     }
-
     case REQUEST_CURRENT_TASK_SUCCESS: {
       return {
         ...state,
@@ -47,11 +48,37 @@ const tasks = (state: IState = initialState, action: ActionType): IState => {
         error: false,
       };
     }
-
-    case UPDATE_TASKS: {
+    case REQUEST_TASKS_SUCCESS: {
       return {
         ...state,
-        currentTask: action.payload.data,
+        tasks: action.payload,
+        loading: false,
+        error: false,
+      };
+    }
+    case UPDATE_TASKS: {
+      const newTasks = state.tasks.filter(({ id }) => id !== action.payload.id);
+      return {
+        ...state,
+        currentTask: action.payload,
+        tasks: [...newTasks, action.payload],
+        error: false,
+      };
+    }
+    case ADD_TASKS: {
+      return {
+        ...state,
+        tasks: [...state.tasks, action.payload],
+        currentTask: action.payload,
+        error: false,
+      };
+    }
+    case DELETE_TASKS: {
+      const newTasks = state.tasks.filter(({ id }) => id !== action.payload.id);
+      return {
+        ...state,
+        tasks: newTasks,
+        currentTask: null,
         error: false,
       };
     }
