@@ -1,5 +1,6 @@
 import React, { MouseEvent, useState } from "react";
-import { Button, Divider, List, ListItem } from "@material-ui/core/";
+import { useHistory } from "react-router-dom";
+import { Button, Divider, List } from "@material-ui/core/";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { IProjects } from "interfaces/entities";
 import Modal from "components/Modal";
@@ -37,8 +38,12 @@ const Sidebar = ({
 }: SidebarProps) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const { push } = useHistory();
   const handleModalToggle = () => setOpen(!open);
-
+  const onClick = (e: MouseEvent) => {
+    handleClick(e);
+    push("/projects");
+  };
   React.useEffect(() => {
     !error && setOpen(false);
   }, [error, projects]);
@@ -54,14 +59,14 @@ const Sidebar = ({
           {!!projects.length &&
             projects.map(({ id, project_name }) => {
               return (
-                <ListItem
+                <li
                   id={id}
                   className={classes.listItem}
                   key={id}
-                  onClick={handleClick}
+                  onClick={onClick}
                 >
                   {project_name}
-                </ListItem>
+                </li>
               );
             })}
         </List>

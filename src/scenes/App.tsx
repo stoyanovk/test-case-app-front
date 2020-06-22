@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ThemeProvider } from "@material-ui/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -10,7 +11,12 @@ import theme from "styles";
 import "styles/global.css";
 
 function App() {
-  const { auth, loading } = useSelector((state) => authSelector(state));
+  const {
+    auth,
+    loading,
+  }: { auth: boolean; loading: boolean } = useSelector((state) =>
+    authSelector(state)
+  );
   const dispatch = useDispatch();
   React.useEffect(() => {
     !auth && dispatch(getAuthUser());
@@ -22,9 +28,11 @@ function App() {
         {loading ? (
           <CircularProgress size={200} />
         ) : (
-          <Wrapper isAuth={auth}>
-            <Routers />
-          </Wrapper>
+          <Router>
+            <Wrapper isAuth={auth}>
+              <Routers auth={auth} />
+            </Wrapper>
+          </Router>
         )}
       </ThemeProvider>
     </Suspense>

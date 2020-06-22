@@ -3,9 +3,6 @@ import {
   LOGOUT,
   SET_AUTH_MESSAGE,
   SET_AUTH_ERROR,
-  FETCH_LOGIN,
-  FETCH_CONFIRM_REGISTER,
-  GET_AUTH_USER,
 } from "../actionTypes";
 
 interface IState {
@@ -23,7 +20,7 @@ type ActionType = {
 
 const initialState: IState = {
   user: {},
-  loading: false,
+  loading: true,
   auth: false,
   message: "",
   error: false,
@@ -31,22 +28,6 @@ const initialState: IState = {
 
 const auth = (state: IState = initialState, action: ActionType) => {
   switch (action.type) {
-    case FETCH_LOGIN:
-      return {
-        ...state,
-        loading: true,
-      };
-    case FETCH_CONFIRM_REGISTER:
-      return {
-        ...state,
-        loading: true,
-      };
-    case GET_AUTH_USER:
-      return {
-        ...state,
-        loading: true,
-      };
-
     case LOGIN:
       return {
         ...state,

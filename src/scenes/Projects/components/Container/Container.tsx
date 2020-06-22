@@ -39,7 +39,9 @@ export default function Container({
             handleDeleteProjectModalToggle={handleDeleteProjectModalToggle}
           />
         )}
-        {tabValue === 1 && <Tasks tasks={currentProject.tasks} />}
+        {tabValue === 1 && (
+          <Tasks tasks={currentProject.tasks} currentProject={currentProject} />
+        )}
       </div>
     </div>
   );

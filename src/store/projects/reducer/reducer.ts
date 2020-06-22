@@ -8,6 +8,9 @@ import {
   UPDATE_PROJECTS,
   SET_PROJECTS_MESSAGE,
 } from "../actionTypes";
+
+import { DELETE_TASKS, ADD_TASKS, UPDATE_TASKS } from "store/tasks/actionTypes";
+
 import getCurrentProject from "utils/getCurrentEntities";
 import { IProject, IProjects } from "interfaces/entities";
 
@@ -48,7 +51,6 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         error: false,
       };
     }
-
     case REQUEST_CURRENT_PROJECT_SUCCESS: {
       return {
         ...state,
@@ -81,7 +83,6 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         error: false,
       };
     }
-
     case UPDATE_PROJECTS: {
       const newProjects = state.projects.filter(
         ({ id }) => id !== action.payload.id
@@ -93,7 +94,6 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         error: false,
       };
     }
-
     case SET_PROJECT_ERROR: {
       return {
         ...state,
@@ -108,6 +108,21 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         message: action.payload,
       };
     }
+
+    case ADD_TASKS: {
+      if (state.currentProject !== null) {
+        const newCurrentProject = {
+          ...state.currentProject,
+          tasks: [...state.currentProject.tasks, action.payload],
+        };
+        return {
+          ...state,
+          currentProject: newCurrentProject,
+        };
+      }
+      return state;
+    }
+
     default:
       return state;
   }

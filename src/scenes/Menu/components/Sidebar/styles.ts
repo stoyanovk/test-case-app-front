@@ -10,7 +10,10 @@ const useStyles = makeStyles((theme: Theme) => {
       border: "1px solid #fff",
     },
     listItem: {
-      cursor: "pointer",
+      color: theme.palette.text.primary,
+      display: "block",
+      textDecoration: "none",
+      padding: "10px 5px",
       "&:hover": {
         background: theme.palette.secondary.dark,
         color: "#fff",

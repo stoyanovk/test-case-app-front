@@ -9,7 +9,6 @@ type TabProps = {
   handleToggleTabs: (event: React.ChangeEvent<{}>, value: number) => void;
 };
 export default function Tabs({ title, activeTab, handleToggleTabs }: TabProps) {
- 
   return (
     <Paper square>
       <TabsComponent
@@ -21,7 +20,6 @@ export default function Tabs({ title, activeTab, handleToggleTabs }: TabProps) {
       >
         <Tab label={title} />
         <Tab label="Tasks" />
-        <Tab label="Results" />
       </TabsComponent>
     </Paper>
   );
