@@ -26,30 +26,30 @@ const fetchTasks = (): returnType => {
 const fetchCurrentTask = (id: string): returnType => {
   return { type: FETCH_CURRENT_TASK, payload: id };
 };
-const requestProjecsSuccess = (data: any): returnType => {
+const requestTasksSuccess = (data: any): returnType => {
   return { type: REQUEST_TASKS_SUCCESS, payload: data };
 };
-const requestCurrentProjectSuccess = (data: any): returnType => {
+const requestCurrentTaskSuccess = (data: any): returnType => {
   return { type: REQUEST_CURRENT_TASK_SUCCESS, payload: data };
 };
 const fetchAddProjects = (data: any): returnType => {
   return { type: FETCH_ADD_TASKS, payload: data };
 };
-const addProjects = (data: any): returnType => {
+const addTasks = (data: any): returnType => {
   return { type: ADD_TASKS, payload: data };
 };
 
-const updateProjects = (data: any, id: string): returnType => {
+const updateTasks = (data: any, id: string): returnType => {
   return { type: UPDATE_TASKS, payload: { data, id } };
 };
-const deleteProjects = (id: number | string, message: string): returnType => {
+const deleteTasks = (id: number | string, message: string): returnType => {
   return { type: DELETE_TASKS, payload: { id, message } };
 };
-const fetchDeleteProjects = (projectId: number | string): returnType => {
+const fetchDeleteTasks = (projectId: number | string): returnType => {
   return { type: FETCH_DELETE_TASKS, payload: projectId };
 };
 
-const fetchUpdateProjects = (data: any, id: string): returnType => {
+const fetchUpdateTasks = (data: any, id: string): returnType => {
   return { type: FETCH_UPDATE_TASKS, payload: { data, id } };
 };
 const setMessage = (message: string): returnType => {
@@ -68,16 +68,16 @@ const setError = ({
   return { type: SET_TASKS_ERROR, payload: { message, isError } };
 };
 export {
-  fetchProjects,
-  fetchCurrentProject,
-  requestProjectsSuccess,
-  requestCurrentProjectSuccess,
+  fetchTasks,
+  fetchCurrentTask,
+  requestTasksSuccess,
+  requestCurrentTaskSuccess,
   fetchAddProjects,
-  addProjects,
-  updateProjects,
-  deleteProjects,
-  fetchDeleteProjects,
-  fetchUpdateProjects,
+  addTasks,
+  updateTasks,
+  fetchDeleteTasks,
+  fetchUpdateTasks,
+  deleteTasks,
   setMessage,
   setLoading,
   setError,

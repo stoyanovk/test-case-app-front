@@ -8,16 +8,11 @@ import {
   UPDATE_PROJECTS,
   SET_PROJECTS_MESSAGE,
 } from "../actionTypes";
-import getCurrentProject from "utils/getCurrentProject";
+import getCurrentProject from "utils/getCurrentEntities";
+import { IProject, IProjects } from "interfaces/entities";
 
-interface IProject {
-  id: string;
-  project_name: string;
-  description: string;
-  [key: string]: any;
-}
 interface IState {
-  projects: IProject[] | [];
+  projects: IProjects;
   currentProject: IProject | null;
   message: string;
   error: boolean;

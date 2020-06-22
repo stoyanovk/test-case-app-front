@@ -8,10 +8,12 @@ import rootSaga from "./rootSaga";
  */
 import auth from "./auth/reducer";
 import projects from "./projects/reducer";
+import tasks from "./tasks/reducer";
 
 const reducer = combineReducers({
   auth,
   projects,
+  tasks,
 });
 
 const sagaMiddleware = createSagaMiddleware();

@@ -1,24 +1,19 @@
 import {
-  REQUEST_PROJECTS_SUCCESS,
-  SET_PROJECT_ERROR,
-  REQUEST_CURRENT_PROJECT_SUCCESS,
-  ADD_PROJECTS,
-  DELETE_PROJECTS,
-  SET_PROJECTS_LOADING,
-  UPDATE_PROJECTS,
-  SET_PROJECTS_MESSAGE,
+  REQUEST_TASKS_SUCCESS,
+  REQUEST_CURRENT_TASK_SUCCESS,
+  ADD_TASKS,
+  SET_TASKS_ERROR,
+  SET_TASKS_LOADING,
+  DELETE_TASKS,
+  UPDATE_TASKS,
+  SET_TASKS_MESSAGE,
 } from "../actionTypes";
-import getCurrentProject from "utils/getCurrentProject";
+import getCurrentEntities from "utils/getCurrentEntities";
+import { ITasks, ITask } from "interfaces/entities";
 
-interface IProject {
-  id: string;
-  project_name: string;
-  description: string;
-  [key: string]: any;
-}
 interface IState {
-  projects: IProject[] | [];
-  currentProject: IProject | null;
+  tasks: ITasks;
+  currentTask: ITask | null;
   message: string;
   error: boolean;
   loading: boolean;
@@ -30,76 +25,71 @@ type ActionType = {
 };
 
 const initialState: IState = {
-  projects: [],
-  currentProject: null,
+  tasks: [],
+  currentTask: null,
   loading: false,
   message: "",
   error: false,
 };
 
-const projects = (state: IState = initialState, action: ActionType): IState => {
+const tasks = (state: IState = initialState, action: ActionType): IState => {
   switch (action.type) {
-    case SET_PROJECTS_LOADING: {
+    case SET_TASKS_LOADING: {
       return {
         ...state,
         loading: action.payload,
       };
     }
-    case REQUEST_PROJECTS_SUCCESS: {
+    case REQUEST_TASKS_SUCCESS: {
       return {
         ...state,
-        projects: action.payload,
+        tasks: action.payload,
         loading: false,
         error: false,
       };
     }
 
-    case REQUEST_CURRENT_PROJECT_SUCCESS: {
+    case REQUEST_CURRENT_TASK_SUCCESS: {
       return {
         ...state,
-        currentProject: action.payload,
+        currentTask: action.payload,
         loading: false,
         error: false,
       };
     }
-    case ADD_PROJECTS: {
+    case ADD_TASKS: {
       return {
         ...state,
-        projects: [...state.projects, action.payload],
+        tasks: [...state.tasks, action.payload],
         loading: false,
         error: false,
       };
     }
-    case DELETE_PROJECTS: {
-      const newCurrentProject = getCurrentProject(
-        state.projects,
-        action.payload.id
-      );
-      const newProjects = state.projects.filter(
-        ({ id }) => id !== action.payload.id
-      );
+    case DELETE_TASKS: {
+      const newCurrentTask = getCurrentEntities(state.tasks, action.payload.id);
+      const newTasks = state.tasks.filter(({ id }) => id !== action.payload.id);
       return {
         ...state,
-        currentProject: newCurrentProject,
+        currentTask: newCurrentTask,
         message: action.payload.message,
-        projects: newProjects,
+        tasks: newTasks,
         error: false,
       };
     }
 
-    case UPDATE_PROJECTS: {
-      const newProjects = state.projects.filter(
+    case UPDATE_TASKS: {
+      const newProjects = state.tasks.filter(
         ({ id }) => id !== action.payload.id
       );
       return {
         ...state,
-        projects: [...newProjects, action.payload.data],
-        currentProject: action.payload.data,
+        tasks: [...newProjects, action.payload.data],
+        currentTask: action.payload.data,
         error: false,
       };
     }
 
-    case SET_PROJECT_ERROR: {
+    case SET_TASKS_ERROR: {
       return {
         ...state,
         error: action.payload.isError,
@@ -107,7 +97,7 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         loading: false,
       };
     }
-    case SET_PROJECTS_MESSAGE: {
+    case SET_TASKS_MESSAGE: {
       return {
         ...state,
         message: action.payload,
@@ -117,4 +107,4 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
       return state;
   }
 };
-export default projects;
+export default tasks;

@@ -1,2 +1,2 @@
-import projects from "./reducer";
-export default projects;
+import tasks from "./reducer";
+export default tasks;

@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme: Theme) =>
         color: "#fff",
       },
     },
+    paper: { minHeight: "calc(100% - 48px)" },
     icon: {
       marginLeft: 16,
       fontSize: 24,

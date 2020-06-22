@@ -6,13 +6,13 @@ import Modal from "components/Modal";
 import DeleteModalLayout from "components/DeleteModalLayout";
 import ResponseModalLayout from "components/ResponseModalLayout";
 import SimpleForm from "components/SimpleForm";
+import Container from "scenes/Home/components/Container";
 
 import {
   fetchUpdateProjects,
   fetchDeleteProjects,
   setMessage,
 } from "store/projects/actions";
-import Project from "scenes/Home/components/Project";
 
 const initialState = {
   updateModal: false,
@@ -61,12 +61,13 @@ const Home = () => {
       {currentProject && (
         <>
           <Box height="80%" mt={3}>
-            <Project
+            <Container
               currentProject={currentProject}
               handleUpdateProjectModalToggle={handleModalToggle("updateModal")}
               handleDeleteProjectModalToggle={handleModalToggle("deleteModal")}
             />
           </Box>
+
           <Modal
             handleClose={handleModalToggle("updateModal")}
             open={open.updateModal}

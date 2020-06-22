@@ -21,6 +21,7 @@ export default function Tabs({ title, activeTab, handleToggleTabs }: TabProps) {
       >
         <Tab label={title} />
         <Tab label="Tasks" />
+        <Tab label="Results" />
       </TabsComponent>
     </Paper>
   );

@@ -33,6 +33,8 @@ export interface ITask {
   id: id;
   task_name: string;
   description: string;
+  comments?: IComments;
+  results?: IResults;
   [key: string]: any;
 }
 
