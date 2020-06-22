@@ -55,9 +55,9 @@ const SignIn = () => {
       const resultValue: string =
         type === "checkbox" ? getCheckboxValue(checked) : value;
       changeState({ name, value: resultValue });
-      resetError();
+      error && resetError();
     },
-    [changeState, resetError]
+    [changeState, error, resetError]
   );
 
   const handleSubmit = () => {

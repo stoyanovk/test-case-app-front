@@ -6,7 +6,7 @@ import Modal from "components/Modal";
 import SimpleForm from "components/SimpleForm";
 import Avatar from "../Avatar";
 import Navbar from "../Navbar";
-
+import { createProjectStateType } from "scenes/Menu/Menu";
 import useStyles from "./styles";
 
 type userType = {
@@ -15,7 +15,7 @@ type userType = {
 };
 
 type SidebarProps = {
-  createProjectState: {};
+  createProjectState: createProjectStateType;
   projects: IProjects;
   user: userType;
   mobileOpen: boolean;

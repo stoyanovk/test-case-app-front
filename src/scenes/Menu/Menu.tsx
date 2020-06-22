@@ -12,10 +12,20 @@ import { getUserProjects } from "store/projects/selectors";
 
 import useStyles from "./styles";
 
+export type createProjectStateType = {
+  project_name: string;
+  description: string;
+};
+
+const createProjectState: createProjectStateType = {
+  project_name: "",
+  description: "",
+};
+
 export default function Menu() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { user, projects, error } = useSelector((state) =>
+  const { user, projects, error, currentProject } = useSelector((state) =>
     getUserProjects(state)
   );
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -25,7 +35,10 @@ export default function Menu() {
   };
 
   const handleClick = (e: MouseEvent) => {
-    dispatch(fetchCurrentProject(e.currentTarget.id));
+    //I check the id on the id of the current project, so as not to resubmit the request
+    if (+e.currentTarget.id !== +currentProject?.id) {
+      dispatch(fetchCurrentProject(e.currentTarget.id));
+    }
   };
 
   const handleSubmit = (data: { [key: string]: string }) => {
@@ -54,7 +67,7 @@ export default function Menu() {
         mobileOpen={mobileOpen}
         error={error}
         onSubmit={handleSubmit}
-        createProjectState={{}}
+        createProjectState={createProjectState}
       />
     </div>
   );

@@ -3,16 +3,29 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       width: "100%",
-      maxWidth: 360,
       backgroundColor: theme.palette.background.paper,
     },
     nested: {
       paddingLeft: theme.spacing(4),
     },
     listItem: {
+      padding: "10px 15px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
       "&:hover": {
-        backgroundColor: theme.palette.primary.main,
+        backgroundColor: theme.palette.secondary.dark,
         color: "#fff",
+      },
+    },
+    icon: {
+      marginLeft: 16,
+      fontSize: 24,
+      cursor: "pointer",
+      transition: "0.3s ease-in-out",
+      textDecoration: "none",
+      "&:hover": {
+        transform: "scale(1.3)",
       },
     },
   })

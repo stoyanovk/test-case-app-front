@@ -11,14 +11,12 @@ type ProjectProps = {
   currentProject: IProject;
   handleUpdateProjectModalToggle: () => void;
   handleDeleteProjectModalToggle: () => void;
-  handleCreateTaskModalToggle: () => void;
 };
 
 export default function Project({
   currentProject,
   handleUpdateProjectModalToggle,
   handleDeleteProjectModalToggle,
-  handleCreateTaskModalToggle,
 }: ProjectProps) {
   const [tabValue, setTabValue] = React.useState(0);
 
@@ -43,28 +41,6 @@ export default function Project({
                 <HTMLContent description={currentProject.description} />
               </Box>
             </Paper>
-            <ActionBar>
-              <>
-                <Box px={1}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleUpdateProjectModalToggle}
-                  >
-                    update
-                  </Button>
-                </Box>
-                <Box px={1}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleDeleteProjectModalToggle}
-                  >
-                    delete
-                  </Button>
-                </Box>
-              </>
-            </ActionBar>
           </>
         ) : (
           <>
@@ -73,17 +49,30 @@ export default function Project({
                 <Tasks tasks={currentProject.tasks} />
               </Box>
             </Paper>
-            <ActionBar>
+          </>
+        )}
+        <ActionBar>
+          <>
+            <Box px={1}>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleCreateTaskModalToggle}
+                onClick={handleUpdateProjectModalToggle}
               >
-                create task
+                update
               </Button>
-            </ActionBar>
+            </Box>
+            <Box px={1}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleDeleteProjectModalToggle}
+              >
+                delete
+              </Button>
+            </Box>
           </>
-        )}
+        </ActionBar>
       </div>
     </div>
   );

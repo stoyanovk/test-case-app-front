@@ -20,7 +20,7 @@ const initialState = {
   responseModal: false,
 };
 
-const Home = () => {
+const TaskPage = () => {
   const { currentProject, projects, error, message } = useSelector((state) =>
     getProjectsData(state)
   );
@@ -56,7 +56,7 @@ const Home = () => {
 
   return (
     <>
-      <h1> Projects </h1>
+      <h1>  </h1>
 
       {currentProject && (
         <>

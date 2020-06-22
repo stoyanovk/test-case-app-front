@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme: Theme) => {
     listItem: {
       cursor: "pointer",
       "&:hover": {
-        background: theme.palette.primary.main,
+        background: theme.palette.secondary.dark,
         color: "#fff",
       },
     },

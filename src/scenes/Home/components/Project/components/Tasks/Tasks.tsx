@@ -1,6 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { List, Typography } from "@material-ui/core";
-import ListItem from "@material-ui/core/ListItem";
 import { ITasks } from "interfaces/entities";
 import useStyles from "./styles";
 
@@ -18,9 +18,11 @@ export default function Tasks({ tasks }: { tasks: ITasks }) {
     <List className={classes.root}>
       {tasks.map((task) => {
         return (
-          <ListItem className={classes.listItem} key={task?.id}>
-            {task?.task_name}
-          </ListItem>
+          <li key={task?.id}>
+            <Link className={classes.listItem} to={`/tasks/${task?.id}`}>
+              {task?.task_name}
+            </Link>
+          </li>
         );
       })}
     </List>
