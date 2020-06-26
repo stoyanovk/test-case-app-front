@@ -1,14 +1,27 @@
 import RequestSource from "lib/RequestSource";
-import { IResponse } from "interfaces/entities";
-import { IRequests, id } from "lib/interfaces";
-import { IRequestsWithData, IRequestsWithId } from "./interfaces";
+import { IResponse, IMessage } from "interfaces/responses";
+import {
+  IRequests,
+  IRequestsWithData,
+  IRequestsWithId,
+} from "interfaces/requests";
+import { id } from "interfaces/helpers";
+import { IComment, IComments } from "interfaces/entities";
 import CONFIG from "config";
 
-interface IComments extends IRequests {
-  createTasksComments(data: IRequestsWithData): Promise<IResponse>;
-  createResultsComments(data: IRequestsWithData): Promise<IResponse>;
-  getResultsCommentsByQuery(data: IRequestsWithId): Promise<IResponse>;
-  getTasksCommentsByQuery(data: IRequestsWithId): Promise<IResponse>;
+interface ICommentsRequests extends IRequests<IComment, IMessage> {
+  createTasksComments(
+    data: IRequestsWithData
+  ): Promise<IResponse<IComment | IMessage>>;
+  createResultsComments(
+    data: IRequestsWithData
+  ): Promise<IResponse<IComment | IMessage>>;
+  getResultsCommentsByQuery(
+    data: IRequestsWithId
+  ): Promise<IResponse<IComments | IMessage>>;
+  getTasksCommentsByQuery(
+    data: IRequestsWithId
+  ): Promise<IResponse<IComments | IMessage>>;
 }
 
 enum ENTITY_OWNER_NAMES {
@@ -16,7 +29,8 @@ enum ENTITY_OWNER_NAMES {
   RESULTS = "results",
 }
 
-class Comments extends RequestSource implements IComments {
+class Comments extends RequestSource<IComment, IComments, IMessage>
+  implements ICommentsRequests {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "comments" });
   }

@@ -1,7 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import { FETCH_CURRENT_PROJECT } from "../actionTypes";
 import { requestCurrentProjectSuccess, setError } from "../actions";
-import { requestTasksSuccess } from "store/tasks/actions";
 import { getLocalData, setLocalData } from "lib/localStorage";
 import { Projects } from "api";
 const projects = new Projects();
@@ -28,9 +27,6 @@ function* getProjectByIdSaga(action: actionType) {
       } = response;
       setLocalData(responseToken);
       yield put(requestCurrentProjectSuccess(project));
-      if (project.tasks.length) {
-        yield put(requestTasksSuccess(project.tasks));
-      }
     }
     if (response.status === "error") {
       throw new Error(response.data.message);

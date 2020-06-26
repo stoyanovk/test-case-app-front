@@ -10,7 +10,7 @@ type actionType = {
   payload: any;
 };
 
-function* getProjectsSaga(action: actionType) {
+function* getTasksSaga(action: actionType) {
   try {
     // из-за неизвестных особенностей redux saga я теряю контекст
     // поэтому приходится байндить функцию
@@ -27,7 +27,9 @@ function* getProjectsSaga(action: actionType) {
 
       setLocalData(responseToken);
       yield put(requestTasksSuccess(tasks));
+      console.log(response);
     }
+
     if (response.status === "error") {
       throw new Error(response.data.message);
     }
@@ -37,7 +39,7 @@ function* getProjectsSaga(action: actionType) {
 }
 
 function* getTasksWatcher() {
-  yield takeLatest(FETCH_TASKS, getProjectsSaga);
+  yield takeLatest(FETCH_TASKS, getTasksSaga);
 }
 
 export default getTasksWatcher;

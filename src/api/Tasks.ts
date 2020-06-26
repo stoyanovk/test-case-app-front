@@ -1,15 +1,25 @@
 import RequestSource from "lib/RequestSource";
-import { IRequests } from "lib/interfaces";
-import { IResponse } from "interfaces/entities";
-import { IRequestsWithData, IRequestsWithId } from "./interfaces";
+import {
+  IRequests,
+  IRequestsWithData,
+  IRequestsWithId,
+} from "interfaces/requests";
+import { IResponse, IMessage } from "interfaces/responses";
+import { ITasks, ITask } from "interfaces/entities";
+
 import CONFIG from "config";
 
-interface ITasks extends IRequests {
-  createProjectsTasks(data: IRequestsWithData): Promise<IResponse>;
-  getProjectsTasksById(queryParams?: object): Promise<IResponse>;
+interface ITasksRequests extends IRequests<ITask, IMessage> {
+  createProjectsTasks(
+    data: IRequestsWithData
+  ): Promise<IResponse<ITask | IMessage>>;
+  getProjectsTasksById(
+    queryParams?: object
+  ): Promise<IResponse<ITasks | IMessage>>;
 }
 
-class Tasks extends RequestSource implements ITasks {
+class Tasks extends RequestSource<ITask, ITasks, IMessage>
+  implements ITasksRequests {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "tasks" });
   }

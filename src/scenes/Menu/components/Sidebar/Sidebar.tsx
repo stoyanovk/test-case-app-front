@@ -2,7 +2,7 @@ import React, { MouseEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Divider, List } from "@material-ui/core/";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import { IProjects } from "interfaces/entities";
+import { IProjects, IUser } from "interfaces/entities";
 import Modal from "components/Modal";
 import SimpleForm from "components/SimpleForm";
 import Avatar from "../Avatar";
@@ -10,15 +10,10 @@ import Navbar from "../Navbar";
 import { createProjectStateType } from "scenes/Menu/Menu";
 import useStyles from "./styles";
 
-type userType = {
-  user_name: string;
-  email: string;
-};
-
 type SidebarProps = {
   createProjectState: createProjectStateType;
   projects: IProjects;
-  user: userType;
+  user: IUser | null;
   mobileOpen: boolean;
   error: boolean | null;
   onSubmit: (data: { [key: string]: string }) => void;
@@ -42,18 +37,20 @@ const Sidebar = ({
   const handleModalToggle = () => setOpen(!open);
   const onClick = (e: MouseEvent) => {
     handleClick(e);
-    push("/projects");
+    push(`/projects/${e.currentTarget.id}`);
   };
   React.useEffect(() => {
     !error && setOpen(false);
   }, [error, projects]);
-
+  if (!user) {
+    return <div>oops!</div>;
+  }
   return (
     <>
       <Navbar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle}>
         <div className={classes.toolbar} />
         <Divider />
-        <Avatar name={user.user_name} email={user.email} />
+        <Avatar name={user?.user_name} email={user?.email} />
         <Divider />
         <List className={classes.list}>
           {!!projects.length &&

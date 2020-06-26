@@ -1,24 +1,11 @@
-type id = string;
-
-interface IResponseDataType {
-  token?: string;
-  [key: string]: any;
-}
-
-export interface IResponse {
-  status: number;
-  data: IResponseDataType;
-}
-
-// меня смущает однообразность этих интерфейсом,
-// но я не смог сделать универсальный
-// базовый интерфейс от которого бы они наследовались
+import { id } from "./helpers";
 
 export interface IUser {
   id: id;
   user_name: string;
   email: string;
-  [key: string]: any;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IProject {
@@ -26,7 +13,8 @@ export interface IProject {
   project_name: string;
   description: string;
   tasks: ITasks;
-  [key: string]: any;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ITask {
@@ -35,13 +23,15 @@ export interface ITask {
   description: string;
   comments?: IComments;
   results?: IResults;
-  [key: string]: any;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IComment {
   id: id;
   description: string;
-  [key: string]: any;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IResult {
@@ -49,10 +39,12 @@ export interface IResult {
   result: boolean;
   task_id: id;
   owner_id: id;
-  [key: string]: any;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type IProjects = IProject[];
+export type IUsers = IUser[];
 export type ITasks = ITask[];
 export type IComments = IComment[];
 export type IResults = IResult[];

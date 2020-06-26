@@ -29,7 +29,7 @@ const initialState: SignUpType = {
 export default function SignUp() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { error, message } = useSelector((state) => authSelector(state));
+  const { error, message } = useSelector(authSelector);
   const {
     errors,
     formState,

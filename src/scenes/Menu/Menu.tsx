@@ -25,8 +25,8 @@ const createProjectState: createProjectStateType = {
 export default function Menu() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { user, projects, error, currentProject } = useSelector((state) =>
-    getUserProjects(state)
+  const { user, projects, error, currentProject } = useSelector(
+    getUserProjects
   );
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -36,7 +36,11 @@ export default function Menu() {
 
   const handleClick = (e: MouseEvent) => {
     //I check the id on the id of the current project, so as not to resubmit the request
-    if (+e.currentTarget.id !== +currentProject?.id) {
+
+    if (currentProject && +e.currentTarget.id !== +currentProject.id) {
+      return dispatch(fetchCurrentProject(e.currentTarget.id));
+    }
+    if (!currentProject) {
       dispatch(fetchCurrentProject(e.currentTarget.id));
     }
   };

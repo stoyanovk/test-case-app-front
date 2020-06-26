@@ -1,15 +1,22 @@
 import RequestSource from "lib/RequestSource";
-import { IRequests } from "lib/interfaces";
-import { IParams, IRequestsWithData, IRequestsWithId } from "./interfaces";
-import { IResponse } from "interfaces/entities";
+import {
+  IRequests,
+  IParams,
+  IRequestsWithData,
+  IRequestsWithId,
+} from "interfaces/requests";
+
+import { IResponse, IMessage } from "interfaces/responses";
+import { IProjects, IProject } from "interfaces/entities";
 import CONFIG from "config";
 
-interface IProjects extends IRequests {
-  create(data: object): Promise<IResponse>;
-  getByQuery(params: IParams): Promise<IResponse>;
+interface IProjectsRequests extends IRequests<IProject, IMessage> {
+  create(data: object): Promise<IResponse<IProject | IMessage>>;
+  getByQuery(params: IParams): Promise<IResponse<IProjects | IMessage>>;
 }
 
-class Projects extends RequestSource implements IProjects {
+class Projects extends RequestSource<IProject, IProjects, IMessage>
+  implements IProjectsRequests {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "projects" });
   }

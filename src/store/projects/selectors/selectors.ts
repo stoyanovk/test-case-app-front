@@ -1,11 +1,12 @@
 import { createSelector } from "reselect";
+import { IStore } from "interfaces/store";
 import { getUser } from "store/auth/selectors";
-import { IProject } from "interfaces/entities";
+import { IProject, IProjects } from "interfaces/entities";
 
-const getProjectsMessage = (state: any): string => state.projects.message;
-const getAllProjects = (state: any): [any] => state.projects.projects;
-const getError = (state: any): boolean | null => state.projects.error;
-const getCurrentProject = (state: any): IProject =>
+const getProjectsMessage = (state: IStore): string => state.projects.message;
+const getAllProjects = (state: IStore): IProjects => state.projects.projects;
+const getError = (state: IStore): boolean => state.projects.error;
+const getCurrentProject = (state: IStore): IProject | null =>
   state.projects.currentProject;
 
 const getUserProjects = createSelector(

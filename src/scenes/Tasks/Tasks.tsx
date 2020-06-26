@@ -8,16 +8,18 @@ import { fetchCurrentTask, fetchTasks } from "store/tasks/actions";
 
 export default function Tasks() {
   const { project_id, task_id } = useParams();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { tasks, error, currentTask, message } = useSelector((state) =>
-    getUserTasks(state)
-  );
+
+  const { tasks, error, currentTask } = useSelector(getUserTasks);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    !tasks.length && dispatch(fetchTasks(project_id));
-    dispatch(fetchCurrentTask(task_id));
-  }, [dispatch, project_id, task_id, tasks]);
+    if (!tasks.length) {
+      dispatch(fetchTasks(project_id));
+    }
+    if (!!currentTask) {
+      dispatch(fetchCurrentTask(task_id));
+    }
+  }, [currentTask, dispatch, project_id, task_id, tasks]);
 
   if (error) {
     return <h1>Something went wrong</h1>;
@@ -25,7 +27,7 @@ export default function Tasks() {
 
   return (
     <>
-      <h1>Tasks</h1>
+      <h1>Tasks11</h1>
       {!tasks.length && !currentTask ? (
         <CircularProgress size={200} />
       ) : (

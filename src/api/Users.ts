@@ -1,14 +1,20 @@
 import RequestSource from "lib/RequestSource";
-import { IRequests } from "lib/interfaces";
-import { IParams, IRequestsWithData, IRequestsWithId } from "./interfaces";
-import { IResponse } from "interfaces/entities";
+import {
+  IRequests,
+  IParams,
+  IRequestsWithData,
+  IRequestsWithId,
+} from "interfaces/requests";
+import { IResponse, IMessage } from "interfaces/responses";
+import { IUser,IUsers } from "interfaces/entities";
 import CONFIG from "config";
 
-interface IUsers extends IRequests {
-  getByQuery(queryParams?: object): Promise<IResponse>;
+interface IUsersRequests extends IRequests<IUser, IMessage> {
+  getByQuery(queryParams?: object): Promise<IResponse<IUsers | IMessage>>;
 }
 
-class Users extends RequestSource implements IUsers {
+class Users extends RequestSource<IUser, IUsers, IMessage>
+  implements IUsersRequests {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "users" });
   }

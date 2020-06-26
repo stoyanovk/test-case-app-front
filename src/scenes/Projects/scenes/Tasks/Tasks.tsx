@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { List, Typography, Paper, Box } from "@material-ui/core";
-
-import { ITasks, IProject } from "interfaces/entities";
+import { getCurrentProjectTasks } from "store/tasks/selectors";
+import { fetchTasks } from "store/tasks/actions";
 import useStyles from "./styles";
 
-export default function Tasks({
-  currentProject,
-  tasks,
-}: {
-  tasks: ITasks;
-  currentProject: IProject;
-}) {
+export default function Tasks() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const { tasks, currentProject } = useSelector(getCurrentProjectTasks);
+
+  useEffect(() => {
+    if (!tasks.length && currentProject) {
+      dispatch(fetchTasks(currentProject.id));
+    }
+  }, [currentProject, dispatch, tasks]);
 
   return (
     <>
@@ -29,7 +32,9 @@ export default function Tasks({
                   <li key={task?.id}>
                     <Link
                       className={classes.listItem}
-                      to={`/projects/${currentProject.id}/tasks/${task?.id}`}
+                      to={`/projects/${
+                        currentProject && currentProject.id
+                      }/tasks/${task?.id}`}
                     >
                       {task?.task_name}
                     </Link>

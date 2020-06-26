@@ -11,11 +11,8 @@ import theme from "styles";
 import "styles/global.css";
 
 function App() {
-  const {
-    auth,
-    loading,
-  }: { auth: boolean; loading: boolean } = useSelector((state) =>
-    authSelector(state)
+  const { auth, loading }: { auth: boolean; loading: boolean } = useSelector(
+    authSelector
   );
   const dispatch = useDispatch();
   React.useEffect(() => {

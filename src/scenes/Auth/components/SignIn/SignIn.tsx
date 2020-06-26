@@ -30,7 +30,7 @@ const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { error, auth, message } = useSelector((state) => authSelector(state));
+  const { error, auth, message } = useSelector(authSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {

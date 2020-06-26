@@ -24,6 +24,7 @@ function* loginSaga(action: actionType) {
       } = response;
       setLocalData(token);
       yield put(login(user));
+
     }
     if (response.status === "error") {
       throw new Error(response.data.message);

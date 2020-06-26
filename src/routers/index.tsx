@@ -22,7 +22,7 @@ export default ({ auth }: { auth: boolean }) => {
       <Route component={Auth} path="/auth/:subpage" />
       <Route
         render={() => (auth ? <Projects /> : <Redirect to="/auth/sign-in" />)}
-        path="/projects"
+        path="/projects/:project_id"
         exact
       />
 

@@ -1,15 +1,18 @@
 import { stringify } from "query-string";
-import { IResponse } from "interfaces/entities";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { id } from "interfaces/helpers";
+import { IResponse } from "interfaces/responses";
 import {
   IQueryConstructor,
   IBuildUrl,
   IRequest,
   METHODS,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  id,
-} from "./interfaces";
+} from "interfaces/requests";
 
-class RequestSource {
+//C - create response interface
+//Q - getByQuery response interface
+//M - message or Error response interface
+class RequestSource<C, Q, M> {
   protected _url: string;
   protected _entityName: string;
 
@@ -79,7 +82,7 @@ class RequestSource {
     id?: id;
     entityOwnerName?: string;
     token: string;
-  }): Promise<IResponse> {
+  }): Promise<IResponse<C | M>> {
     const url: string = this._buildUrl({ id, entityOwnerName });
     return this._request({ url, data, method: METHODS.POST, token });
   }
@@ -94,7 +97,7 @@ class RequestSource {
     queryParams?: object;
     token: string;
     entityOwnerName?: string;
-  }): Promise<IResponse> {
+  }): Promise<IResponse<Q | M>> {
     const url: string = this._buildUrl({ id, queryParams, entityOwnerName });
 
     return this._request({ url, method: METHODS.GET, token });
@@ -108,7 +111,7 @@ class RequestSource {
     id: id;
     data: object;
     token: string;
-  }): Promise<IResponse> {
+  }): Promise<IResponse<C | M>> {
     const url: string = this._buildUrl({ id });
     return this._request({ url, data, method: METHODS.PUT, token });
   }
@@ -119,7 +122,7 @@ class RequestSource {
   }: {
     id: id;
     token?: string;
-  }): Promise<IResponse> {
+  }): Promise<IResponse<C | M>> {
     const url: string = this._buildUrl({ id });
     return this._request({ url, method: METHODS.GET, token });
   }
@@ -134,7 +137,7 @@ class RequestSource {
     subId?: id;
     token: string;
     entityOwnerName?: string;
-  }): Promise<IResponse> {
+  }): Promise<IResponse<M>> {
     const url: string = this._buildUrl({ entityOwnerName, id, subId });
     return this._request({ url, method: METHODS.DELETE, token });
   }

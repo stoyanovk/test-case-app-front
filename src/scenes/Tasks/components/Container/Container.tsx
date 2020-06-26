@@ -1,39 +1,49 @@
 import React from "react";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+import { useParams, NavLink } from "react-router-dom";
+import { Divider, Paper, List, ListItem, Box } from "@material-ui/core";
+
 import HTMLContent from "components/HTMLContent";
 import { ITasks } from "interfaces/entities";
 import useStyles from "./styles";
 
-export default function Container({ tasks }: { tasks: ITasks }) {
+function Container({ tasks }: { tasks: ITasks }) {
   const classes = useStyles();
+  const {
+    task_id,
+    project_id,
+  }: { task_id: string; project_id: string } = useParams();
 
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
+  const currentTask = tasks.find(({ id }) => {
+    return task_id === id.toString();
+  });
 
   return (
     <div className={classes.root}>
-      <Tabs
-        orientation="vertical"
-        value={value}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        className={classes.tabs}
-      >
-        {tasks.map(({ id, task_name }) => (
-          <Tab label={task_name} id={id} key={id} />
-        ))}
-      </Tabs>
-      {tasks.map(({ id, description }, i) => {
-        console.log(value, i);
-        console.log(description);
-        return (
-          value === i && <HTMLContent key={id} description={description} />
-        );
-      })}
+      <Paper className={classes.paper}>
+        <Box display="flex">
+          <List className={classes.sidebar}>
+            {tasks.map(({ id, task_name }) => (
+              <NavLink
+                key={id}
+                className={classes.link}
+                activeClassName={classes.active}
+                to={`/projects/${project_id}/tasks/${id}`}
+              >
+                <ListItem id={id} key={id}>
+                  {task_name}
+                </ListItem>
+              </NavLink>
+            ))}
+          </List>
+          <Divider orientation="vertical" flexItem />
+          <Box flex="1 0 0 " p={2}>
+            {currentTask && (
+              <HTMLContent description={currentTask.description} />
+            )}
+          </Box>
+        </Box>
+      </Paper>
     </div>
   );
 }
+export default React.memo(Container);

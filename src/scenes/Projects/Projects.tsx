@@ -21,8 +21,8 @@ const initialState = {
 };
 
 const Projects = () => {
-  const { currentProject, projects, error, message } = useSelector((state) =>
-    getProjectsData(state)
+  const { currentProject, projects, error, message } = useSelector(
+    getProjectsData
   );
   const dispatch = useDispatch();
   const [open, setOpen] = useState(initialState);
@@ -108,4 +108,5 @@ const Projects = () => {
     </>
   );
 };
+
 export default Projects;

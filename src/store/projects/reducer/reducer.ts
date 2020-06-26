@@ -10,22 +10,14 @@ import {
 } from "../actionTypes";
 
 import getCurrentProject from "utils/getCurrentEntities";
-import { IProject, IProjects } from "interfaces/entities";
-
-interface IState {
-  projects: IProjects;
-  currentProject: IProject | null;
-  message: string;
-  error: boolean;
-  loading: boolean;
-}
+import { IProjectStore } from "interfaces/store";
 
 type ActionType = {
   type: string;
   payload: any;
 };
 
-const initialState: IState = {
+const initialState: IProjectStore = {
   projects: [],
   currentProject: null,
   loading: false,
@@ -33,7 +25,10 @@ const initialState: IState = {
   error: false,
 };
 
-const projects = (state: IState = initialState, action: ActionType): IState => {
+const projects = (
+  state: IProjectStore = initialState,
+  action: ActionType
+): IProjectStore => {
   switch (action.type) {
     case SET_PROJECTS_LOADING: {
       return {

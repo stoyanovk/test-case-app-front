@@ -1,7 +1,7 @@
 import React from "react";
 import { IProject } from "interfaces/entities";
 import Tabs from "../Tabs";
-import Tasks from "../Tasks";
+import Tasks from "../../scenes/Tasks";
 import Project from "../Project";
 import useStyles from "./styles";
 
@@ -39,9 +39,7 @@ export default function Container({
             handleDeleteProjectModalToggle={handleDeleteProjectModalToggle}
           />
         )}
-        {tabValue === 1 && (
-          <Tasks tasks={currentProject.tasks} currentProject={currentProject} />
-        )}
+        {tabValue === 1 && <Tasks />}
       </div>
     </div>
   );

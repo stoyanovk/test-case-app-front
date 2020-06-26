@@ -4,29 +4,25 @@ import {
   SET_AUTH_MESSAGE,
   SET_AUTH_ERROR,
 } from "../actionTypes";
-
-interface IState {
-  user: object;
-  auth: boolean;
-  message: string;
-  error: boolean;
-  loading: boolean;
-}
+import { IAuthStore } from "interfaces/store";
 
 type ActionType = {
   type: string;
   payload: any;
 };
 
-const initialState: IState = {
-  user: {},
+const initialState: IAuthStore = {
+  user: null,
   loading: true,
   auth: false,
   message: "",
   error: false,
 };
 
-const auth = (state: IState = initialState, action: ActionType) => {
+const auth = (
+  state: IAuthStore = initialState,
+  action: ActionType
+): IAuthStore => {
   switch (action.type) {
     case LOGIN:
       return {
@@ -37,7 +33,7 @@ const auth = (state: IState = initialState, action: ActionType) => {
         error: false,
       };
     case LOGOUT:
-      return { ...state, user: {}, auth: false };
+      return { ...state, user: null, auth: false };
     case SET_AUTH_MESSAGE:
       return { ...state, message: action.payload, loading: false };
     case SET_AUTH_ERROR:

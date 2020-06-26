@@ -1,14 +1,15 @@
 import { createSelector } from "reselect";
-
+import { getCurrentProject } from "store/projects/selectors";
+import { IStore } from "interfaces/store";
 import { ITask, ITasks } from "interfaces/entities";
 
-const getProjectsTasks = (state: any): ITasks => state.tasks.tasks;
-const getError = (state: any): boolean | null => state.tasks.error;
-const getCurrentTask = (state: any): ITask => state.tasks.currentTask;
-const getTasksMessage = (state: any): string => state.tasks.message;
+const getTasks = (state: IStore): ITasks => state.tasks.tasks;
+const getError = (state: IStore): boolean => state.tasks.error;
+const getCurrentTask = (state: IStore): ITask | null => state.tasks.currentTask;
+const getTasksMessage = (state: IStore): string => state.tasks.message;
 
 const getUserTasks = createSelector(
-  [getProjectsTasks, getError, getCurrentTask, getTasksMessage],
+  [getTasks, getError, getCurrentTask, getTasksMessage],
   (tasks, error, currentTask, message) => ({
     tasks,
     error,
@@ -16,5 +17,14 @@ const getUserTasks = createSelector(
     message,
   })
 );
-
-export { getUserTasks };
+//плохое название
+const getCurrentProjectTasks = createSelector(
+  [getCurrentProject, getTasks, getError, getTasksMessage],
+  (currentProject, tasks, error, message) => ({
+    currentProject,
+    tasks,
+    error,
+    message,
+  })
+);
+export { getUserTasks, getTasks, getCurrentProjectTasks };

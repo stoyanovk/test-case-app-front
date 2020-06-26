@@ -9,22 +9,14 @@ import {
   SET_TASKS_MESSAGE,
 } from "../actionTypes";
 
-import { ITask, ITasks } from "interfaces/entities";
-
-interface IState {
-  tasks: ITasks;
-  currentTask: ITask | null;
-  message: string;
-  error: boolean;
-  loading: boolean;
-}
+import { ITasksStore } from "interfaces/store";
 
 type ActionType = {
   type: string;
   payload: any;
 };
 
-const initialState: IState = {
+const initialState: ITasksStore = {
   tasks: [],
   currentTask: null,
   loading: false,
@@ -32,7 +24,10 @@ const initialState: IState = {
   error: false,
 };
 
-const tasks = (state: IState = initialState, action: ActionType): IState => {
+const tasks = (
+  state: ITasksStore = initialState,
+  action: ActionType
+): ITasksStore => {
   switch (action.type) {
     case SET_TASKS_LOADING: {
       return {

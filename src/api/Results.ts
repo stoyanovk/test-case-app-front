@@ -1,15 +1,24 @@
 import RequestSource from "lib/RequestSource";
-import { IRequests } from "lib/interfaces";
-import { IResponse } from "interfaces/entities";
-import { IRequestsWithData, IRequestsWithId } from "./interfaces";
+import {
+  IRequests,
+  IRequestsWithData,
+  IRequestsWithId,
+} from "interfaces/requests";
+import { IResponse, IMessage } from "interfaces/responses";
+import { IResults, IResult } from "interfaces/entities";
 import CONFIG from "config";
 
-interface IResults extends IRequests {
-  createTasksResults(data: IRequestsWithData): Promise<IResponse>;
-  getTasksResultsByQuery(params: IRequestsWithId): Promise<IResponse>;
+interface IResultsRequests extends IRequests<IResult, IMessage> {
+  createTasksResults(
+    data: IRequestsWithData
+  ): Promise<IResponse<IResult | IMessage>>;
+  getTasksResultsByQuery(
+    params: IRequestsWithId
+  ): Promise<IResponse<IResults | IMessage>>;
 }
 
-class Results extends RequestSource implements IResults {
+class Results extends RequestSource<IResult, IResults, IMessage>
+  implements IResultsRequests {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "results" });
   }
