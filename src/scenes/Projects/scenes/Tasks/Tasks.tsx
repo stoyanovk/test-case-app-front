@@ -6,16 +6,16 @@ import { getCurrentProjectTasks } from "store/tasks/selectors";
 import { fetchTasks } from "store/tasks/actions";
 import useStyles from "./styles";
 
-export default function Tasks() {
+function Tasks() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { tasks, currentProject } = useSelector(getCurrentProjectTasks);
 
   useEffect(() => {
-    if (!tasks.length && currentProject) {
+    if (currentProject) {
       dispatch(fetchTasks(currentProject.id));
     }
-  }, [currentProject, dispatch, tasks]);
+  }, [currentProject, dispatch]);
 
   return (
     <>
@@ -48,3 +48,4 @@ export default function Tasks() {
     </>
   );
 }
+export default React.memo(Tasks);
