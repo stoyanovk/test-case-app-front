@@ -24,7 +24,7 @@ export default function Tasks() {
   if (error) {
     return <h1>Something went wrong</h1>;
   }
-
+  console.log("render");
   return (
     <>
       <h1>Tasks11</h1>

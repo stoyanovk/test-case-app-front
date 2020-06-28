@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Box } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { getProjectsData } from "store/projects/selectors";
@@ -9,6 +10,7 @@ import SimpleForm from "components/SimpleForm";
 import Container from "scenes/Projects/components/Container";
 
 import {
+  fetchCurrentProject,
   fetchUpdateProjects,
   fetchDeleteProjects,
   setMessage,
@@ -24,6 +26,7 @@ const Projects = () => {
   const { currentProject, projects, error, message } = useSelector(
     getProjectsData
   );
+  const { project_id } = useParams();
   const dispatch = useDispatch();
   const [open, setOpen] = useState(initialState);
 
@@ -50,9 +53,16 @@ const Projects = () => {
 
   useEffect(() => {
     //this is necessary to close the modal mode after updating projects
-    !error && setOpen(initialState);
-    message && setOpen((state) => ({ ...state, responseModal: true }));
-  }, [error, projects, currentProject, message]);
+    if (!error) {
+      setOpen(initialState);
+    }
+    if (message) {
+      setOpen((state) => ({ ...state, responseModal: true }));
+    }
+    if (!currentProject) {
+      dispatch(fetchCurrentProject(project_id));
+    }
+  }, [error, projects, currentProject, message, dispatch, project_id]);
 
   return (
     <>
