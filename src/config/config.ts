@@ -10,8 +10,8 @@ const SETTINGS_PROD: Config = {
 
 const SETTINGS_DEV: Config = {
   ENV: "development",
-  API_URL: "http://localhost:3001/api",
-  // API_URL: "https://halo-test-case-app.herokuapp.com/api",
+  // API_URL: "http://localhost:3001/api",
+  API_URL: "https://halo-test-case-app.herokuapp.com/api",
 };
 
 const CONFIG: Config =

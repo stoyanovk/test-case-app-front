@@ -1,4 +1,4 @@
-export interface IResponse<T> {
+export interface IResponse<T = IMessage> {
   status: number;
   data: T;
 }

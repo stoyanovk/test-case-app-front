@@ -14,7 +14,12 @@ import {
   updateProjectWatcher,
   deleteProjectByIdWatcher,
 } from "./projects/sagas";
-import { getTaskByIdWatcher, getTasksWatcher } from "./tasks/sagas";
+import {
+  getTaskByIdWatcher,
+  getTasksWatcher,
+  updateTaskWatcher,
+  deleteTaskByIdWatcher,
+} from "./tasks/sagas";
 
 function* rootSaga() {
   yield all([
@@ -30,6 +35,8 @@ function* rootSaga() {
     logoutSagaWatcher(),
     getTaskByIdWatcher(),
     getTasksWatcher(),
+    updateTaskWatcher(),
+    deleteTaskByIdWatcher(),
   ]);
 }
 export default rootSaga;

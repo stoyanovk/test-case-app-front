@@ -1,5 +1,5 @@
 import { id } from "./helpers";
-import { IResponse } from "./responses";
+import { IResponse, IMessage } from "./responses";
 
 export enum METHODS {
   PUT = "PUT",
@@ -39,11 +39,8 @@ export interface IRequest {
   token?: string;
   method?: METHODS;
 }
-export interface IRequests<T, M> {
-  updateById({ id, token }: IRequestsWithId): Promise<IResponse<T | M>>;
-  getById({ id, token }: IRequestsWithId): Promise<IResponse<T | M>>;
-  deleteById({ id, token }: IRequestsWithId): Promise<IResponse<T | M>>;
+export interface IRequests<T = IMessage> {
+  updateById({ id, token }: IRequestsWithId): Promise<IResponse<T>>;
+  getById({ id, token }: IRequestsWithId): Promise<IResponse<T>>;
+  deleteById({ id, token }: IRequestsWithId): Promise<IResponse<T>>;
 }
-
-
-

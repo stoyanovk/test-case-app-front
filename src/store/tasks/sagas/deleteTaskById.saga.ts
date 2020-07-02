@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { FETCH_CURRENT_TASK } from "../actionTypes";
-import { requestCurrentTaskSuccess, setError } from "../actions";
+import { FETCH_DELETE_TASKS } from "../actionTypes";
+import { setError, deleteTasks } from "../actions";
 import { getLocalData, setLocalData } from "lib/localStorage";
 import { Tasks } from "api";
 
@@ -11,12 +11,12 @@ type actionType = {
   payload: string;
 };
 
-function* getTaskByIdSaga(action: actionType) {
+function* deleteTaskByIdSaga(action: actionType) {
   try {
     // из-за неизвестных особенностей redux saga я теряю контекст
     // поэтому приходится байндить функцию
     const token = getLocalData();
-    const apiCall = tasks.getById.bind(tasks);
+    const apiCall = tasks.deleteById.bind(tasks);
 
     const response = yield call(apiCall, {
       token,
@@ -24,11 +24,10 @@ function* getTaskByIdSaga(action: actionType) {
     });
     if (response.status === "success") {
       const {
-        data: { task, token: responseToken },
+        data: { message, token: responseToken },
       } = response;
-      console.log(response);
       setLocalData(responseToken);
-      yield put(requestCurrentTaskSuccess(task));
+      yield put(deleteTasks(action.payload, message));
     }
     if (response.status === "error") {
       throw new Error(response.data.message);
@@ -38,8 +37,8 @@ function* getTaskByIdSaga(action: actionType) {
   }
 }
 
-function* getTaskByIdWatcher() {
-  yield takeLatest(FETCH_CURRENT_TASK, getTaskByIdSaga);
+function* deleteTaskByIdWatcher() {
+  yield takeLatest(FETCH_DELETE_TASKS, deleteTaskByIdSaga);
 }
 
-export default getTaskByIdWatcher;
+export default deleteTaskByIdWatcher;

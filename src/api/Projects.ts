@@ -10,13 +10,12 @@ import { IResponse, IMessage } from "interfaces/responses";
 import { IProjects, IProject } from "interfaces/entities";
 import CONFIG from "config";
 
-interface IProjectsRequests extends IRequests<IProject, IMessage> {
+interface IProjectsRequests extends IRequests<IProject | IMessage> {
   create(data: object): Promise<IResponse<IProject | IMessage>>;
   getByQuery(params: IParams): Promise<IResponse<IProjects | IMessage>>;
 }
 
-class Projects extends RequestSource<IProject, IProjects, IMessage>
-  implements IProjectsRequests {
+class Projects extends RequestSource<IProject> implements IProjectsRequests {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "projects" });
   }

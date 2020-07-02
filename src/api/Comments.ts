@@ -6,10 +6,10 @@ import {
   IRequestsWithId,
 } from "interfaces/requests";
 import { id } from "interfaces/helpers";
-import { IComment, IComments } from "interfaces/entities";
+import { IComment } from "interfaces/entities";
 import CONFIG from "config";
 
-interface ICommentsRequests extends IRequests<IComment, IMessage> {
+interface ICommentsRequests extends IRequests<IComment | IMessage> {
   createTasksComments(
     data: IRequestsWithData
   ): Promise<IResponse<IComment | IMessage>>;
@@ -18,10 +18,10 @@ interface ICommentsRequests extends IRequests<IComment, IMessage> {
   ): Promise<IResponse<IComment | IMessage>>;
   getResultsCommentsByQuery(
     data: IRequestsWithId
-  ): Promise<IResponse<IComments | IMessage>>;
+  ): Promise<IResponse<IComment[] | IMessage>>;
   getTasksCommentsByQuery(
     data: IRequestsWithId
-  ): Promise<IResponse<IComments | IMessage>>;
+  ): Promise<IResponse<IComment[] | IMessage>>;
 }
 
 enum ENTITY_OWNER_NAMES {
@@ -29,8 +29,7 @@ enum ENTITY_OWNER_NAMES {
   RESULTS = "results",
 }
 
-class Comments extends RequestSource<IComment, IComments, IMessage>
-  implements ICommentsRequests {
+class Comments extends RequestSource<IComment> implements ICommentsRequests {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "comments" });
   }

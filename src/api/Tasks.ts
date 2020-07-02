@@ -9,7 +9,7 @@ import { ITasks, ITask } from "interfaces/entities";
 
 import CONFIG from "config";
 
-interface ITasksRequests extends IRequests<ITask, IMessage> {
+interface ITasksRequests extends IRequests<ITask | IMessage> {
   createProjectsTasks(
     data: IRequestsWithData
   ): Promise<IResponse<ITask | IMessage>>;
@@ -18,8 +18,7 @@ interface ITasksRequests extends IRequests<ITask, IMessage> {
   ): Promise<IResponse<ITasks | IMessage>>;
 }
 
-class Tasks extends RequestSource<ITask, ITasks, IMessage>
-  implements ITasksRequests {
+class Tasks extends RequestSource<ITask> implements ITasksRequests {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "tasks" });
   }

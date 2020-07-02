@@ -8,7 +8,7 @@ import { IResponse, IMessage } from "interfaces/responses";
 import { IResults, IResult } from "interfaces/entities";
 import CONFIG from "config";
 
-interface IResultsRequests extends IRequests<IResult, IMessage> {
+interface IResultsRequests extends IRequests<IResult | IMessage> {
   createTasksResults(
     data: IRequestsWithData
   ): Promise<IResponse<IResult | IMessage>>;
@@ -17,8 +17,7 @@ interface IResultsRequests extends IRequests<IResult, IMessage> {
   ): Promise<IResponse<IResults | IMessage>>;
 }
 
-class Results extends RequestSource<IResult, IResults, IMessage>
-  implements IResultsRequests {
+class Results extends RequestSource<IResult> implements IResultsRequests {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "results" });
   }

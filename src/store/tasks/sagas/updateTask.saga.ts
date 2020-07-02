@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { FETCH_CURRENT_TASK } from "../actionTypes";
-import { requestCurrentTaskSuccess, setError } from "../actions";
+import { FETCH_UPDATE_TASKS } from "../actionTypes";
+import { updateTasks, setError } from "../actions";
 import { getLocalData, setLocalData } from "lib/localStorage";
 import { Tasks } from "api";
 
@@ -8,27 +8,28 @@ const tasks = new Tasks();
 
 type actionType = {
   type: string;
-  payload: string;
+  payload: any;
 };
 
-function* getTaskByIdSaga(action: actionType) {
+function* updateProjectSaga(action: actionType) {
   try {
     // из-за неизвестных особенностей redux saga я теряю контекст
     // поэтому приходится байндить функцию
     const token = getLocalData();
-    const apiCall = tasks.getById.bind(tasks);
-
+    const apiCall = tasks.updateById.bind(tasks);
     const response = yield call(apiCall, {
       token,
-      id: action.payload,
+      data: action.payload.data,
+      id: action.payload.id,
     });
+    console.log(response);
     if (response.status === "success") {
       const {
         data: { task, token: responseToken },
       } = response;
-      console.log(response);
+
       setLocalData(responseToken);
-      yield put(requestCurrentTaskSuccess(task));
+      yield put(updateTasks(task));
     }
     if (response.status === "error") {
       throw new Error(response.data.message);
@@ -38,8 +39,8 @@ function* getTaskByIdSaga(action: actionType) {
   }
 }
 
-function* getTaskByIdWatcher() {
-  yield takeLatest(FETCH_CURRENT_TASK, getTaskByIdSaga);
+function* updateTaskWatcher() {
+  yield takeLatest(FETCH_UPDATE_TASKS, updateProjectSaga);
 }
 
-export default getTaskByIdWatcher;
+export default updateTaskWatcher;

@@ -1,12 +1,20 @@
 import React from "react";
 import { useParams, NavLink } from "react-router-dom";
-import { Divider, Paper, List, ListItem, Box } from "@material-ui/core";
-
+import { Divider, Paper, List, ListItem, Box, Button } from "@material-ui/core";
+import ActionBar from "components/ActionBar";
 import HTMLContent from "components/HTMLContent";
 import { ITasks } from "interfaces/entities";
 import useStyles from "./styles";
 
-function Container({ tasks }: { tasks: ITasks }) {
+function Container({
+  tasks,
+  updateTaskModalToggle,
+  deleteTaskModalToggle,
+}: {
+  tasks: ITasks;
+  updateTaskModalToggle: (data: any) => void;
+  deleteTaskModalToggle: (data: any) => void;
+}) {
   const classes = useStyles();
   const {
     task_id,
@@ -43,6 +51,28 @@ function Container({ tasks }: { tasks: ITasks }) {
           </Box>
         </Box>
       </Paper>
+      <ActionBar>
+        <>
+          <Box px={1}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={updateTaskModalToggle}
+            >
+              update
+            </Button>
+          </Box>
+          <Box px={1}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={deleteTaskModalToggle}
+            >
+              delete
+            </Button>
+          </Box>
+        </>
+      </ActionBar>
     </div>
   );
 }

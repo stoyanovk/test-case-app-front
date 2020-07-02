@@ -47,8 +47,8 @@ const Projects = () => {
   const deleteProject = (id: string) => () => dispatch(fetchDeleteProjects(id));
 
   const projectFormInitialState = {
-    project_name: currentProject ? currentProject.project_name : "",
-    description: currentProject ? currentProject.description : "",
+    project_name: currentProject?.project_name || "",
+    description: currentProject?.description || "",
   };
 
   useEffect(() => {

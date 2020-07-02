@@ -1,6 +1,6 @@
 import RequestSource from "lib/RequestSource";
 import { METHODS } from "interfaces/requests";
-import { IResponse, IMessage } from "interfaces/responses";
+import { IResponse } from "interfaces/responses";
 import { IUser } from "interfaces/entities";
 
 import CONFIG from "config";
@@ -15,13 +15,13 @@ enum AUTH_ROUTES {
   LOGOUT = "logout",
 }
 interface IAuth {
-  register(data: object): Promise<IResponse<IMessage>>;
+  register(data: object): Promise<IResponse>;
   login(data: object): Promise<IResponse<IUser>>;
-  resetPassword(data: object): Promise<IResponse<IMessage>>;
-  setPassword(token: string): Promise<IResponse<IMessage>>;
+  resetPassword(data: object): Promise<IResponse>;
+  setPassword(token: string): Promise<IResponse>;
 }
-// Тут я написал глупость так как не знал как поступить по другому
-class Auth extends RequestSource<IUser, IUser, IMessage> implements IAuth {
+
+class Auth extends RequestSource<IUser> implements IAuth {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "auth" });
   }

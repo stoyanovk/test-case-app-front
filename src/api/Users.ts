@@ -6,15 +6,14 @@ import {
   IRequestsWithId,
 } from "interfaces/requests";
 import { IResponse, IMessage } from "interfaces/responses";
-import { IUser,IUsers } from "interfaces/entities";
+import { IUser, IUsers } from "interfaces/entities";
 import CONFIG from "config";
 
-interface IUsersRequests extends IRequests<IUser, IMessage> {
+interface IUsersRequests extends IRequests<IUser | IMessage> {
   getByQuery(queryParams?: object): Promise<IResponse<IUsers | IMessage>>;
 }
 
-class Users extends RequestSource<IUser, IUsers, IMessage>
-  implements IUsersRequests {
+class Users extends RequestSource<IUser> implements IUsersRequests {
   constructor() {
     super({ url: CONFIG.API_URL, entityName: "users" });
   }

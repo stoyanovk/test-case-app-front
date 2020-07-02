@@ -1,3 +1,4 @@
+import { ITask, ITasks } from "interfaces/entities";
 import {
   FETCH_TASKS,
   REQUEST_TASKS_SUCCESS,
@@ -14,45 +15,57 @@ import {
   SET_TASKS_MESSAGE,
 } from "../actionTypes";
 
-type returnType = {
+type returnType<T = null> = {
   type: string;
-  payload?: any;
+  payload?: T;
+};
+type TasksFetchBodyType = {
+  task_name: string;
+  description: string;
 };
 
-const fetchTasks = (id: string): returnType => {
+const fetchTasks = (id: string): returnType<string> => {
   return { type: FETCH_TASKS, payload: id };
 };
 
-const fetchCurrentTask = (id: string): returnType => {
+const fetchCurrentTask = (id: string): returnType<string> => {
   return { type: FETCH_CURRENT_TASK, payload: id };
 };
-const requestTasksSuccess = (data: any): returnType => {
+const requestTasksSuccess = (data: ITasks): returnType<ITasks> => {
   return { type: REQUEST_TASKS_SUCCESS, payload: data };
 };
-const requestCurrentTaskSuccess = (data: any): returnType => {
+const requestCurrentTaskSuccess = (data: ITask): returnType<ITask> => {
   return { type: REQUEST_CURRENT_TASK_SUCCESS, payload: data };
 };
-const fetchAddProjects = (data: any): returnType => {
+const fetchAddProjects = (
+  data: TasksFetchBodyType
+): returnType<TasksFetchBodyType> => {
   return { type: FETCH_ADD_TASKS, payload: data };
 };
-const addTasks = (data: any): returnType => {
+const addTasks = (data: ITask): returnType<ITask> => {
   return { type: ADD_TASKS, payload: data };
 };
 
-const updateTasks = (data: any, id: string): returnType => {
-  return { type: UPDATE_TASKS, payload: { data, id } };
+const updateTasks = (data: ITask): returnType<ITask> => {
+  return { type: UPDATE_TASKS, payload: data };
 };
-const deleteTasks = (id: number | string, message: string): returnType => {
+const deleteTasks = (
+  id: string,
+  message: string
+): returnType<{ id: string; message: string }> => {
   return { type: DELETE_TASKS, payload: { id, message } };
 };
-const fetchDeleteTasks = (projectId: number | string): returnType => {
+const fetchDeleteTasks = (projectId: string): returnType<string> => {
   return { type: FETCH_DELETE_TASKS, payload: projectId };
 };
 
-const fetchUpdateTasks = (data: any, id: string): returnType => {
+const fetchUpdateTasks = (
+  data: TasksFetchBodyType,
+  id: string
+): returnType<{ id: string; data: TasksFetchBodyType }> => {
   return { type: FETCH_UPDATE_TASKS, payload: { data, id } };
 };
-const setMessage = (message: string): returnType => {
+const setMessage = (message: string): returnType<string> => {
   return { type: SET_TASKS_MESSAGE, payload: message };
 };
 const setLoading = (): returnType => {
@@ -64,7 +77,7 @@ const setError = ({
 }: {
   message: string;
   isError: boolean;
-}): returnType => {
+}): returnType<{ message: string; isError: boolean }> => {
   return { type: SET_TASKS_ERROR, payload: { message, isError } };
 };
 export {

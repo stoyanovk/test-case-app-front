@@ -1,46 +1,41 @@
 import { id } from "./helpers";
 
-export interface IUser {
+interface IOptionlTimeType {
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface IUser extends IOptionlTimeType {
   id: id;
   user_name: string;
   email: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
-export interface IProject {
+export interface IProject extends IOptionlTimeType {
   id: id;
   project_name: string;
   description: string;
   tasks: ITasks;
-  createdAt: string;
-  updatedAt: string;
 }
 
-export interface ITask {
+export interface ITask extends IOptionlTimeType {
   id: id;
   task_name: string;
   description: string;
   comments?: IComments;
   results?: IResults;
-  createdAt?: string;
-  updatedAt?: string;
 }
 
-export interface IComment {
+export interface IComment extends IOptionlTimeType {
   id: id;
   description: string;
-  createdAt: string;
-  updatedAt: string;
 }
 
-export interface IResult {
+export interface IResult extends IOptionlTimeType {
   id: id;
   result: boolean;
   task_id: id;
   owner_id: id;
-  createdAt: string;
-  updatedAt: string;
 }
 
 export type IProjects = IProject[];
