@@ -4,10 +4,11 @@ import useStyles from "./styles";
 
 const Wrapper: FC<{ isAuth: boolean }> = ({ children, isAuth }) => {
   const classes = useStyles();
+  const styles = isAuth ? classes.mainIsAuth : classes.main;
   return (
     <>
       {isAuth && <Menu />}
-      <main className={classes.main}>{children}</main>
+      <div className={styles}>{children}</div>
     </>
   );
 };

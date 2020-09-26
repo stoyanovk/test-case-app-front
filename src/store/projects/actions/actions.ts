@@ -23,7 +23,7 @@ const fetchProjects = (): returnType => {
   return { type: FETCH_PROJECTS };
 };
 
-const fetchCurrentProject = (id: string | number): returnType => {
+const fetchCurrentProject = (id: string): returnType => {
   return { type: FETCH_CURRENT_PROJECT, payload: id };
 };
 const requestProjectsSuccess = (data: any): returnType => {
@@ -39,7 +39,7 @@ const addProjects = (data: any): returnType => {
   return { type: ADD_PROJECTS, payload: data };
 };
 
-const updateProjects = (data: any, id: string | number): returnType => {
+const updateProjects = (data: any, id: string): returnType => {
   return { type: UPDATE_PROJECTS, payload: { data, id } };
 };
 const deleteProjects = (id: number | string, message: string): returnType => {
@@ -49,7 +49,7 @@ const fetchDeleteProjects = (projectId: number | string): returnType => {
   return { type: FETCH_DELETE_PROJECTS, payload: projectId };
 };
 
-const fetchUpdateProjects = (data: any, id: string | number): returnType => {
+const fetchUpdateProjects = (data: any, id: string): returnType => {
   return { type: FETCH_UPDATE_PROJECTS, payload: { data, id } };
 };
 const setMessage = (message: string): returnType => {

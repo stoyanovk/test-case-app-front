@@ -16,9 +16,7 @@ const ConfirmRegister = ({
 }: any) => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { message, error, loading } = useSelector((state) =>
-    authSelector(state)
-  );
+  const { message, error, loading } = useSelector(authSelector);
 
   useEffect(() => {
     dispatch(fetchConfirmRegister(token));

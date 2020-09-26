@@ -7,8 +7,8 @@ import {
   GET_AUTH_USER,
   SET_AUTH_ERROR,
   SET_AUTH_MESSAGE,
+  FETCH_LOGOUT,
 } from "../actionTypes";
-import { deleteSessionData } from "lib/localStorage";
 
 type returnType = {
   type: string;
@@ -19,16 +19,20 @@ const fetchLogin = (data: object): returnType => {
   return { type: FETCH_LOGIN, payload: data };
 };
 
+const login = (userData: any): returnType => {
+  return { type: LOGIN, payload: userData };
+};
+
 const fetchRegister = (data: object): returnType => {
   return { type: FETCH_REGISTER, payload: data };
 };
 
-const logout = (): object => {
-  deleteSessionData();
-  return { type: LOGOUT };
+const fetchLogout = (): returnType => {
+  return { type: FETCH_LOGOUT };
 };
-const login = (userData: any): returnType => {
-  return { type: LOGIN, payload: userData };
+
+const logout = (): returnType => {
+  return { type: LOGOUT };
 };
 const setMessage = (message: string): returnType => {
   return { type: SET_AUTH_MESSAGE, payload: message };
@@ -59,5 +63,6 @@ export {
   fetchConfirmRegister,
   getAuthUser,
   setMessage,
+  fetchLogout,
   setError,
 };

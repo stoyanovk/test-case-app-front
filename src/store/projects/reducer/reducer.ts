@@ -8,28 +8,16 @@ import {
   UPDATE_PROJECTS,
   SET_PROJECTS_MESSAGE,
 } from "../actionTypes";
-import getCurrentProject from "utils/getCurrentProject";
 
-interface IProject {
-  id: string | number;
-  project_name: string;
-  description: string;
-  [key: string]: any;
-}
-interface IState {
-  projects: IProject[] | [];
-  currentProject: IProject | null;
-  message: string;
-  error: boolean;
-  loading: boolean;
-}
+import getCurrentProject from "utils/getCurrentEntities";
+import { IProjectStore } from "interfaces/store";
 
 type ActionType = {
   type: string;
   payload: any;
 };
 
-const initialState: IState = {
+const initialState: IProjectStore = {
   projects: [],
   currentProject: null,
   loading: false,
@@ -37,7 +25,10 @@ const initialState: IState = {
   error: false,
 };
 
-const projects = (state: IState = initialState, action: ActionType): IState => {
+const projects = (
+  state: IProjectStore = initialState,
+  action: ActionType
+): IProjectStore => {
   switch (action.type) {
     case SET_PROJECTS_LOADING: {
       return {
@@ -50,14 +41,15 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         ...state,
         projects: action.payload,
         loading: false,
+        error: false,
       };
     }
-
     case REQUEST_CURRENT_PROJECT_SUCCESS: {
       return {
         ...state,
         currentProject: action.payload,
         loading: false,
+        error: false,
       };
     }
     case ADD_PROJECTS: {
@@ -65,6 +57,7 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         ...state,
         projects: [...state.projects, action.payload],
         loading: false,
+        error: false,
       };
     }
     case DELETE_PROJECTS: {
@@ -80,9 +73,9 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         currentProject: newCurrentProject,
         message: action.payload.message,
         projects: newProjects,
+        error: false,
       };
     }
-
     case UPDATE_PROJECTS: {
       const newProjects = state.projects.filter(
         ({ id }) => id !== action.payload.id
@@ -91,9 +84,9 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         ...state,
         projects: [...newProjects, action.payload.data],
         currentProject: action.payload.data,
+        error: false,
       };
     }
-
     case SET_PROJECT_ERROR: {
       return {
         ...state,
@@ -108,6 +101,7 @@ const projects = (state: IState = initialState, action: ActionType): IState => {
         message: action.payload,
       };
     }
+
     default:
       return state;
   }

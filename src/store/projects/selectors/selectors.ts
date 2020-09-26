@@ -1,22 +1,22 @@
 import { createSelector } from "reselect";
+import { IStore } from "interfaces/store";
 import { getUser } from "store/auth/selectors";
+import { IProject, IProjects } from "interfaces/entities";
 
-type currentProjectType = {
-  id: string | number;
-  project_name: string;
-  description: string | "";
-  tasks: any[];
-};
-
-const getProjectsMessage = (state: any): string => state.projects.message;
-const getAllProjects = (state: any): [any] => state.projects.projects;
-const getError = (state: any): boolean | null => state.projects.error;
-const getCurrentProject = (state: any): currentProjectType =>
+const getProjectsMessage = (state: IStore): string => state.projects.message;
+const getAllProjects = (state: IStore): IProjects => state.projects.projects;
+const getError = (state: IStore): boolean => state.projects.error;
+const getCurrentProject = (state: IStore): IProject | null =>
   state.projects.currentProject;
 
 const getUserProjects = createSelector(
-  [getUser, getAllProjects, getError],
-  (user, projects, error) => ({ user, projects, error })
+  [getUser, getAllProjects, getError, getCurrentProject],
+  (user, projects, error, currentProject) => ({
+    user,
+    projects,
+    error,
+    currentProject,
+  })
 );
 const getProjectsData = createSelector(
   [getAllProjects, getCurrentProject, getError, getProjectsMessage],

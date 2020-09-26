@@ -3,6 +3,7 @@ import { setLocalData } from "lib/localStorage";
 import { FETCH_LOGIN } from "../actionTypes";
 import { login, setError } from "../actions";
 import { Auth } from "api";
+
 const auth = new Auth();
 
 type actionType = {
@@ -23,6 +24,7 @@ function* loginSaga(action: actionType) {
       } = response;
       setLocalData(token);
       yield put(login(user));
+
     }
     if (response.status === "error") {
       throw new Error(response.data.message);

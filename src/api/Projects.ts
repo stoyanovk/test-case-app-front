@@ -1,40 +1,37 @@
-import RequestSource from "lib/RequestSource";
-import { IRequests } from "lib/interfaces";
-import { IParams, IRequestsWithData, IRequestsWithId } from "./interfaces";
-import CONFIG from "config";
+import RequestSource from 'lib/RequestSource'
+import { IRequests, IRequestsWithData } from 'interfaces/requests'
+import { id } from 'interfaces/helpers'
 
-interface IProjects extends IRequests {
-  create(data: object): Promise<any>;
-  getByQuery(params: IParams): Promise<any>;
+import { IResponse, IMessage } from 'interfaces/responses'
+import { IProjects, IProject } from 'interfaces/entities'
+import CONFIG from 'config'
+
+interface IProjectsRequests extends IRequests<IProject | IMessage> {
+  create(data: object): Promise<IResponse<IProject | IMessage>>
+  getByQuery(params: object): Promise<IResponse<IProjects | IMessage>>
 }
 
-class Projects extends RequestSource implements IProjects {
+class Projects extends RequestSource<IProject> implements IProjectsRequests {
   constructor() {
-    super({ url: CONFIG.API_URL, entityName: "projects" });
+    super({ url: CONFIG.API_URL, entityName: 'projects' })
   }
-  public create({
-    data,
-    token,
-  }: {
-    data: object;
-    token: string;
-  }): Promise<any> {
-    return this._create({ data, token });
+  public create(data: object) {
+    return this._create({ data })
   }
-  public getByQuery({ queryParams, token }: IParams): Promise<any> {
-    return this._getByQuery({ queryParams, token });
+  public getByQuery(queryParams?: object) {
+    return this._getByQuery({ queryParams })
   }
-  public updateById({ id, data, token }: IRequestsWithData): Promise<any> {
-    return this._updateById({ id, data, token });
+  public updateById({ id, data }: IRequestsWithData) {
+    return this._updateById({ id, data })
   }
 
-  public getById({ id, token }: IRequestsWithId): Promise<any> {
-    return this._getById({ id, token });
+  public getById(id: id) {
+    return this._getById(id)
   }
 
-  public deleteById({ id, token }: IRequestsWithId): Promise<any> {
-    return this._deleteById({ id, token });
+  public deleteById(id: id) {
+    return this._deleteById({ id })
   }
 }
 
-export default Projects;
+export default Projects

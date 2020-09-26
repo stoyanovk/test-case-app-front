@@ -1,30 +1,37 @@
-import { all } from "redux-saga/effects";
+import { all, fork } from 'redux-saga/effects'
 import {
   loginWatcher,
   registerWatcher,
   confirmRegisterSagaWatcher,
   getAuthUserWatcher,
-} from "./auth/sagas";
+  logoutSagaWatcher
+} from './auth/sagas'
 
 import {
   getProjectsWatcher,
   getProjectByIdWatcher,
   createProjectWatcher,
   updateProjectWatcher,
-  deleteProjectByIdWatcher,
-} from "./projects/sagas";
+  deleteProjectByIdWatcher
+} from './projects/sagas'
+import { getTaskByIdWatcher, getTasksWatcher, updateTaskWatcher, deleteTaskByIdWatcher } from './tasks/sagas'
 
 function* rootSaga() {
   yield all([
-    loginWatcher(),
-    registerWatcher(),
-    confirmRegisterSagaWatcher(),
-    getAuthUserWatcher(),
-    getProjectsWatcher(),
-    getProjectByIdWatcher(),
-    createProjectWatcher(),
-    updateProjectWatcher(),
-    deleteProjectByIdWatcher(),
-  ]);
+    fork(loginWatcher),
+    fork(registerWatcher),
+    fork(confirmRegisterSagaWatcher),
+    fork(getAuthUserWatcher),
+    fork(getProjectsWatcher),
+    fork(getProjectByIdWatcher),
+    fork(createProjectWatcher),
+    fork(updateProjectWatcher),
+    fork(deleteProjectByIdWatcher),
+    fork(logoutSagaWatcher),
+    fork(getTaskByIdWatcher),
+    fork(getTasksWatcher),
+    fork(updateTaskWatcher),
+    fork(deleteTaskByIdWatcher)
+  ])
 }
-export default rootSaga;
+export default rootSaga

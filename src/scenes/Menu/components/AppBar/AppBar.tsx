@@ -10,7 +10,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import useStyles from "./styles";
 
 interface IAppBar {
-  handleLogout: (arg: any) => void;
+  handleLogout: () => void;
   handleDrawerToggle: () => void;
 }
 

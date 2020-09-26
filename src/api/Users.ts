@@ -1,31 +1,33 @@
-import RequestSource from "lib/RequestSource";
-import { IRequests } from "lib/interfaces";
-import { IParams, IRequestsWithData, IRequestsWithId } from "./interfaces";
-import CONFIG from "config";
+import RequestSource from 'lib/RequestSource'
+import { IRequests, IRequestsWithData } from 'interfaces/requests'
+import { id } from 'interfaces/helpers'
+import { IResponse, IMessage } from 'interfaces/responses'
+import { IUser, IUsers } from 'interfaces/entities'
+import CONFIG from 'config'
 
-interface IUsers extends IRequests {
-  getByQuery(queryParams?: object): Promise<any>;
+interface IUsersRequests extends IRequests<IUser | IMessage> {
+  getByQuery(queryParams?: object): Promise<IResponse<IUsers | IMessage>>
 }
 
-class Users extends RequestSource implements IUsers {
+class Users extends RequestSource<IUser> implements IUsersRequests {
   constructor() {
-    super({ url: CONFIG.API_URL, entityName: "users" });
+    super({ url: CONFIG.API_URL, entityName: 'users' })
   }
 
-  public getByQuery({ queryParams, token }: IParams): Promise<any> {
-    return this._getByQuery({ queryParams, token });
+  public getByQuery(queryParams: object) {
+    return this._getByQuery({ queryParams })
   }
-  public updateById({ id, data, token }: IRequestsWithData): Promise<any> {
-    return this._updateById({ id, data, token });
-  }
-
-  public getById({ id, token }: IRequestsWithId): Promise<any> {
-    return this._getById({ id, token });
+  public updateById({ id, data }: IRequestsWithData) {
+    return this._updateById({ id, data })
   }
 
-  public deleteById({ id, token }: IRequestsWithId): Promise<any> {
-    return this._deleteById({ id, token });
+  public getById(id: id) {
+    return this._getById(id)
+  }
+
+  public deleteById(id: id) {
+    return this._deleteById({ id })
   }
 }
 
-export default Users;
+export default Users

@@ -1,45 +1,43 @@
-import RequestSource from "lib/RequestSource";
-import { IRequests } from "lib/interfaces";
-import { IRequestsWithData, IRequestsWithId } from "./interfaces";
-import CONFIG from "config";
+import RequestSource from 'lib/RequestSource'
+import { IRequests, IRequestsWithData } from 'interfaces/requests'
+import { id } from 'interfaces/helpers'
+import { IResponse, IMessage } from 'interfaces/responses'
+import { ITasks, ITask } from 'interfaces/entities'
 
-interface ITasks extends IRequests {
-  createProjectsTasks(data: IRequestsWithData): Promise<any>;
-  getProjectsTasksByQuery(queryParams?: object): Promise<any>;
+import CONFIG from 'config'
+
+interface ITasksRequests extends IRequests<ITask | IMessage> {
+  createProjectsTasks(data: IRequestsWithData): Promise<IResponse<ITask | IMessage>>
+  getProjectsTasksById(id: id): Promise<IResponse<ITasks | IMessage>>
 }
 
-class Tasks extends RequestSource implements ITasks {
+class Tasks extends RequestSource<ITask> implements ITasksRequests {
   constructor() {
-    super({ url: CONFIG.API_URL, entityName: "tasks" });
+    super({ url: CONFIG.API_URL, entityName: 'tasks' })
   }
-  public createProjectsTasks({
-    data,
-    token,
-    id,
-  }: IRequestsWithData): Promise<any> {
+  public createProjectsTasks({ data, id }: IRequestsWithData) {
     return this._create({
       data,
-      token,
       id,
-      entityOwnerName: "projects",
-    });
+      entityOwnerName: 'projects'
+    })
   }
 
-  public getProjectsTasksByQuery({ id, token }: IRequestsWithId): Promise<any> {
-    return this._getByQuery({ id, token, entityOwnerName: "projects" });
+  public getProjectsTasksById(id: id) {
+    return this._getByQuery({ id, entityOwnerName: 'projects' })
   }
 
-  public updateById({ id, token, data }: IRequestsWithData): Promise<any> {
-    return this._updateById({ id, data, token });
+  public updateById({ id, data }: IRequestsWithData) {
+    return this._updateById({ id, data })
   }
 
-  public getById({ id, token }: IRequestsWithId): Promise<any> {
-    return this._getById({ id, token });
+  public getById(id: id) {
+    return this._getById(id)
   }
 
-  public deleteById({ id, token }: IRequestsWithId): Promise<any> {
-    return this._deleteById({ id, token });
+  public deleteById(id: id) {
+    return this._deleteById({ id })
   }
 }
 
-export default Tasks;
+export default Tasks

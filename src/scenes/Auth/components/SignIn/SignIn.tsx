@@ -30,7 +30,7 @@ const SignIn = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { error, auth, message } = useSelector((state) => authSelector(state));
+  const { error, auth, message } = useSelector(authSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -55,9 +55,9 @@ const SignIn = () => {
       const resultValue: string =
         type === "checkbox" ? getCheckboxValue(checked) : value;
       changeState({ name, value: resultValue });
-      resetError();
+      error && resetError();
     },
-    [changeState, resetError]
+    [changeState, error, resetError]
   );
 
   const handleSubmit = () => {
