@@ -1,46 +1,44 @@
-import { call, put, takeLatest } from "redux-saga/effects";
-import { FETCH_UPDATE_PROJECTS } from "../actionTypes";
-import { updateProjects, setError } from "../actions";
-import { getLocalData, setLocalData } from "lib/localStorage";
-import { Projects } from "api";
+import { call, put, takeLatest } from 'redux-saga/effects'
+import { FETCH_UPDATE_PROJECTS } from '../actionTypes'
+import { updateProjects, setError } from '../actions'
+import { setLocalData } from 'lib/localStorage'
+import { Projects } from 'api'
 
-const projects = new Projects();
+const projects = new Projects()
 
 type actionType = {
-  type: string;
-  payload: any;
-};
+  type: string
+  payload: any
+}
 
 function* updateProjectSaga(action: actionType) {
   try {
     // из-за неизвестных особенностей redux saga я теряю контекст
     // поэтому приходится байндить функцию
-    const token = getLocalData();
-    const apiCall = projects.updateById.bind(projects);
+    const apiCall = projects.updateById.bind(projects)
     const response = yield call(apiCall, {
-      token,
       data: action.payload.data,
-      id: action.payload.id,
-    });
-    console.log(response);
-    if (response.status === "success") {
+      id: action.payload.id
+    })
+    console.log(response)
+    if (response.status === 'success') {
       const {
-        data: { project, token: responseToken },
-      } = response;
+        data: { project, token: responseToken }
+      } = response
 
-      setLocalData(responseToken);
-      yield put(updateProjects(project, project.id));
+      setLocalData(responseToken)
+      yield put(updateProjects(project, project.id))
     }
-    if (response.status === "error") {
-      throw new Error(response.data.message);
+    if (response.status === 'error') {
+      throw new Error(response.data.message)
     }
   } catch (err) {
-    yield put(setError({ message: err.message, isError: true }));
+    yield put(setError({ message: err.message, isError: true }))
   }
 }
 
 function* updateProjectWatcher() {
-  yield takeLatest(FETCH_UPDATE_PROJECTS, updateProjectSaga);
+  yield takeLatest(FETCH_UPDATE_PROJECTS, updateProjectSaga)
 }
 
-export default updateProjectWatcher;
+export default updateProjectWatcher

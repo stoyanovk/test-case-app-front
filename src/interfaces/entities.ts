@@ -1,24 +1,24 @@
 import { id } from "./helpers";
 
-interface IOptionlTimeType {
+interface IOptionalTimeType {
   createdAt?: string;
   updatedAt?: string;
 }
 
-export interface IUser extends IOptionlTimeType {
+export interface IUser extends IOptionalTimeType {
   id: id;
   user_name: string;
   email: string;
 }
 
-export interface IProject extends IOptionlTimeType {
+export interface IProject extends IOptionalTimeType {
   id: id;
   project_name: string;
   description: string;
   tasks: ITasks;
 }
 
-export interface ITask extends IOptionlTimeType {
+export interface ITask extends IOptionalTimeType {
   id: id;
   task_name: string;
   description: string;
@@ -26,12 +26,12 @@ export interface ITask extends IOptionlTimeType {
   results?: IResults;
 }
 
-export interface IComment extends IOptionlTimeType {
+export interface IComment extends IOptionalTimeType {
   id: id;
   description: string;
 }
 
-export interface IResult extends IOptionlTimeType {
+export interface IResult extends IOptionalTimeType {
   id: id;
   result: boolean;
   task_id: id;

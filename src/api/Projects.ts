@@ -1,41 +1,37 @@
-import RequestSource from "lib/RequestSource";
-import {
-  IRequests,
-  IParams,
-  IRequestsWithData,
-  IRequestsWithId,
-} from "interfaces/requests";
+import RequestSource from 'lib/RequestSource'
+import { IRequests, IRequestsWithData } from 'interfaces/requests'
+import { id } from 'interfaces/helpers'
 
-import { IResponse, IMessage } from "interfaces/responses";
-import { IProjects, IProject } from "interfaces/entities";
-import CONFIG from "config";
+import { IResponse, IMessage } from 'interfaces/responses'
+import { IProjects, IProject } from 'interfaces/entities'
+import CONFIG from 'config'
 
 interface IProjectsRequests extends IRequests<IProject | IMessage> {
-  create(data: object): Promise<IResponse<IProject | IMessage>>;
-  getByQuery(params: IParams): Promise<IResponse<IProjects | IMessage>>;
+  create(data: object): Promise<IResponse<IProject | IMessage>>
+  getByQuery(params: object): Promise<IResponse<IProjects | IMessage>>
 }
 
 class Projects extends RequestSource<IProject> implements IProjectsRequests {
   constructor() {
-    super({ url: CONFIG.API_URL, entityName: "projects" });
+    super({ url: CONFIG.API_URL, entityName: 'projects' })
   }
-  public create({ data, token }: { data: object; token: string }) {
-    return this._create({ data, token });
+  public create(data: object) {
+    return this._create({ data })
   }
-  public getByQuery({ queryParams, token }: IParams) {
-    return this._getByQuery({ queryParams, token });
+  public getByQuery(queryParams?: object) {
+    return this._getByQuery({ queryParams })
   }
-  public updateById({ id, data, token }: IRequestsWithData) {
-    return this._updateById({ id, data, token });
-  }
-
-  public getById({ id, token }: IRequestsWithId) {
-    return this._getById({ id, token });
+  public updateById({ id, data }: IRequestsWithData) {
+    return this._updateById({ id, data })
   }
 
-  public deleteById({ id, token }: IRequestsWithId) {
-    return this._deleteById({ id, token });
+  public getById(id: id) {
+    return this._getById(id)
+  }
+
+  public deleteById(id: id) {
+    return this._deleteById({ id })
   }
 }
 
-export default Projects;
+export default Projects
