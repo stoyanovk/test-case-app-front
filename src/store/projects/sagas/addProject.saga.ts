@@ -16,11 +16,7 @@ function* createProjectSaga(action: actionType) {
     // из-за неизвестных особенностей redux saga я теряю контекст
     // поэтому приходится байндить функцию
 
-    const apiCall = projects.create.bind(projects)
-    const response = yield call(apiCall, {
-      data: action.payload
-    })
-    console.log(response)
+    const response = yield projects.create(action.payload)
     if (response.status === 'success') {
       const {
         data: { project, token: responseToken }

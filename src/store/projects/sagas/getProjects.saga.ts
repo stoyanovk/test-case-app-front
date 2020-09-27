@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { put, takeEvery } from 'redux-saga/effects'
 import { FETCH_PROJECTS } from '../actionTypes'
 import { requestProjectsSuccess, setError } from '../actions'
 import { setLocalData } from 'lib/localStorage'
@@ -12,9 +12,8 @@ type actionType = {
 
 function* getProjectsSaga(action: actionType) {
   try {
-    const response = yield call(projects.getByQuery,)
-
-    console.log(response)
+    // const response = yield call(projects.getByQuery)
+    const response = yield projects.getByQuery()
     if (response.status === 'success') {
       const {
         data: { projects, token: responseToken }
@@ -27,12 +26,13 @@ function* getProjectsSaga(action: actionType) {
       throw new Error(response.data.message)
     }
   } catch (err) {
+    console.log(err)
     yield put(setError({ message: err.message, isError: true }))
   }
 }
 
 function* getProjectsWatcher() {
-  yield takeLatest(FETCH_PROJECTS, getProjectsSaga)
+  yield takeEvery(FETCH_PROJECTS, getProjectsSaga)
 }
 
 export default getProjectsWatcher
